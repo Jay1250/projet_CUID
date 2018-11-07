@@ -1,6 +1,5 @@
 package com.capgemini.referentielcuid.model;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,13 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -26,52 +25,42 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Collaborateurs {
 
 	@Id
-	@Size(max = 3)
+	@Size(max = 3, message = "le champ trigramme est trop long (max : {max})")
 	private String trigrame;
 	
 	@Column(name="statuscollaborateur")
-	@NotNull
-	private int statusCollaborateur;
+	@NotNull(message = "le champ status collaborateur ne peut pas être null")
+
+	@Range(max = 1, message = "le champ status collaborateur est trop long (max : {max})")
+	private Integer statusCollaborateur;
 	
-	@Size(max = 30)
+	@Size(max = 30, message="le champ role est trop long (max : {max})")
 	private String role;
 	
-	@Size(max = 10)
+	@Size(max = 10, message="le champ mdp est trop long (max : {max})")
+	@JsonIgnore
 	private String mdp;
 	
-	@NotNull
-	@Size(max = 25)
+	@NotNull(message = "le champ nom ne peut pas être null")
+	@Size(max = 25, message="le champ nom est trop long (max : {max})")
 	private String nom;
 	
-	@NotNull
-	@Size(max = 25)
+	@NotNull(message = "le champ prenom ne peut pas être null")
+	@Size(max = 25, message="le champ prenom est trop long (max : {max})")
 	private String prenom;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "localisation_id")
+	@NotNull
 	private Localisation localisation;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "collaborateurs")
 	private Set<CuidCollaborateurs> cuidCollaborateurs;
 
 	public Collaborateurs() {
-		
 	}
 	
-	public Collaborateurs(@Size(max = 3) String trigrame, @NotNull int statusCollaborateur, @Size(max = 30) String role,
-			@Size(max = 10) String mdp, @NotNull @Size(max = 25) String nom, @NotNull @Size(max = 25) String prenom,
-			Localisation localisation, Set<CuidCollaborateurs> cuidCollaborateurs) {
-		super();
-		this.trigrame = trigrame;
-		this.statusCollaborateur = statusCollaborateur;
-		this.role = role;
-		this.mdp = mdp;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.localisation= localisation;
-		this.cuidCollaborateurs = cuidCollaborateurs;
-	}
-
 	public String getTrigrame() {
 		return trigrame;
 	}
@@ -142,5 +131,4 @@ public class Collaborateurs {
 				+ role + ", mdp=" + mdp + ", nom=" + nom + ", prenom=" + prenom + ", localisation=" + localisation
 				+ ", cuidCollaborateurs=" + cuidCollaborateurs + "]";
 	}
-	
 }

@@ -1,60 +1,68 @@
 package com.capgemini.referentielcuid.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "cuid")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class Cuid {
 
 	@Id
-	@Size(max = 9)
+	@Size(max = 9, message = "le champ cuid est trop long (max : {max})")
 	private String cuid;
 	
-	@NotNull
-	@Size(max = 25)
+	@NotNull(message = "le champ nom ne peut pas être null")
+	@Size(max = 25, message = "le champ nom est trop long (max : {max})")
 	private String nom;
 	
-	@NotNull
-	@Size(max = 25)
+	@NotNull(message = "le champ prenom ne peut pas être null")
+	@Size(max = 25, message = "le champ prenom est trop long (max : {max})")
 	private String prenom;
 	
-	@Size(max = 10)
+	@Size(max = 10, message = "le champ mdp est trop long (max : {max})")
 	private String mdp;
 	
-	@NotNull
-	@Size(max = 4)
+	@NotNull(message = "le champ status ne peut pas être null")
+	@Range(max = 4, message = "le champ status est trop long (max : {max})")
 	private int status;
 	
-	@Size(max = 250)
+	@Size(max = 250, message = "le champ commentaires est trop long (max : {max})")
 	private String commentaires;
 	
-	@NotNull
-	@Size(max = 25)
+	@NotNull(message = "le champ nomgir ne peut pas être null")
+	@Size(max = 25, message = "le champ nomgir est trop long (max : {max})")
 	private String nomgir;
 	
-	@NotNull
-	@Size(max = 25)
+	@NotNull(message = "le champ prenomgir ne peut pas être null")
+	@Size(max = 25, message = "le champ prenomgir est trop long (max : {max})")
 	private String prenomgir;
 	
 	@OneToMany(mappedBy = "cuid")
 	@JsonIgnore
 	private Set<CuidCollaborateurs> cuidCollaborateurs;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "cuid_outil")
+	private Set<Outil> outil = new HashSet<>();
 
 	public Cuid() {
-		
 	}
 	
 	public String getCuid() {
@@ -127,6 +135,14 @@ public class Cuid {
 
 	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
 		this.cuidCollaborateurs = cuidCollaborateurs;
+	}
+
+	public Set<Outil> getOutil() {
+		return outil;
+	}
+
+	public void setOutil(Set<Outil> outil) {
+		this.outil = outil;
 	}
 
 	@Override

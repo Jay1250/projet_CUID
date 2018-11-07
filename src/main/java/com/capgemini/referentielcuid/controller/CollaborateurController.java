@@ -1,12 +1,13 @@
 package com.capgemini.referentielcuid.controller;
 
-import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.capgemini.referentielcuid.exception.ConflictException;
+import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.Collaborateurs;
-import com.capgemini.referentielcuid.repository.CollaborateursRepository;
+import com.capgemini.referentielcuid.service.CollaborateursService;
 
 
 
@@ -25,68 +27,45 @@ import com.capgemini.referentielcuid.repository.CollaborateursRepository;
 public class CollaborateurController {
 
 	@Autowired
-	private CollaborateursRepository collaborateurRepository;
+	private CollaborateursService collaborateurService;
 	
 	@GetMapping(value = "/Collaborateurs")
-	public Iterable<Collaborateurs> listeCollaborateurs(){
-		
-		Iterable<Collaborateurs> collaborateurs = collaborateurRepository.findAll();
-		
-		return collaborateurs;
+	public List<Collaborateurs> findAll() {
+		return collaborateurService.findAll();
 	}
 	
 	@GetMapping(value = "/Collaborateurs/{trigrame}")
-	public Optional<Collaborateurs> afficherUnCollaborateur(@PathVariable String trigrame) {
-		
-		return collaborateurRepository.findById(trigrame);
-	}
-	
-	@PutMapping(value = "/Collaborateurs")
-	public void updateProduits(@RequestBody Collaborateurs collaborateurs) {
-		
-		collaborateurRepository.save(collaborateurs);
+	public Optional<Collaborateurs> afficherUnCollaborateur(@PathVariable String trigrame){
+		return collaborateurService.findById(trigrame);
 	}
 	
 	@PostMapping(value = "/Collaborateurs")
-	public ResponseEntity<Void> ajouterProduit(@RequestBody Collaborateurs collaborateurs) {
-		
-		Collaborateurs productAdded = collaborateurRepository.save(collaborateurs);
-		
-		if(productAdded == null)
-			return ResponseEntity.noContent().build();
-		
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{trigrame}")
-				.buildAndExpand(productAdded.getTrigrame())
-				.toUri();
-		
-		return ResponseEntity.created(location).build();
-	}
-	/*
-	@PostMapping
-	public ResponseEntity<Collaborateurs> addOne(@RequestBody Collaborateurs collaborateur) {
-		System.out.println(collaborateur);
+	public ResponseEntity<Collaborateurs> addOne(@Valid @RequestBody Collaborateurs collaborateur) {
 		Collaborateurs newCollab = null;
 		try {
-			
-			Optional<Collaborateurs> old = collaborateurRepository.findById(collaborateur.getTrigrame());
-			if(old.isPresent())
-				throw new Exception("Trigramme déjà existant");
-			
-			newCollab = collaborateurRepository.save(collaborateur);
+			newCollab = collaborateurService.addOne(collaborateur);
 		} catch(Exception e) {
-			return new ResponseEntity<Collaborateurs>(HttpStatus.CONFLICT);
+			throw new ConflictException("Erreur lors du POST du collaborateur : " + collaborateur.getTrigrame() + " -> " + e.getMessage());
 		}
 		return new ResponseEntity<Collaborateurs>(newCollab, HttpStatus.ACCEPTED);
 	}
-	*/
-	@DeleteMapping(value = "/Collaborateurs/{id}")
-	public void supprimerProduit(@PathVariable String trigram) {
-		
-		collaborateurRepository.deleteById(trigram);
+	
+	@PutMapping(value = "/Collaborateurs")
+	public ResponseEntity<Collaborateurs> updateCollaborateur(@RequestBody Collaborateurs collaborateur) {
+		Collaborateurs NewCollab = null;
+		try {
+			NewCollab = collaborateurService.update(collaborateur);
+		} catch (Exception e) {
+			throw new NotFoundException("Erreur lors du PUT du collaborateur : " + collaborateur.getTrigrame() + " -> " + e.getMessage());
+		}
+		return new ResponseEntity<Collaborateurs>(NewCollab, HttpStatus.ACCEPTED);
 	}
-	
 
-	
+	@DeleteMapping(value = "/Collaborateurs/{trigrame}")
+	public ResponseEntity<Boolean> supprimerCollaborateur(@PathVariable String trigrame) {
+		if (!collaborateurService.deleteById(trigrame)) {
+			throw new NotFoundException("Erreur lors du DELETE du collaborateur : " + trigrame);
+		}
+		return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+	}
 }
