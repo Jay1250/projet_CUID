@@ -1,0 +1,134 @@
+
+			<form class="form-horizontal" [formGroup]="cuidForm" (ngSubmit)="onSubmit()">
+					<div class="container">
+							<div class="row">
+					
+								<!-- Prémiére Table / Création CUID -->
+								<div class="col-sm-6">
+					
+									<div class="card-header" id="titre">
+										CREER CUID
+									</div>
+						
+									<div class="row">
+										<div class="col-sm-12">
+											<div id="contenu">
+												<label id="top">Contrat:</label>
+												<div>
+													<select name="contrat" (change)="contratChange()" formControlName="contrat" class="form-control">
+														<option *ngFor="let cont of contrats" [ngValue]="cont">{{cont.nom}}</option>
+													</select>
+												</div>
+											</div>
+					
+											<div id="contenu">
+												<label id="top">Cuid:</label>
+												<div>
+													<input name="cuid" type="texte" formControlName="cuid" class="form-control" placeholder="CUID...">
+												</div>
+											</div>
+											<!-- Nom -->
+											<div id="contenu">
+												<label id="top">Nom:</label>
+												<div>
+													<input type="texte" formControlName="nom" class="form-control" id="nom" placeholder="Nom CUID...">
+												</div>
+											</div>
+											<!-- Prénom -->
+											<div id="contenu">
+												<label id="top">Prénom:</label>
+												<div>
+													<input type="texte" formControlName="prenom" class="form-control" id="prenom" placeholder="Prénom CUID...">
+												</div>
+											</div>
+											<br>
+											<!-- Mot de passe -->
+											<div>
+												<label id="top">Mot de passe:</label>
+												<div>
+													<input type="password" formControlName="mdp" class="form-control" id="mdp" placeholder="Mot de passe...">
+												</div>
+											</div>
+											<br>
+											<!-- Statut -->
+											<div id="contenuCenter">
+												<div>
+													<label id="top">Statut:</label>
+													&nbsp;
+													<label class="radio-inline">
+														<input type="radio" value="true" name="status" formControlName="status"> Active</label>
+													&nbsp;
+													<label class="radio-inline">
+														<input type="radio" value="false" name="status" formControlName="status"> Inactif</label>
+												</div>
+											</div>
+											<br>
+					
+											<!-- Mot de passe -->
+											<div>
+												<label id="top">Commentaires:</label>
+												<div>
+													<input type="texte" size="150" formControlName="commentaires" id="commentaires" class="form-control" placeholder="Commentaires...">
+												</div>
+											</div>
+											<br>
+											<!-- Manager GIR (Nom) -->
+											<div id="contenu">
+												<label id="top">Manager GIR (Nom):</label>
+												<div>
+													<input formControlName="nomgir" type="texte" class="form-control" id="nmg" placeholder="Nom Manager GIR...">
+												</div>
+											</div>
+											<br>
+											<!-- Manager GIR (Prenom) -->
+											<div id="contenu">
+												<label id="top">Manager GIR (Prenom):</label>
+												<div>
+													<input formControlName="prenomgir" type="texte" class="form-control" id="pmg" placeholder="Prénom Manager GIR...">
+												</div>
+											</div>
+											<br>
+										</div>
+									</div>
+								</div>
+								<!-- Fin Prémiére Table -->
+					
+								<!-- Deuxiéme Table / Création Affectations -->
+								<div class="col-sm-6">
+									<div class="card-header" id="titre">
+										Affectations
+									</div>
+									<div class="body">
+										<!-- Liste Applications -->
+										<div class="class-body">
+											<label id="top">Applications:</label>
+											<select class="custom-select" multiple name="applications" formControlName="applications" id="select">
+												<option *ngFor="let app of apps" [value]="app">{{app.nomapplication}}</option>
+											</select>
+										</div>
+										<br>
+										<!-- Liste Outils Orange -->
+										<div class="class-body">
+											<label id="top">Outils:</label>
+											<select class="custom-select" multiple name="outil" formControlName="outil" id="select">
+												<option *ngFor="let outil of outils" [value]="outil">{{outil.nomoutil}}</option>
+											</select>
+											<br>
+											<br>
+										</div>
+									</div>
+								</div>
+								<!-- Fin Deuxiéme Table -->
+					
+								<!-- Button -->
+					
+								<div class="class-body" id="button">
+									<div>
+										<button type="submit" [disabled]="!cuidForm.valid" class="btn btn-success btn-md" id="button">Créer</button>
+									</div>
+								</div>
+								<!-- Fin Button -->
+					
+							</div>
+						</div>
+					</form>

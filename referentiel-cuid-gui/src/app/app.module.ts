@@ -1,0 +1,81 @@
+//Imports
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
+import { DataTablesModule } from 'angular-datatables';
+import { RouterModule, ROUTES, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { ColaborateurComponent } from './colaborateur/colaborateur.component';
+import { MenuComponent } from './menu/menu.component';
+import { CuidComponent } from './cuid/cuid.component';
+import { AccueilComponent } from './accueil/accueil.component';
+import { ConsulterCUIDComponent } from './consulter-cuid/consulter-cuid.component';
+import { CollaborateurService } from './services/collaborateurs/collaborateur.service';
+import { CuidService } from './services/cuid/cuid.service';
+import { HttpClientModule } from '@angular/common/http'; 
+import { LocalisationService } from './services/localisation/localisation.service';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { HistoriqueComponent } from './historique/historique.component';
+import { HistoriqueService } from './services/historique/historique.service';
+import { FormWizardModule } from 'angular2-wizard';
+import { FiltreContratsPipe } from './pipes/filtreContrats.pipe';
+
+
+//Routage
+let routes: Routes = [{
+  path: 'cuid',
+  component: CuidComponent
+}, {
+  path: 'collaborateur',
+  component: ColaborateurComponent
+},  {
+  path: 'accueil/:contrat',
+  component: AccueilComponent
+},{
+  path: 'accueil',
+  component: AccueilComponent
+}, {
+  path: 'cuid/:id',
+  component: ConsulterCUIDComponent
+}, {
+  path: 'historique',
+  component: HistoriqueComponent
+}, {
+  path: '**',
+  redirectTo: 'accueil'
+}
+];
+@NgModule({
+  declarations: [
+    AppComponent,
+    MenuComponent,
+    CuidComponent,
+    ColaborateurComponent,
+    AccueilComponent,
+    ConsulterCUIDComponent,
+    HistoriqueComponent,
+    FiltreContratsPipe,
+  ],
+  imports: [
+    BrowserModule,
+    HttpModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    DataTablesModule,
+    AngularFontAwesomeModule,
+    FormWizardModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger' // set defaults here
+    })
+  ],
+  providers: [CollaborateurService, CuidService, LocalisationService, HistoriqueService], 
+  
+  bootstrap: [AppComponent]
+  
+})
+export class AppModule { }

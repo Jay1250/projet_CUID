@@ -1,0 +1,242 @@
+<!--CONSULTATION CUID ET COLLABORATEURS DEPUIS LA PAGE D'ACCUEIL-->
+
+<div class="container">
+    <!-- Afficher information CUID -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" id="titre">
+                    INFORMATIONS CUID
+                </div>
+                <div class="class-body" id="contenu">
+                    <ul>
+                        <div *ngIf="!isUpdate">
+                            <label for="contrat">Contrat</label>
+                            <input id="contrat" type="text" disabled [value]="cuid.contrat.nom">
+                            <br>
+                            <label for="cuid">Cuid</label>
+                            <input id="cuid" type="text" disabled [value]="cuid.cuid">
+                            <br>
+                            <label for="nom">Nom</label>
+                            <input id="nom" type="text" disabled [value]="cuid.nom">
+                            <br>
+                            <label for="mdp">Mot de passe</label>
+                            <input id="mdp" type="password" disabled [value]="cuid.mdp">
+                            <br>
+                            <label for="nomgir">Manager Gir</label>
+                            <input id="nomgir" type="text" disabled [value]="cuid.nomgir + ' ' + cuid.prenomgir">
+                            <br>
+                            <label for="cuid">Statut</label>
+                            <input id="cuid" type="text" disabled [value]="cuid.status">
+                            <br>
+                            <label for="commentaires">Commentaires</label>
+                            <input id="commentaires" type="text" disabled [value]="cuid.commentaires">
+
+                            <!-- Button edition CUID -->
+                            <div *ngIf="!isUpdate">
+                                <button (click)="startEdit()" type="submit" class="btn btn-primary btn-md" id="button"><i
+                                        class="fa fa-edit"></i></button>
+                            </div>
+                            <!-- Fin button -->
+                        </div>
+                    </ul>
+
+                    <!-- Formulaire pour editer information CUID -->
+                    <div class="container">
+                        <form *ngIf="isUpdate" (ngSubmit)="update()" class="form-horizontal" [formGroup]="editForm">
+                            <label for="contrat">Contrat</label>
+                            <select name="contrat" formControlName="contrat" class="form-control">
+                                <option [selected]="true == true" [ngValue]="cuid.contrat">{{cuid.contrat.nom}}</option>
+                                <option *ngFor="let cont of contrats" [ngValue]="cont">{{cont.nom}}</option>
+                            </select>
+                            <br>
+                            <label for="cuid">Cuid</label>
+                            <input nom="cuid" type="text" formControlName="cuid">
+                            <br>
+                            <label for="cuid">Nom</label>
+                            <input nom="cuid" type="text" formControlName="nom">
+                            <br>
+                            <label for="cuid">Prenom</label>
+                            <input nom="cuid" type="text" formControlName="prenom">
+                            <br>
+                            <label for="cuid">Mot de passe</label>
+                            <input nom="cuid" type="password" formControlName="mdp">
+                            <br>
+                            <label for="cuid">Nom M. Gir</label>
+                            <input nom="cuid" type="text" formControlName="nomgir">
+                            <br>
+                            <label for="cuid">Prenom M. Gir</label>
+                            <input nom="cuid" type="text" formControlName="prenomgir">
+                            <br>
+                            <label for="cuid">Statut</label>
+                            <input nom="cuid" type="text" formControlName="status">
+                            <br>
+                            <label for="cuid">Commentaires</label>
+                            <input nom="cuid" type="text" formControlName="commentaires">
+                            <!-- Fin formulaire -->
+
+                            <!-- Buttons -->
+                            <div class="row">
+                                <div class="col">
+                                    <button (click)="startEdit()" class="btn btn-danger btn-md" id="button">Annuler</button>
+                                </div>
+                                <div class="col">
+                                    <button type="submit" class="btn btn-success btn-md" id="button">Modifier</button>
+                                </div>
+                            </div>
+                            <!-- Fin buttons -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de affichage information CUID -->
+    <br>
+    <br>
+
+    <!-- Affichage collaborateurs -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" id="titre">
+                    COLLABORATEURS
+                    <button type="button" class="close" (click)="openModal()">
+                        <i class="fa fa-plus-circle"></i>
+                    </button>
+
+                </div>
+                <div class="body">
+                    <table datatable [dtTrigger]="dtTrigger" class="table">
+                        <thead id="top">
+                            <tr>
+                                <th>Trigramme</th>
+                                <th>Nom Prénom</th>
+                                <th>Localisation</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let collab of cuid.collaborateurs" id="contenuCenter">
+                                <td>{{collab.trigrame}}</td>
+                                <td>{{collab.nom + ' ' + collab.prenom}}</td>
+                                <td>{{collab.localisation.pays}}</td>
+                                <th>
+                                    <div class="btn-group" role="group" aria-label="..."></div>
+                                    <button (click)="delete(collab.trigrame)" type="button" class="btn btn-danger btn-sm"><i
+                                            class="fa fa-trash-o"></i></button>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin Affichage collaborateurs -->
+    <br>
+    <br>
+
+    <!-- Affichage applications -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" id="titre">
+                    APPLICATIONS
+                </div>
+                <div class="body">
+                    <table class="table">
+                        <thead id="top">
+                            <tr>
+                                <th>Nom Application</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let app of cuid.applications" id="contenu">
+                                <td>{{app.nomapplication}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin affichage applications -->
+    <br>
+    <br>
+
+    <!-- Affichage outils -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" id="titre">
+                    OUTILS ORANGE
+                </div>
+                <div class="body">
+                    <table class="table">
+                        <thead id="top">
+                            <tr>
+                                <th>Nom Outils</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let outil of cuid.outil" id="contenu">
+                                <td>{{outil.nomoutil}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin affichage outils -->
+
+
+    <!-- Debut Modal -->
+    <div id="affectationModal" class="modal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <form class="form-horizontal" [formGroup]="collabForm" (ngSubmit)="ajouterCollaborateur()">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ajouter Collaborateur</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Liste Collaborateurs -->
+                        <div class="class-body">
+                            <label id="top">Collaborateur:</label>
+                            <select class="custom-select" name="collaborateur" formControlName="trigrame" id="select">
+                                <option *ngFor="let collab of Collaborateurs" [value]="collab.trigrame">{{collab.nom + '
+                                    ' + collab.prenom}}</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="body">
+                            <div class="class-body">
+                                <label id="top">Date d'affectation &nbsp;</label>
+                                <input type="date" name="dateaffectation" formControlName="dateaffectation" min="1967-01-01" max="2090-31-12" required class="form-control">
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="body">
+                            <div class="class-body">
+                                <label id="top">Date liberation &nbsp;</label>
+                                <input type="date" name="dateliberation" formControlName="dateliberation" min="1967-01-01" max="2090-31-12" required class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" id="button">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Fin Modal -->
+
+</div>

@@ -1,0 +1,92 @@
+<!--AJOUTER COLLABORATEUR -->
+
+<form class="form-horizontal" [formGroup]="collaborateurForm" (ngSubmit)="onSubmit()">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="card">
+					<!-- Formulaire création collaborateur -->
+					<div class="card-header" id="titre">
+						CREER COLLABORATEUR
+					</div>
+					<div class="card-body" id="contenu">
+						<label id="top">Trigramme:</label>
+						<div>
+							<input type="texte" formControlName="trigrame" class="form-control" id="trigrame" placeholder="Trigamme...">
+						</div>
+						<br>
+
+						<div class="class-body">
+							<label id="top">Nom:</label>
+							<div>
+								<input type="texte" formControlName="nom" class="form-control" id="nom" placeholder="Nom...">
+							</div>
+						</div>
+						<br>
+
+						<div class="class-body">
+							<label id="top">Prénom:</label>
+							<div>
+								<input type="texte" formControlName="prenom" class="form-control" id="prenom" placeholder="Prénom...">
+							</div>
+						</div>
+						<br>
+
+						<div class="class-body">
+							<div class="row">
+								<div class="col-md-8">
+									<label id="top">Localisation:</label>
+									<select name="localisation" formControlName="localisation" id="select">
+										<option *ngFor="let localisation of localisations" [value]="localisation.id">{{localisation.pays}}</option>
+									</select>
+								</div>
+								<div class="col-4">
+									<br>
+									<button type="button" class="btn btn-danger" (click)="openModal()">
+										<i class="fa fa-plus-circle"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<br>
+						<br>
+
+						<!-- Button Créer -->
+						<div class="class-body" id="button">
+							<div>
+								<button type="submit" [disabled]="!collaborateurForm.valid" class="btn btn-success btn-md" id="button">Créer</button>
+							</div>
+						</div>
+						<!-- Fin Button -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- Debut Modal -->
+<div id="myModal" class="modal" role="dialog">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<form class="form-horizontal" [formGroup]="localisationForm" (ngSubmit)="ajouterLocalisation()">
+				<div class="modal-header">
+					<h5 class="modal-title">Localisation</h5>
+					<button type="button" class="close" data-dismiss="modal">
+						<i class="fa fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<label id="top">Pays:</label>
+					<div>
+						<input type="texte" formControlName="pays" class="form-control" id="pays" placeholder="Pays...">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success" id="button">Ajouter</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Fin Modal -->
