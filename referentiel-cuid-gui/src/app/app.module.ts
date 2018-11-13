@@ -22,6 +22,33 @@ import { HistoriqueComponent } from './historique/historique.component';
 import { HistoriqueService } from './services/historique/historique.service';
 import { FormWizardModule } from 'angular2-wizard';
 import { FiltreContratsPipe } from './pipes/filtreContrats.pipe';
+import { TabCuidComponent } from './tab-cuid/tab-cuid.component';
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import { TestComponent } from './test/test.component';
+
+import {
+  MatButtonModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatCardModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatCheckboxModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatPaginatorModule,
+  MatTableModule,
+  MatSortModule,
+  MatChipsModule,
+  MatAutocompleteModule,
+  MatSlideToggleModule
+  
+} from '@angular/material';
+
+
 
 
 //Routage
@@ -44,6 +71,12 @@ let routes: Routes = [{
   path: 'historique',
   component: HistoriqueComponent
 }, {
+  path: 'test',
+  component: TestComponent
+},{
+  path: 'tabCuid',
+  component: TabCuidComponent
+},{
   path: '**',
   redirectTo: 'accueil'
 }
@@ -58,6 +91,8 @@ let routes: Routes = [{
     ConsulterCUIDComponent,
     HistoriqueComponent,
     FiltreContratsPipe,
+    TestComponent,
+    TabCuidComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +106,26 @@ let routes: Routes = [{
     FormWizardModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger' // set defaults here
-    })
+    }),
+    BrowserAnimationsModule,
+  
+
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatSlideToggleModule
   ],
   providers: [CollaborateurService, CuidService, LocalisationService, HistoriqueService], 
   

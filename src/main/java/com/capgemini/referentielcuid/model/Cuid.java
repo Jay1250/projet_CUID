@@ -37,6 +37,7 @@ public class Cuid {
 	private String prenom;
 	
 	@Size(max = 10, message = "le champ mdp est trop long (max : {max})")
+	@JsonIgnore
 	private String mdp;
 	
 	@NotNull(message = "le champ status ne peut pas être null")
