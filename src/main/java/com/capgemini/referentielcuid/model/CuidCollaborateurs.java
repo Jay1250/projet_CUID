@@ -1,92 +1,67 @@
 package com.capgemini.referentielcuid.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@IdClass(CuidCollaborateurs.class)
 @Table(name = "cuid_collaborateurs")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
-public class CuidCollaborateurs implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "cuid_cuid")
-	private Cuid cuid;
+public class CuidCollaborateurs implements Serializable{
 	
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "collaborateurs_trigrame")
-	private Collaborateurs collaborateurs;
+	@EmbeddedId
+	private CuidCollaborateursId cuidcollaborateur;
 	
-	@Column(name ="dateaffectation")
-	@NotNull
-	private Date dateAffectation;
+	@Column(name = "dateaffectation")
+	private Date dateaffectation;
 	
-	@Column(name ="dateliberation")
-	private Date dateLiberation;
+	@Column(name = "dateliberation")
+	private Date dateliberation;
 	
-	public CuidCollaborateurs() {
-		super();
-	}
 	
-	public CuidCollaborateurs(Cuid cuid, Collaborateurs collaborateurs) {
-		super();
-		this.cuid = cuid;
-		this.collaborateurs = collaborateurs;
+	
+	
+	/*
+	public CuidCollaborateurs(String cuid, String collaborateur) {
+		this.cuidcollaborateur = new CuidCollaborateursId(cuid, collaborateur);
+	}
+*/
+	public CuidCollaborateursId getCuidcollaborateurId() {
+		return cuidcollaborateur;
 	}
 
-	public Cuid getCuid() {
-		return cuid;
+	public void setCuidcollaborateurId(CuidCollaborateursId cuidcollaborateur) {
+		this.cuidcollaborateur = cuidcollaborateur;
 	}
 
-	public void setCuid(Cuid cuid) {
-		this.cuid = cuid;
+	public Date getDateaffectation() {
+		return dateaffectation;
 	}
 
-	public Collaborateurs getCollaborateurs() {
-		return collaborateurs;
+	public void setDateaffectation(Date dateaffectation) {
+		this.dateaffectation = dateaffectation;
 	}
 
-	public void setCollaborateurs(Collaborateurs collaborateurs) {
-		this.collaborateurs = collaborateurs;
+	public Date getDateliberation() {
+		return dateliberation;
 	}
 
-	public Date getDateAffectation() {
-		return dateAffectation;
-	}
-
-	public void setDateAffectation(Date dateAffectation) {
-		this.dateAffectation = dateAffectation;
-	}
-
-	public Date getDateLiberation() {
-		return dateLiberation;
-	}
-
-	public void setDateLiberation(Date dateLiberation) {
-		this.dateLiberation = dateLiberation;
+	public void setDateliberation(Date dateliberation) {
+		this.dateliberation = dateliberation;
 	}
 
 	@Override
 	public String toString() {
-		return "CuidCollaborateurs [cuid=" + cuid + ", collaborateurs=" + collaborateurs + ", dateAffectation="
-				+ dateAffectation + ", dateLiberation=" + dateLiberation + "]";
+		return "CuidCollaborateur [cuidcollaborateur=" + cuidcollaborateur + ", dateaffectation=" + dateaffectation
+				+ ", dateliberation=" + dateliberation + "]";
 	}
+	
+	
+	
 }
+

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Nouvelle Application</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="Contrat"  [formControl]="contrat">
+      <mat-option value="{{contrat.id}}" *ngFor="let contrat of tabContrat">{{contrat.nom}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [formControl]="nomApp">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="onClick()" cdkFocusInitial>Ajouter</button>
+</div>

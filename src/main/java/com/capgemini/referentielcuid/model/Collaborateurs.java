@@ -53,11 +53,11 @@ public class Collaborateurs {
 	@JoinColumn(name = "localisation_id")
 	@NotNull
 	private Localisation localisation;
-	
+	/*
 	@JsonIgnore
 	@OneToMany(mappedBy = "collaborateurs")
 	private Set<CuidCollaborateurs> cuidCollaborateurs;
-
+*/
 	public Collaborateurs() {
 	}
 	
@@ -116,7 +116,7 @@ public class Collaborateurs {
 	public void setLocalisation(Localisation localisation) {
 		this.localisation = localisation;
 	}
-
+/*
 	public Set<CuidCollaborateurs> getCuidCollaborateurs() {
 		return cuidCollaborateurs;
 	}
@@ -124,11 +124,6 @@ public class Collaborateurs {
 	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
 		this.cuidCollaborateurs = cuidCollaborateurs;
 	}
-
-	@Override
-	public String toString() {
-		return "Collaborateurs [trigrame=" + trigrame + ", statusCollaborateur=" + statusCollaborateur + ", role="
-				+ role + ", mdp=" + mdp + ", nom=" + nom + ", prenom=" + prenom + ", localisation=" + localisation
-				+ ", cuidCollaborateurs=" + cuidCollaborateurs + "]";
-	}
+*/
+	
 }

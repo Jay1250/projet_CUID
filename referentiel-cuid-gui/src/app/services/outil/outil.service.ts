@@ -12,7 +12,11 @@ export class OutilService {
 	) { }
 
 	getOutil = () => {
-		return this.http.get(`${environment.url}/outil`);
+		return this.http.get(`${environment.url}/Outil`);
 	}
+
+	addOutil = (outil: any) => {
+        return this.http.post(`${environment.url}/Outil`, outil);
+    }
 
 }

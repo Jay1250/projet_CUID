@@ -9,7 +9,7 @@ export class ContratService {
     constructor(private http: HttpClient) { }
 
     getAllContrats = () => {
-        return this.http.get(`${environment.url}/contrat`);
+        return this.http.get(`${environment.url}/Contrat`);
     }
     
 }

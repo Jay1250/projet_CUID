@@ -6,8 +6,10 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -54,14 +56,21 @@ public class Cuid {
 	@NotNull(message = "le champ prenomgir ne peut pas être null")
 	@Size(max = 25, message = "le champ prenomgir est trop long (max : {max})")
 	private String prenomgir;
-	
+	/*
 	@OneToMany(mappedBy = "cuid")
-	@JsonIgnore
 	private Set<CuidCollaborateurs> cuidCollaborateurs;
-	
+	*/
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "cuid_outil")
 	private Set<Outil> outil = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "contrat_id")
+	private Contrat contrat;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<Application> application = new HashSet<>();
 
 	public Cuid() {
 	}
@@ -129,7 +138,7 @@ public class Cuid {
 	public void setPrenomgir(String prenomgir) {
 		this.prenomgir = prenomgir;
 	}
-
+/*
 	public Set<CuidCollaborateurs> getCuidCollaborateurs() {
 		return cuidCollaborateurs;
 	}
@@ -137,13 +146,31 @@ public class Cuid {
 	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
 		this.cuidCollaborateurs = cuidCollaborateurs;
 	}
-
+*/
 	public Set<Outil> getOutil() {
 		return outil;
 	}
 
 	public void setOutil(Set<Outil> outil) {
 		this.outil = outil;
+	}
+	
+	public Contrat getContrat() {
+		return contrat;
+	}
+
+	public void setContrat(Contrat contrat) {
+		this.contrat = contrat;
+	}
+	
+	
+
+	public Set<Application> getApplication() {
+		return application;
+	}
+
+	public void setApplication(Set<Application> application) {
+		this.application = application;
 	}
 
 	@Override

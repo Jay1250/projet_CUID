@@ -13,8 +13,12 @@ export class ApplicationService {
 	) { }
 
 	getApplication = () => {
-		return this.http.get(`${environment.url}/application`);
+		return this.http.get(`${environment.url}/Application`);
 	}
+
+	addApplication = (app: any) => {
+        return this.http.post(`${environment.url}/Application`, app);
+    }
 }
 
 

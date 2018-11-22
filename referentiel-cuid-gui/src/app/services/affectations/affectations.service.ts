@@ -12,11 +12,11 @@ export class AffectationsService {
     ) { }
 
     getAffectations = () => {
-        return this.http.get(`${environment.url}/cuidcollaborateur`); 
+        return this.http.get(`${environment.url}/CuidCollaborateurs`); 
     }
 
     addAffectations = (cuidcollaborateur: any) => {
-        return this.http.post(`${environment.url}/cuidcollaborateur`, cuidcollaborateur);
+        return this.http.post(`${environment.url}/CuidCollaborateurs`, cuidcollaborateur);
     }
 
     deleteAffectation = (cuidcollaborateur: any) => {

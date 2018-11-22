@@ -1,0 +1,50 @@
+<!-- Page de recherche de CUID -->
+<div class="container" style="text-align:center;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card p-2">
+				<div class="card-header" id="titre">
+					<h3>Collaborateur</h3>
+				</div>
+				<div class="col-md-3 offset-9">
+					<mat-form-field>
+						<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
+					</mat-form-field>
+				</div>
+				<div class="mat-elevation-z8 col-md-12">
+					<table mat-table [dataSource]="dataSource" matSort>
+						<!-- Cuid Column -->
+						<ng-container matColumnDef="trigrame">
+							<th mat-header-cell *matHeaderCellDef mat-sort-header>trigrame</th>
+							<td mat-cell *matCellDef="let row" class="pr-5"> <a href="#">{{row.trigrame}} </a></td>
+            </ng-container>
+            <!-- Nom Prénom Column -->
+						<ng-container matColumnDef="nomprenom">
+							<th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
+							<td mat-cell *matCellDef="let row"> {{row.nomprenom}} </td>
+						</ng-container>
+						<!-- Contrat Column -->
+						<ng-container matColumnDef="role">
+							<th mat-header-cell *matHeaderCellDef mat-sort-header>role</th>
+							<td mat-cell *matCellDef="let row"> {{row.role}} </td>
+						</ng-container>
+						<!-- Manager Column -->
+						<ng-container matColumnDef="pays">
+							<th mat-header-cell *matHeaderCellDef mat-sort-header>pays</th>
+							<td mat-cell *matCellDef="let row"> {{row.pays}} </td>
+						</ng-container>
+						<!-- Nbr Applis Column -->
+						<ng-container matColumnDef="nbr_cuid">
+							<th mat-header-cell *matHeaderCellDef mat-sort-header>nbr_cuid</th>
+							<td mat-cell *matCellDef="let row"> {{row.nbr_cuid}} </td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+					</table>
+					<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

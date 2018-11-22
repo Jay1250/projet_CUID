@@ -3,6 +3,7 @@ package com.capgemini.referentielcuid.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +15,7 @@ import com.capgemini.referentielcuid.model.CuidOfCollaborateur;
 import com.capgemini.referentielcuid.repository.CuidOfCollaborateurRepository;
 
 @RestController
+@CrossOrigin("*")
 public class CuidOfCollaborateurController {
 
 	@Autowired

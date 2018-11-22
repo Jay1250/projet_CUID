@@ -13,8 +13,7 @@ public class CollaborateurInfos {
 	
 	private String statuscollaborateur;
 	private String role;
-	private String nom;
-	private String prenom;
+	private String nomprenom;
 	private String pays;
 	private int nbr_cuid;
 	
@@ -37,17 +36,12 @@ public class CollaborateurInfos {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public String getNom() {
-		return nom;
+
+	public String getNomprenom() {
+		return nomprenom;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-	public String getPrenom() {
-		return prenom;
-	}
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setNomprenom(String nomprenom) {
+		this.nomprenom = nomprenom;
 	}
 	public String getPays() {
 		return pays;

@@ -44,9 +44,16 @@ import {
   MatSortModule,
   MatChipsModule,
   MatAutocompleteModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatDividerModule,
+  MatListModule,
+  MatDialogModule
   
 } from '@angular/material';
+import { CreationCuidComponent } from './creation-cuid/creation-cuid.component';
+import { OutilsModalComponent } from './modals/outils/outils.component';
+import { TabCollaborateurComponent } from './tab-collaborateur/tab-collaborateur.component';
+import { ApplicationsModalComponent } from './modals/applications/applications.component';
 
 
 
@@ -77,6 +84,12 @@ let routes: Routes = [{
   path: 'tabCuid',
   component: TabCuidComponent
 },{
+  path: 'creationCuid',
+  component: CreationCuidComponent
+},{
+  path: 'tabCollaborateur',
+  component: TabCollaborateurComponent
+},{
   path: '**',
   redirectTo: 'accueil'
 }
@@ -92,7 +105,11 @@ let routes: Routes = [{
     HistoriqueComponent,
     FiltreContratsPipe,
     TestComponent,
-    TabCuidComponent
+    TabCuidComponent,
+    CreationCuidComponent,
+    OutilsModalComponent,
+    TabCollaborateurComponent,
+    ApplicationsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -125,11 +142,16 @@ let routes: Routes = [{
     MatSortModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDividerModule,
+    MatListModule,
+    MatDialogModule
   ],
   providers: [CollaborateurService, CuidService, LocalisationService, HistoriqueService], 
   
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
+  entryComponents: [OutilsModalComponent, ApplicationsModalComponent]
   
 })
 export class AppModule { }
