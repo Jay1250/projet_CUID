@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { CreationCuidService } from '../services/creation-cuid/creation-cuid.service';
 import { AffectationsService } from '../services/affectations/affectations.service';
+import { CuidService } from '../services/cuid/cuid.service';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { TabCollaborateurService } from '../services/tab-collaborateur/tab-collaborateur.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 import { OutilsModalComponent } from '../modals/outils/outils.component';
 import { ApplicationsModalComponent } from '../modals/applications/applications.component';
 import swal from 'sweetalert2';
-
+import{ActivatedRoute} from '@angular/router'
 
 export interface Cuid {
 	cuid: String;
@@ -27,11 +28,11 @@ export interface Cuid {
 
 export interface Collaborateur {
 	trigrame: String;
-	role: String;
-	nomprenom: String;
+	nom: String;
+	prenom: String;
 	pays: number;
-  nbr_cuid: number;
-  utiliser: boolean;
+  dateaffectation: Date;
+  dateliberation: Date;
 }
 
 export interface Outil {
@@ -75,11 +76,11 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-creation-cuid',
-  templateUrl: './creation-cuid.component.html',
-  styleUrls: ['./creation-cuid.component.scss']
+  selector: 'app-fiche-cuid',
+  templateUrl: './fiche-cuid.component.html',
+  styleUrls: ['./fiche-cuid.component.scss']
 })
-export class CreationCuidComponent implements OnInit{
+export class FicheCuidComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -90,70 +91,98 @@ export class CreationCuidComponent implements OnInit{
   CollaborateurInfos: Collaborateur[] = [];
   cuidCollaborateur: CuidCollaborateur;
   tabCuidCollaborateur: CuidCollaborateur[] = [];
-  displayedColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid', 'ajouter'];
+  displayedColumns: string[] = ['trigrame','nom', 'prenom', 'pays', 'dateaffectation', 'dateliberation'];
   dataSource;
   selection = new SelectionModel<Collaborateur>(true, []);
 
   outils: Outil[] = [];
   applications: Application[] = [];
   contrats: Contrat[] = [];
-  test:any[] = [];
+  cuid;
   newCuid: Cuid;
   chipsCollaborateur: string[] = [];
   matcher = new MyErrorStateMatcher();
 
-  ccuid = new FormControl('', [
+cuidForm = new FormGroup({
+
+  ccuid : new FormControl('', [
     Validators.required,
     Validators.minLength(3),
-  ]);
-  ccontrat = new FormControl('', [
+  ]),
+  ccontrat : new FormControl('', [
     Validators.required,
-  ]);
-  nom = new FormControl('', [
-    Validators.required,
-    Validators.minLength(3),
-    Validators.pattern('^[a-zA-Z]+$')
-  ]);  
-  prenom = new FormControl('', [
+  ]),
+  nom : new FormControl('', [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
-  ]);
-  nomGir = new FormControl('', [
+  ]),  
+  prenom : new FormControl('', [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
-  ]);
-  prenomGir = new FormControl('', [
+  ]),
+  nomGir : new FormControl('', [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
-  ]);
-  password = new FormControl('', [
+  ]),
+  prenomGir : new FormControl('', [
+    Validators.required,
+    Validators.minLength(3),
+    Validators.pattern('^[a-zA-Z]+$')
+  ]),
+  password : new FormControl('', [
     Validators.required,
     Validators.minLength(5)
-  ]);
-  passwordVerif = new FormControl('', [
+  ]),
+  passwordVerif : new FormControl('', [
     Validators.required,
     Validators.minLength(5)
-  ]);
-  commentaires = new FormControl('', [
+  ]),
+  commentaires : new FormControl('', [
     Validators.required,
-  ]);
+  ]),
+
+});
 
   constructor(private creationCuidService: CreationCuidService, 
               private tabCollaborateurService: TabCollaborateurService,
               public dialog: MatDialog,
-              private affectationsService: AffectationsService) { }
+              private affectationsService: AffectationsService,
+              private cuidService: CuidService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.cuid = this.route.snapshot.params['cuid'];
+    console.log(this.cuid);
+
+    
+    this.cuidService.findById(this.cuid)
+    .subscribe((data: any) => {
+        //this.tabCuidCollaborateur = data;
+        console.log(data);
+//this.cuidForm.
+        this.cuidForm.get("ccuid").setValue(data.cuid);
+        this.cuidForm.get("ccontrat").setValue(data.contrat);
+        this.cuidForm.get("nom").setValue(data.nom);
+        this.cuidForm.get("prenom").setValue(data.prenom); 
+        this.cuidForm.get("nomGir").setValue(data.nomgir);
+        this.cuidForm.get("prenomGir").setValue(data.prenomgir);
+        this.cuidForm.get("password").setValue(data.password);
+        this.cuidForm.get("commentaires").setValue(data.commentaires);
+
+        this.outils = data.outil;
+        this.applications = data.applications;
+    });
 
     this.affectationsService.getAffectations()
     .subscribe((data: any) => {
         this.tabCuidCollaborateur = data;
         console.log(this.tabCuidCollaborateur);
     });
-
+/*
     this.creationCuidService.getAllOutils()
     .subscribe((data: any) => {
         this.outils = data;
@@ -169,24 +198,23 @@ export class CreationCuidComponent implements OnInit{
           application.utiliser = false;
        })
     });
-
+*/
     this.creationCuidService.getAllContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
 
-    this.tabCollaborateurService.getAllTabCuid()
+    this.cuidService.recupCollaborateurs(this.cuid)
     .subscribe((data: any) => {
         this.CollaborateurInfos = data;
-        this.CollaborateurInfos.forEach(function(CollaborateurInfos){
-          CollaborateurInfos.utiliser = false;
-       })
+
+
       this.dataSource = new MatTableDataSource<Collaborateur>(this.CollaborateurInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-  }
 
+  }
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
@@ -219,18 +247,36 @@ export class CreationCuidComponent implements OnInit{
     }
   }
 
-  hello(vaz){
+  hello(){
 
-    this.ccuid.markAsTouched();
-    this.ccontrat.markAsTouched();
-    this.nom.markAsTouched();
-    this.prenom.markAsTouched();
-    this.nomGir.markAsTouched();
-    this.prenomGir.markAsTouched();
-    this.password.markAsTouched();
-    this.passwordVerif.markAsTouched();
-    this.commentaires.markAsTouched();
+    this.cuidForm.controls.ccuid.markAsTouched();
+    this.cuidForm.controls.ccontrat.markAsTouched();
+    this.cuidForm.controls.nom.markAsTouched();
+    this.cuidForm.controls.prenom.markAsTouched();
+    this.cuidForm.controls.nomGir.markAsTouched();
+    this.cuidForm.controls.prenomGir.markAsTouched();
+    this.cuidForm.controls.commentaires.markAsTouched();
 
+
+    this.cuidForm.get('ccuid').disable();
+    this.cuidForm.get('ccontrat').disable();
+    this.cuidForm.get('nom').disable();
+    this.cuidForm.get('prenom').disable();
+    this.cuidForm.get('nomGir').disable();
+    this.cuidForm.get('prenomGir').disable();
+    this.cuidForm.get('commentaires').disable();
+
+    this.outils.forEach(function(element){
+
+//element.utiliser.disable();
+
+    });
+
+
+    //this.outils.utiliser
+
+    //this.cuidForm.controls.prenom.
+/*
     if(this.ccuid.hasError("required") || this.ccontrat.hasError("required") || this.nom.hasError("required")
     || this.prenom.hasError("required") || this.nomGir.hasError("required") || this.prenomGir.hasError("required")
     || this.password.hasError("required") || this.passwordVerif.hasError("required"))
@@ -300,6 +346,7 @@ export class CreationCuidComponent implements OnInit{
       }); 
       window.location.href='tabCuid';
     }
+    */
   }
 
   ajouterCollab(trigrame){
@@ -309,11 +356,6 @@ export class CreationCuidComponent implements OnInit{
 
     else {
       this.chipsCollaborateur.push(trigrame);
-      this.CollaborateurInfos.forEach(function(element){
-
-      if(element.trigrame == trigrame)
-        element.utiliser = true;
-      })
     }
   }
 
@@ -331,3 +373,4 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
+

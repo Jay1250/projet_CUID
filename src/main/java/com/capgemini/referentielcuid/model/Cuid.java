@@ -1,6 +1,7 @@
 package com.capgemini.referentielcuid.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -68,9 +69,13 @@ public class Cuid {
 	@JoinColumn(name = "contrat_id")
 	private Contrat contrat;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JsonIgnore
-	private Set<Application> application = new HashSet<>();
+	//@ManyToMany(fetch = FetchType.LAZY)
+	//@JoinTable(name = "cuid_applications")
+	//@JsonIgnore
+	//private Set<Application> application = new HashSet<>();
+	
+	@ManyToMany()
+	private List<Application> applications;
 
 	public Cuid() {
 	}
@@ -165,12 +170,14 @@ public class Cuid {
 	
 	
 
-	public Set<Application> getApplication() {
-		return application;
+
+
+	public List<Application> getApplications() {
+		return applications;
 	}
 
-	public void setApplication(Set<Application> application) {
-		this.application = application;
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 
 	@Override

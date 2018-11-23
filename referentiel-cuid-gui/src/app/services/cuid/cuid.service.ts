@@ -10,26 +10,30 @@ export class CuidService {
     constructor(private http: HttpClient) { }
 
     getAllCuid = () => {
-      return this.http.get(`${environment.url}/cuid`);
+      return this.http.get(`${environment.url}/Cuid`);
     }
 
     findByNomOrPrenom = (nom: String, prenom: String) => {
-        return this.http.get(`${environment.url}/cuid/_search?nom=${nom}&prenom=${prenom}`);
+        return this.http.get(`${environment.url}/Cuid/_search?nom=${nom}&prenom=${prenom}`);
     }
 
     findById = (id: String) => {
-        return this.http.get(`${environment.url}/cuid/${id}`);
+        return this.http.get(`${environment.url}/Cuid/${id}`);
     }
 
     addCuid = (cuid: any) => {
-        return this.http.post(`${environment.url}/cuid`, cuid);
+        return this.http.post(`${environment.url}/Cuid`, cuid);
     }
 
     delete = (cuid: String) => {
-        return this.http.delete(`${environment.url}/cuid/${cuid}`)
+        return this.http.delete(`${environment.url}/Cuid/${cuid}`)
     }
 
     update = (cuid: any) => {
-        return this.http.put(`${environment.url}/cuid`, cuid);
+        return this.http.put(`${environment.url}/Cuid`, cuid);
+    }
+
+    recupCollaborateurs = (cuid: String) => {
+        return this.http.get(`${environment.url}/CollaborateursCuid/${cuid}`);
     }
 }

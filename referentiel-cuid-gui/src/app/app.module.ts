@@ -54,6 +54,8 @@ import { CreationCuidComponent } from './creation-cuid/creation-cuid.component';
 import { OutilsModalComponent } from './modals/outils/outils.component';
 import { TabCollaborateurComponent } from './tab-collaborateur/tab-collaborateur.component';
 import { ApplicationsModalComponent } from './modals/applications/applications.component';
+import { FicheCuidComponent } from './fiche-cuid/fiche-cuid.component';
+import { CreationCollaborateurComponent } from './creation-collaborateur/creation-collaborateur.component';
 
 
 
@@ -90,6 +92,9 @@ let routes: Routes = [{
   path: 'tabCollaborateur',
   component: TabCollaborateurComponent
 },{
+  path: 'ficheCuid/:cuid',
+  component: FicheCuidComponent
+},{
   path: '**',
   redirectTo: 'accueil'
 }
@@ -109,7 +114,9 @@ let routes: Routes = [{
     CreationCuidComponent,
     OutilsModalComponent,
     TabCollaborateurComponent,
-    ApplicationsModalComponent
+    ApplicationsModalComponent,
+    FicheCuidComponent,
+    CreationCollaborateurComponent
   ],
   imports: [
     BrowserModule,
