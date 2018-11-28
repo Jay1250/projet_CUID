@@ -95,6 +95,10 @@ let routes: Routes = [{
   path: 'ficheCuid/:cuid',
   component: FicheCuidComponent
 },{
+  path: 'creationCollaborateur',
+  component: CreationCollaborateurComponent
+},
+{
   path: '**',
   redirectTo: 'accueil'
 }

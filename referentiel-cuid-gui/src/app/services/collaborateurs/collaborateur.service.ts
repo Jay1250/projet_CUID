@@ -10,7 +10,7 @@ export class CollaborateurService {
     constructor(private http: HttpClient) { }
 
     getAllCollabs = () => {
-        return this.http.get(`${environment.url}/collaborateur`);
+        return this.http.get(`${environment.url}/Collaborateurs`);
     }
 
 
@@ -19,7 +19,7 @@ export class CollaborateurService {
     }
 
     addCollab = (collab: any) => {
-        return this.http.post(`${environment.url}/collaborateur`, collab);
+        return this.http.post(`${environment.url}/Collaborateurs`, collab);
     }
 
     delete = (collab: String) => {

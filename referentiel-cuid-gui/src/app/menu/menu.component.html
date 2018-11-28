@@ -2,7 +2,7 @@
 <!-- Création du menu principal  -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" routerLink="/accueil">CUID Orange</a>
+  <a class="navbar-brand" routerLink="/tabCuid"> <img src="assets/logo-orange.png"> CUID Orange</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -10,26 +10,17 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-              <a class="nav-link" routerLink="/cuid">Créer CUID</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/collaborateur">Créer Collaborateur</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/historique">Historique CUID</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/creationCuid">Création CUID</a>
-        </li>
-        <li class="nav-item">
+        <li class="nav-item" [routerLinkActive]="['active']">
             <a class="nav-link" routerLink="/tabCuid">CUID</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/test">TEst</a>
-        </li>
-        <li class="nav-item">
+        <li class="nav-item" [routerLinkActive]="['active']">
             <a class="nav-link" routerLink="/tabCollaborateur">Collaborateur</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/test">Paramètres</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/test">Historique</a>
         </li>
       </ul>
   </div>

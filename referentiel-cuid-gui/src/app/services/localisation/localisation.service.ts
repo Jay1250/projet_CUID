@@ -12,7 +12,7 @@ export class LocalisationService {
     ) { }
 
     getLocalisations = () => {
-        return this.http.get(`${environment.url}/localisation`);
+        return this.http.get(`${environment.url}/Localisation`);
     }
 
     addLocalisation = (local: any) => {

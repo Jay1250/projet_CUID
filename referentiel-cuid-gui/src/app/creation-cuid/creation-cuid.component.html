@@ -1,17 +1,18 @@
 <!-- Page de recherche de CUID -->
 <div class="container" style="text-align:center;">
-	<div class="row">
+	<div class="row" >
+      <form [formGroup]="cuidForm" (ngSubmit)="hello()">
     <div class="card p-2">
       <div class="col-md-12">
         <div class="card-header" id="titre">
           <h3>Nouveau CUID</h3>
         </div>
         <mat-form-field class="col-md-5">
-            <input matInput maxlength="256" minlength="3" #cuid placeholder="Cuid"  [formControl]="ccuid" [errorStateMatcher]="matcher" >
-            <mat-error *ngIf="ccuid.hasError('required') ">
+            <input matInput maxlength="256" minlength="3" #cuid placeholder="Cuid"  formControlName="ccuid" [errorStateMatcher]="matcher" >
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('required') ">
                 Cuid is <strong>required</strong>
             </mat-error>
-            <mat-error *ngIf="ccuid.hasError('minlength') && !ccuid.hasError('required')">
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('minlength') && !cuidForm.get('ccuid').hasError('required')">
                 Password should contain 3 characters
             </mat-error>
             <button mat-button *ngIf="value10" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
@@ -21,70 +22,70 @@
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
-          <mat-select placeholder="Contrat"  [formControl]="ccontrat" [errorStateMatcher]="matcher">
+          <mat-select placeholder="Contrat"  formControlName="ccontrat" [errorStateMatcher]="matcher">
             <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="ccontrat.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('ccontrat').hasError('required')">
               Contrat is <strong>required</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5">
-          <input matInput placeholder="Nom*" [formControl]="nom" [errorStateMatcher]="matcher" >
+          <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher" >
           <button mat-button *ngIf="value5" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="nom.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('nom').hasError('required')">
               Nom is <strong>required</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
-          <input matInput placeholder="Prenom*"[formControl]="prenom" [errorStateMatcher]="matcher">
+          <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
           <button mat-button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="prenom.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('prenom').hasError('required')">
               Prenom is <strong>required</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5">
-          <input matInput placeholder="NomGir*"  [formControl]="nomGir" [errorStateMatcher]="matcher">
+          <input matInput placeholder="NomGir*"  formControlName="nomGir" [errorStateMatcher]="matcher">
           <button mat-button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="nomGir.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('nomGir').hasError('required')">
               NomGir is <strong>required</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
-          <input matInput placeholder="Prenomgir*"  [formControl]="prenomGir" [errorStateMatcher]="matcher">
+          <input matInput placeholder="Prenomgir*"  formControlName="prenomGir" [errorStateMatcher]="matcher">
           <button mat-button *ngIf="value4" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="prenomGir.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('prenomGir').hasError('required')">
               PrenomGir is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         
         <mat-form-field class="col-md-5">
-          <input type="password" matInput placeholder="Password*"  [formControl]="password" [errorStateMatcher]="matcher">
+          <input type="password" matInput placeholder="Password*"  formControlName="password" [errorStateMatcher]="matcher">
           <button mat-button *ngIf="Password" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="password.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('password').hasError('required')">
               Password is <strong>required</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
-          <input type="password" matInput placeholder="Password2*"  [formControl]="passwordVerif" [errorStateMatcher]="matcher">
+          <input type="password" matInput placeholder="Password2*"  formControlName="passwordVerif" [errorStateMatcher]="matcher">
           <button mat-button *ngIf="Password2" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="passwordVerif.hasError('required')">
+          <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('required')">
               Contrat is <strong>required</strong>
           </mat-error>
           <mat-hint>Confirmer le mot de passe</mat-hint>
@@ -99,14 +100,14 @@
 
         <mat-divider></mat-divider>
         <h3 class="p-2">Outils</h3>
-        <mat-checkbox id="{{outil.id}}" *ngFor="let outil of outils" class="example-margin m-2" [(ngModel)]="outil.utiliser" >{{outil.nomOutil}}</mat-checkbox>
-        <button mat-mini-fab color="basic" (click)="openDialogOutil()">
+        <mat-checkbox id="{{outil.id}}" *ngFor="let outil of outils" class="example-margin m-2" [(ngModel)]="outil.utiliser" [ngModelOptions]="{standalone: true}">{{outil.nomOutil}}</mat-checkbox>
+        <button mat-mini-fab type="button" color="basic" (click)="openDialogOutil()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
         </button>
         <mat-divider class="mt-2"></mat-divider>
         <h3 class="p-2">Applications</h3>
-        <mat-checkbox *ngFor="let application of applications" class="example-margin m-2" [(ngModel)]="application.utiliser">{{application.nomApplication}}</mat-checkbox>
-        <button mat-mini-fab color="basic" (click)="openDialogApp()">
+        <mat-checkbox *ngFor="let application of applications" class="example-margin m-2" [(ngModel)]="application.utiliser" [ngModelOptions]="{standalone: true}">{{application.nomApplication}}</mat-checkbox>
+        <button mat-mini-fab type="button" color="basic" (click)="openDialogApp()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
         </button>
         <mat-divider class="mt-2"></mat-divider>
@@ -158,7 +159,7 @@
             <!-- Ajouter Column -->
             <ng-container matColumnDef="ajouter">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>ajouter</th>
-              <td mat-cell *matCellDef="let row"><button mat-stroked-button color="accent" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
+              <td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" color="accent" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -168,9 +169,10 @@
         </div>
         
         <div class="offset-10">
-          <button mat-raised-button color="accent" class="m-2" (click)="hello()">Valider</button>
+          <button mat-raised-button type="submit" color="accent" class="m-2" [disabled]="cuid.invalid">Valider</button>
         </div>
       </div>
     </div>
+  </form>
 	</div>
 </div>

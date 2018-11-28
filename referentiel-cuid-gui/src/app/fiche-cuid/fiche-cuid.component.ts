@@ -55,12 +55,14 @@ export interface Contrat {
 
 export interface CuidCollaborateur{
 
-  cuidcollaborateurId: {
-    cuid: String;
-    trigrame: String;
-  }
+  cuid: String;
+  trigrame: String;
+  nom: String;
+  prenom: String;
+  pays: String;
   dateaffectation: String;
   dateliberation: String;
+  statuscollaborateur: String;
 }
 
 export interface PeriodicElement {
@@ -102,45 +104,46 @@ export class FicheCuidComponent implements OnInit {
   newCuid: Cuid;
   chipsCollaborateur: string[] = [];
   matcher = new MyErrorStateMatcher();
+  disable=true;
 
 cuidForm = new FormGroup({
 
-  ccuid : new FormControl('', [
+  ccuid : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(3),
   ]),
-  ccontrat : new FormControl('', [
+  ccontrat : new FormControl({value: 'hello', disabled: true}, [
     Validators.required,
   ]),
-  nom : new FormControl('', [
+  nom : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
   ]),  
-  prenom : new FormControl('', [
+  prenom : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
   ]),
-  nomGir : new FormControl('', [
+  nomGir : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
   ]),
-  prenomGir : new FormControl('', [
+  prenomGir : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(3),
     Validators.pattern('^[a-zA-Z]+$')
   ]),
-  password : new FormControl('', [
+  password : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(5)
   ]),
-  passwordVerif : new FormControl('', [
+  passwordVerif : new FormControl({value: '', disabled: true}, [
     Validators.required,
     Validators.minLength(5)
   ]),
-  commentaires : new FormControl('', [
+  commentaires : new FormControl({value: '', disabled: true}, [
     Validators.required,
   ]),
 
@@ -164,8 +167,8 @@ cuidForm = new FormGroup({
         //this.tabCuidCollaborateur = data;
         console.log(data);
 //this.cuidForm.
-        this.cuidForm.get("ccuid").setValue(data.cuid);
-        this.cuidForm.get("ccontrat").setValue(data.contrat);
+        this.cuidForm.get("ccuid").setValue({value:data.cuid, disabled: true});
+        this.cuidForm.get("ccontrat").setValue({value:data.contrat, disabled: true});
         this.cuidForm.get("nom").setValue(data.nom);
         this.cuidForm.get("prenom").setValue(data.prenom); 
         this.cuidForm.get("nomGir").setValue(data.nomgir);
@@ -173,14 +176,24 @@ cuidForm = new FormGroup({
         this.cuidForm.get("password").setValue(data.password);
         this.cuidForm.get("commentaires").setValue(data.commentaires);
 
+
         this.outils = data.outil;
         this.applications = data.applications;
     });
 
-    this.affectationsService.getAffectations()
+    this.affectationsService.getCollaborateursOfCuid(this.cuid)
     .subscribe((data: any) => {
+
+      
         this.tabCuidCollaborateur = data;
-        console.log(this.tabCuidCollaborateur);
+        //marche pas
+       // if(data != null && data != undefined){
+         // this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
+         // console.log(this.dataSource);
+         // this.dataSource.paginator = this.paginator;
+         // this.dataSource.sort = this.sort;
+       // }
+      
     });
 /*
     this.creationCuidService.getAllOutils()
@@ -199,21 +212,24 @@ cuidForm = new FormGroup({
        })
     });
 */
+
+
     this.creationCuidService.getAllContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
-
+/*
     this.cuidService.recupCollaborateurs(this.cuid)
     .subscribe((data: any) => {
         this.CollaborateurInfos = data;
-
+console.log(this.CollaborateurInfos);
 
       this.dataSource = new MatTableDataSource<Collaborateur>(this.CollaborateurInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      
     });
-
+*/
   }
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
@@ -259,12 +275,15 @@ cuidForm = new FormGroup({
 
 
     this.cuidForm.get('ccuid').disable();
-    this.cuidForm.get('ccontrat').disable();
+    //this.cuidForm.get('ccontrat').disable();
     this.cuidForm.get('nom').disable();
     this.cuidForm.get('prenom').disable();
     this.cuidForm.get('nomGir').disable();
     this.cuidForm.get('prenomGir').disable();
     this.cuidForm.get('commentaires').disable();
+
+
+
 
     this.outils.forEach(function(element){
 
@@ -363,6 +382,21 @@ cuidForm = new FormGroup({
 
     console.log();
     console.log(form.value);
+  }
+
+  modifierCuid() {
+
+    this.cuidForm.get('ccontrat').setValue('hello');
+
+console.log("hello");
+
+    this.cuidForm.get('ccuid').enable();
+    this.cuidForm.get('ccontrat').enable();
+    this.cuidForm.get('nom').enable();
+    this.cuidForm.get('prenom').enable();
+    this.cuidForm.get('nomGir').enable();
+    this.cuidForm.get('prenomGir').enable();
+    this.cuidForm.get('commentaires').enable();
   }
 }
 

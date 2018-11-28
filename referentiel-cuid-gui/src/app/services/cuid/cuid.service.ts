@@ -36,4 +36,8 @@ export class CuidService {
     recupCollaborateurs = (cuid: String) => {
         return this.http.get(`${environment.url}/CollaborateursCuid/${cuid}`);
     }
+
+    recupInfosCuid = () => {
+        return this.http.get(`${environment.url}/CuidInfos`);
+    }
 }

@@ -22,4 +22,11 @@ export class AffectationsService {
     deleteAffectation = (cuidcollaborateur: any) => {
         return this.http.delete(`${environment.url}/cuidcollaborateur?cuid=${cuidcollaborateur.cuid}&trigrame=${cuidcollaborateur.trigrame}`);
     }
+    getCollaborateursOfAllCuid = () => {
+        return this.http.get(`${environment.url}/CollaborateursCuid`); 
+    }
+
+    getCollaborateursOfCuid = (cuid: any) => {
+        return this.http.get(`${environment.url}/CollaborateursCuid/${cuid}`); 
+    }
 }

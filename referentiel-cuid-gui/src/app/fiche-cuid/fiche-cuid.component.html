@@ -64,7 +64,7 @@
         </mat-form-field>
         
         <mat-form-field class="col-md-10 ">
-          <input matInput placeholder="Commentaires" >      
+          <input matInput placeholder="Commentaires" formControlName="commentaires">      
           <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
@@ -79,7 +79,7 @@
     <mat-chip *ngFor="let outil of outils" class="col-md-3 mr-4" [color]="primary">
       {{outil.nomOutil}}
     </mat-chip>
-    <button mat-mini-fab color="basic" (click)="openDialogApp()">
+    <button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
       <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
     </button>
   </mat-chip-list>
@@ -93,7 +93,7 @@
     <mat-chip *ngFor="let application of applications" class="col-md-3 mr-4" color="primary">
       {{application.nomApplication}}
     </mat-chip>
-    <button mat-mini-fab color="basic" (click)="openDialogApp()">
+    <button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
       <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
     </button>
   </mat-chip-list>
@@ -129,13 +129,13 @@
             </ng-container>
             <!-- Nom Prénom Column -->
             <ng-container matColumnDef="nom">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
-              <td mat-cell *matCellDef="let row"> {{row.nom}} </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuid</th>
+              <td mat-cell *matCellDef="let row"> <a href="#">{{row.cuid}}</a> </td>
             </ng-container>
             <!-- Contrat Column -->
             <ng-container matColumnDef="prenom">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</th>
-              <td mat-cell *matCellDef="let row"> {{row.prenom}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.nom}} {{row.prenom}} </td>
             </ng-container>
             <!-- Manager Column -->
             <ng-container matColumnDef="pays">
@@ -161,7 +161,8 @@
         </div>
         
         <div class="offset-10">
-          <button mat-raised-button color="accent" class="m-2" (click)="hello()">Valider</button>
+          <button mat-raised-button color="accent" class="m-2" (click)="hello()" [hidden] = "disable">Valider</button>
+          <button mat-raised-button color="accent" class="m-2" (click)="modifierCuid()" [hidden] = "!disable">Modifier</button>
         </div>
       </div>
     </div>
