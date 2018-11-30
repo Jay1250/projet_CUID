@@ -60,8 +60,8 @@ export interface CuidCollaborateur{
   nom: String;
   prenom: String;
   pays: String;
-  dateaffectation: String;
-  dateliberation: String;
+  dateaffectation: Date;
+  dateliberation: Date;
   statuscollaborateur: String;
 }
 

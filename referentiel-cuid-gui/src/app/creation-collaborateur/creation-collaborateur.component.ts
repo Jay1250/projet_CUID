@@ -117,7 +117,7 @@ export class CreationCollaborateurComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+/*
     this.collabForm.patchValue({
       passwordVerif : new FormControl('', [
         Validators.required,
@@ -126,8 +126,7 @@ export class CreationCollaborateurComponent implements OnInit {
       ]),
     
     });
-  
-
+  */
     this.localisationService.getLocalisations()
     .subscribe((data: any) => {
         this.localisations = data;
@@ -160,6 +159,8 @@ export class CreationCollaborateurComponent implements OnInit {
 
     this.collabForm.setValue
     this.collaborateur = {
+
+     
 
       trigrame: this.collabForm.get("trigrame").value,
       role: this.collabForm.get("role").value,
