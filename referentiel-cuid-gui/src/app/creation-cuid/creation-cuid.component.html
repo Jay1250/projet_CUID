@@ -9,84 +9,102 @@
         </div>
         <mat-form-field class="col-md-5">
             <input matInput maxlength="256" minlength="3" #cuid placeholder="Cuid"  formControlName="ccuid" [errorStateMatcher]="matcher" >
-            <mat-error *ngIf="cuidForm.get('ccuid').hasError('required') ">
-                Cuid is <strong>required</strong>
-            </mat-error>
-            <mat-error *ngIf="cuidForm.get('ccuid').hasError('minlength') && !cuidForm.get('ccuid').hasError('required')">
-                Password should contain 3 characters
-            </mat-error>
-            <button mat-button *ngIf="value10" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <button mat-button type="button" *ngIf="cuidForm.get('ccuid').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({ccuid: ''})">
                 <mat-icon>close</mat-icon>
             </button>
-            <mat-hint align="end">{{cuid.value.length}} / 256</mat-hint>
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('required') ">
+                Le champ Cuid est <strong>requis</strong>
+            </mat-error>
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('minlength') && !cuidForm.get('ccuid').hasError('required')">
+                 Le champ est <strong>trop court</strong>
+            </mat-error>
+            <mat-hint align="end"> {{cuid.value.length}} / 10</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
-          <mat-select placeholder="Contrat"  formControlName="ccontrat" [errorStateMatcher]="matcher">
+          <mat-select placeholder="Contrat"  formControlName="ccontrat" (ngModelChange)="azerty()" [errorStateMatcher]="matcher">
             <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="cuidForm.get('ccontrat').hasError('required')">
-              Contrat is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('ccontrat').hasError('required') ">
+              Le champ Contrat est <strong>requis</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5">
           <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher" >
-          <button mat-button *ngIf="value5" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <button mat-button type="button" *ngIf="cuidForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({nom: ''})">
               <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="cuidForm.get('nom').hasError('required')">
-              Nom is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('nom').hasError('required') ">
+              Le champ Nom est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="cuidForm.get('nom').hasError('minlength') && !cuidForm.get('nom').hasError('required')">
+               Le champ est <strong>trop court</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
           <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
-          <button mat-button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-            <mat-icon>close</mat-icon>
+          <button mat-button type="button" *ngIf="cuidForm.get('prenom').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({prenom: ''})">
+              <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="cuidForm.get('prenom').hasError('required')">
-              Prenom is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('prenom').hasError('required') ">
+              Le champ Prenom est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="cuidForm.get('prenom').hasError('minlength') && !cuidForm.get('prenom').hasError('required')">
+               Le champ est <strong>trop court</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5">
           <input matInput placeholder="NomGir*"  formControlName="nomGir" [errorStateMatcher]="matcher">
-          <button mat-button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-            <mat-icon>close</mat-icon>
+          <button mat-button type="button" *ngIf="cuidForm.get('nomGir').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({nomGir: ''})">
+              <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="cuidForm.get('nomGir').hasError('required')">
-              NomGir is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('nomGir').hasError('required') ">
+              Le champ NomGir est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="cuidForm.get('nomGir').hasError('minlength') && !cuidForm.get('nomGir').hasError('required')">
+               Le champ est <strong>trop court</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
           <input matInput placeholder="Prenomgir*"  formControlName="prenomGir" [errorStateMatcher]="matcher">
-          <button mat-button *ngIf="value4" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-            <mat-icon>close</mat-icon>
+          <button mat-button type="button" *ngIf="cuidForm.get('prenomGir').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({prenomGir: ''})">
+              <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="cuidForm.get('prenomGir').hasError('required')">
-              PrenomGir is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('prenomGir').hasError('required') ">
+              Le champ PrenomGir est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="cuidForm.get('prenomGir').hasError('minlength') && !cuidForm.get('prenomGir').hasError('required')">
+               Le champ est <strong>trop court</strong>
           </mat-error>
         </mat-form-field>
         
         <mat-form-field class="col-md-5">
           <input type="password" matInput placeholder="Password*"  formControlName="password" [errorStateMatcher]="matcher">
-          <button mat-button *ngIf="Password" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-            <mat-icon>close</mat-icon>
+          <button mat-button type="button" *ngIf="cuidForm.get('password').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({password: ''})">
+              <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="cuidForm.get('password').hasError('required')">
-              Password is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('password').hasError('required') ">
+              Le champ Password est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="cuidForm.get('password').hasError('minlength') && !cuidForm.get('password').hasError('required')">
+               Le champ est <strong>trop court</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-5 offset-1">
           <input type="password" matInput placeholder="Password2*"  formControlName="passwordVerif" [errorStateMatcher]="matcher">
-          <button mat-button *ngIf="Password2" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-            <mat-icon>close</mat-icon>
+          <button mat-button type="button" *ngIf="cuidForm.get('passwordVerif').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({passwordVerif: ''})">
+              <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('required')">
-              Contrat is <strong>required</strong>
+          <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('required') ">
+              Le champ Password est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('minlength') && !cuidForm.get('passwordVerif').hasError('required')">
+               Le champ est <strong>trop court</strong>
           </mat-error>
           <mat-hint>Confirmer le mot de passe</mat-hint>
         </mat-form-field>
@@ -106,18 +124,18 @@
         </button>
         <mat-divider class="mt-2"></mat-divider>
         <h3 class="p-2">Applications</h3>
-        <mat-checkbox *ngFor="let application of applications" class="example-margin m-2" [(ngModel)]="application.utiliser" [ngModelOptions]="{standalone: true}">{{application.nomApplication}}</mat-checkbox>
+        <ng-container *ngFor="let application of applications"><mat-checkbox *ngIf="application.contrat.id == cuidForm.get('ccontrat').value" class="example-margin m-2" [(ngModel)]="application.utiliser" [ngModelOptions]="{standalone: true}">{{application.nomApplication}}</mat-checkbox></ng-container>
         <button mat-mini-fab type="button" color="basic" (click)="openDialogApp()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
         </button>
         <mat-divider class="mt-2"></mat-divider>
         <h3 class="p-2">Collaborateurs</h3>
         <div class="col-md-12">
-            <mat-chip-list class="mat-chip-list-stacked" #chipList>
-                <mat-chip color="primary" *ngFor="let chip of chipsCollaborateur" class="col-md-1"
+            <mat-chip-list class="mat-chip-list-stacked" aria-orientation="horizontal" >
+                <mat-chip color="accent" *ngFor="let chip of chipsCollaborateur" class="col-md-1"
                   [selectable]="selectable"
                   [removable]="removable"
-                  (removed)="removeChip(chip)">
+                  (removed)="removeChip(chip)" color = "primary" selected>
                   {{chip}}
                   <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                 </mat-chip>

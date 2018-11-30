@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
+import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, AbstractControl, ValidatorFn} from '@angular/forms';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { CollaborateurService } from '../services/collaborateurs/collaborateur.service';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -38,6 +38,16 @@ export interface Localisation {
   pays: String
 }
 
+export interface CuidCollaborateur{
+
+  cuidcollaborateurId: {
+    cuid: String;
+    trigrame: String;
+  }
+  dateaffectation: String;
+  dateliberation: String;
+}
+
 
 @Component({
   selector: 'app-creation-collaborateur',
@@ -58,7 +68,10 @@ export class CreationCollaborateurComponent implements OnInit {
 
   localisations: Localisation[] = [];
   cuids: Cuid[] = [];
+  addCuids: Cuid[] = [];
   collaborateur: Collaborateur;
+  tabCuidCollaborateur: CuidCollaborateur;
+  chipsCuid: string[] = [];
 
   collabForm = new FormGroup({
 
@@ -86,13 +99,14 @@ export class CreationCollaborateurComponent implements OnInit {
     ]),
     password : new FormControl('', [
       Validators.required,
-      Validators.minLength(5)
+      Validators.minLength(5),
     ]),
     passwordVerif : new FormControl('', [
       Validators.required,
       Validators.minLength(5)
     ]),
   });
+
 
 
 
@@ -103,6 +117,16 @@ export class CreationCollaborateurComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.collabForm.patchValue({
+      passwordVerif : new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+        this.passwordValidator(this.collabForm.get("password").value)
+      ]),
+    
+    });
+  
 
     this.localisationService.getLocalisations()
     .subscribe((data: any) => {
@@ -133,6 +157,8 @@ export class CreationCollaborateurComponent implements OnInit {
     this.collabForm.get("password").value
     this.collabForm.get("passwordVerif").value*/
 
+
+    this.collabForm.setValue
     this.collaborateur = {
 
       trigrame: this.collabForm.get("trigrame").value,
@@ -147,8 +173,31 @@ export class CreationCollaborateurComponent implements OnInit {
     this.collaborateurService.addCollab(this.collaborateur)
     .subscribe((data: any) => {
 
-      swal('Succès', 'Le collaborateur a bien été crée', 'success');
+     
+console.log("hello");
+      this.addCuids.forEach(function(element){
 
+        this.tabCuidCollaborateur = {
+          cuidcollaborateurId:{
+            cuid: "hello",
+            trigrame: "hello"
+          },
+          dateaffectation: "2018-11-09",
+          dateliberation: "2018-11-09"
+        }
+
+        console.log("hello2");
+        console.log("cuid" + this.tabCuidCollaborateur);
+
+        this.affectationsService.addAffectations(this.tabCuidCollaborateur)
+        .subscribe((data: any) => {
+          swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
+        }, (err) => {
+          swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
+        }); 
+        
+      }, this);
+      swal('Succès', 'Le collaborateur a bien été crée', 'success');
     }, (err) => {
 
     switch(err.status){
@@ -186,6 +235,36 @@ console.log(this.collaborateur);
     }
   }
 
+  ajouterCuid(cuid){
+
+    if(this.chipsCuid.includes(cuid))
+      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
+
+    else {
+      this.chipsCuid.push(cuid);
+      this.addCuids
+      this.cuids.forEach(function(element){
+
+      if(element.cuid == cuid){
+
+        element.utiliser = true;
+        this.addCuids.push(element.utiliser);
+      }
+        
+      }, this)
+    }
+  }
+  passwordValidator(password: String): ValidatorFn
+  {
+    return (control: AbstractControl): {[key: string]: boolean} | null => {
+
+      if(control.value != password){
+        return {'errorPassword': true};
+      }
+
+      return null;
+    }
+    };
 }
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -195,3 +274,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
+
+
+

@@ -91,7 +91,7 @@ export class FicheCuidComponent implements OnInit {
   removable = true;
 
   CollaborateurInfos: Collaborateur[] = [];
-  cuidCollaborateur: CuidCollaborateur;
+  cuidCollaborateur: CuidCollaborateur[] = [];
   tabCuidCollaborateur: CuidCollaborateur[] = [];
   displayedColumns: string[] = ['trigrame','nom', 'prenom', 'pays', 'dateaffectation', 'dateliberation'];
   dataSource;
@@ -100,6 +100,7 @@ export class FicheCuidComponent implements OnInit {
   outils: Outil[] = [];
   applications: Application[] = [];
   contrats: Contrat[] = [];
+  contrat: Contrat;
   cuid;
   newCuid: Cuid;
   chipsCollaborateur: string[] = [];
@@ -144,7 +145,7 @@ cuidForm = new FormGroup({
     Validators.minLength(5)
   ]),
   commentaires : new FormControl({value: '', disabled: true}, [
-    Validators.required,
+    Validators.nullValidator,
   ]),
 
 });
@@ -166,15 +167,18 @@ cuidForm = new FormGroup({
     .subscribe((data: any) => {
         //this.tabCuidCollaborateur = data;
         console.log(data);
+        console.log(data.contrat.nom);
 //this.cuidForm.
-        this.cuidForm.get("ccuid").setValue({value:data.cuid, disabled: true});
-        this.cuidForm.get("ccontrat").setValue({value:data.contrat, disabled: true});
+        this.cuidForm.get("ccuid").setValue(data.cuid);
+        this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
         this.cuidForm.get("nom").setValue(data.nom);
         this.cuidForm.get("prenom").setValue(data.prenom); 
         this.cuidForm.get("nomGir").setValue(data.nomgir);
         this.cuidForm.get("prenomGir").setValue(data.prenomgir);
-        this.cuidForm.get("password").setValue(data.password);
+      //  this.cuidForm.get("password").setValue({value:data.password.value, disabled:true});
         this.cuidForm.get("commentaires").setValue(data.commentaires);
+
+      this.contrat = data.contrat;
 
 
         this.outils = data.outil;
@@ -218,18 +222,21 @@ cuidForm = new FormGroup({
     .subscribe((data: any) => {
         this.contrats = data;
     });
-/*
+
     this.cuidService.recupCollaborateurs(this.cuid)
     .subscribe((data: any) => {
-        this.CollaborateurInfos = data;
-console.log(this.CollaborateurInfos);
+      console.log(data);
+        this.cuidCollaborateur = data;
+//console.log(this.CollaborateurInfos);
 
-      this.dataSource = new MatTableDataSource<Collaborateur>(this.CollaborateurInfos);
+      this.dataSource = null;
+
+      this.dataSource = new MatTableDataSource<CuidCollaborateur>(this.cuidCollaborateur);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      
+      console.log("dataSource" + this.dataSource);
     });
-*/
+
   }
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
@@ -273,7 +280,7 @@ console.log(this.CollaborateurInfos);
     this.cuidForm.controls.prenomGir.markAsTouched();
     this.cuidForm.controls.commentaires.markAsTouched();
 
-
+/*
     this.cuidForm.get('ccuid').disable();
     //this.cuidForm.get('ccontrat').disable();
     this.cuidForm.get('nom').disable();
@@ -283,7 +290,7 @@ console.log(this.CollaborateurInfos);
     this.cuidForm.get('commentaires').disable();
 
 
-
+*/
 
     this.outils.forEach(function(element){
 

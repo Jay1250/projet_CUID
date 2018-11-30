@@ -47,7 +47,9 @@ import {
   MatSlideToggleModule,
   MatDividerModule,
   MatListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTabsModule,
+  MatBadgeModule
   
 } from '@angular/material';
 import { CreationCuidComponent } from './creation-cuid/creation-cuid.component';
@@ -56,6 +58,9 @@ import { TabCollaborateurComponent } from './tab-collaborateur/tab-collaborateur
 import { ApplicationsModalComponent } from './modals/applications/applications.component';
 import { FicheCuidComponent } from './fiche-cuid/fiche-cuid.component';
 import { CreationCollaborateurComponent } from './creation-collaborateur/creation-collaborateur.component';
+import { LoginComponent } from './login/login.component';
+import { GestionComponent } from './gestion/gestion.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -97,8 +102,16 @@ let routes: Routes = [{
 },{
   path: 'creationCollaborateur',
   component: CreationCollaborateurComponent
-},
-{
+},{
+  path: 'login',
+  component: LoginComponent
+},{
+  path: 'gestion',
+  component: GestionComponent
+},{
+  path: 'home',
+  component: HomeComponent
+},{
   path: '**',
   redirectTo: 'accueil'
 }
@@ -120,7 +133,10 @@ let routes: Routes = [{
     TabCollaborateurComponent,
     ApplicationsModalComponent,
     FicheCuidComponent,
-    CreationCollaborateurComponent
+    CreationCollaborateurComponent,
+    LoginComponent,
+    GestionComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -156,7 +172,9 @@ let routes: Routes = [{
     MatSlideToggleModule,
     MatDividerModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
+    MatBadgeModule
   ],
   providers: [CollaborateurService, CuidService, LocalisationService, HistoriqueService], 
   

@@ -5,18 +5,14 @@
     <div class="card p-2">
       <div class="col-md-12 form-group">
         <div class="card-header" id="titre">
-          <h3>CUID {{cuid}}</h3>
+          <h3>CUID <strong>{{cuid}}</strong></h3>
         </div>
         <div class="row">
 
-          <mat-form-field class="col-md-4 offset-4">
-            <mat-select placeholder="Contrat"  #contratSelect formControlName="ccontrat" [errorStateMatcher]="matcher" ng-required="true">
-              <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="cuidForm.get('ccontrat').hasError('required') && contratSelect.errorState">
-              Contrat is <strong>required</strong>
-          </mat-error>
-          </mat-form-field>
+          <div class="col-md-4 offset-8">
+              <h4 class="m-3">Contrat : {{contrat.nom}}</h4>
+
+          </div>
 
         </div>
 
@@ -76,7 +72,7 @@
 
   <h3 class="p-2">Outils</h3>
   <mat-chip-list class="mat-chip-list-stacked" class="offset-6">
-    <mat-chip *ngFor="let outil of outils" class="col-md-3 mr-4" [color]="primary">
+    <mat-chip *ngFor="let outil of outils" class="col-md-3 mr-4" [color]="primary" selected>
       {{outil.nomOutil}}
     </mat-chip>
     <button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
@@ -90,7 +86,7 @@
 
   <h3 class="p-2">Applications</h3>
   <mat-chip-list class="mat-chip-list-stacked" class="offset-6">
-    <mat-chip *ngFor="let application of applications" class="col-md-3 mr-4" color="primary">
+    <mat-chip *ngFor="let application of applications" class="col-md-3 mr-4" color="primary" selected>
       {{application.nomApplication}}
     </mat-chip>
     <button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">

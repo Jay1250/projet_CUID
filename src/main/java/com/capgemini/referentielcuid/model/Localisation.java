@@ -1,3 +1,4 @@
+
 package com.capgemini.referentielcuid.model;
 
 import java.io.Serializable;

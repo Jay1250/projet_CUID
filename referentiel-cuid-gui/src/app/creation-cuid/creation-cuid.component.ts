@@ -46,6 +46,7 @@ export interface Application {
 	id: number;
   nomApplication: String;
   utiliser: boolean;
+  contrat_id: number;
 }
 
 export interface Contrat {
@@ -96,8 +97,11 @@ export class CreationCuidComponent implements OnInit{
   selection = new SelectionModel<Collaborateur>(true, []);
 
   outils: Outil[] = [];
+  outilsCuid: Outil[] = [];
   applications: Application[] = [];
+  applicationsCuid: Application[] = [];
   contrats: Contrat[] = [];
+  contratsCuid: Contrat[] = [];
   test:any[] = [];
   newCuid: Cuid;
   chipsCollaborateur: string[] = [];
@@ -187,6 +191,7 @@ console.log(err.status);
         this.applications.forEach(function(application){
           application.utiliser = false;
        })
+       console.log(this.applications)
     });
 
     this.creationCuidService.getAllContrats()
@@ -236,7 +241,23 @@ console.log(err.status);
     if (index >= 0) {
       this.chipsCollaborateur.splice(index, 1);
     }
+
+    this.CollaborateurInfos.forEach(function(element){
+
+      if(element.trigrame == chip)
+        element.utiliser = false;
+      })
   }
+
+azerty(){
+
+  console.log("incroyable !");
+
+ // this.applications = this.cuidForm.value.contrat.applications;
+
+ console.log(this.applications)
+}
+
 
   hello(vaz){
 
@@ -268,8 +289,8 @@ console.log(err.status);
       swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
 
     else{
-      this.outils = this.outils.filter(element => element.utiliser == true);
-      this.applications = this.applications.filter(element => element.utiliser == true);
+      this.outilsCuid = this.outils.filter(element => element.utiliser == true);
+      this.applicationsCuid = this.applications.filter(element => element.utiliser == true);
       this.outils.forEach(function(element){
         delete element.utiliser;
       });
@@ -278,12 +299,14 @@ console.log(err.status);
         
       });
 
-      
-
-      this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value);
+     this.contratsCuid = this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value);
       this.CollaborateurInfos = this.CollaborateurInfos.filter(element => element.utiliser == true);
 
-console.log(this.contrats);
+      //console.log(this.contratsCuid);
+
+
+
+//console.log(this.contrats);
 
       this.newCuid = {
         cuid: this.cuidForm.get("ccuid").value, 
@@ -295,9 +318,9 @@ console.log(this.contrats);
         nomgir: this.cuidForm.get("nomGir").value, 
         prenomgir: this.cuidForm.get("prenomGir").value, 
         //marche pas
-        contrat: this.contrats[0],
-        outil: this.outils,
-        applications: this.applications,
+        contrat: this.contratsCuid[0],
+        outil: this.outilsCuid,
+        applications: this.applicationsCuid,
         };
 
         console.log(this.newCuid);
@@ -322,7 +345,7 @@ console.log(this.contrats);
         }
 
         
-        console.log(this.cuidCollaborateur);
+       // console.log(this.cuidCollaborateur);
 
         this.affectationsService.addAffectations(this.cuidCollaborateur)
         .subscribe((data: any) => {
@@ -354,7 +377,7 @@ console.log(this.contrats);
               swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
           }
 
-          console.log(err);
+         // console.log(err);
       }); 
 
 
@@ -381,8 +404,8 @@ console.log(this.contrats);
 
   onSubmit(form: NgForm) {
 
-    console.log();
-    console.log(form.value);
+    //onsole.log();
+    //console.log(form.value);
   }
 }
 

@@ -42,6 +42,7 @@ public class CuidController {
 	@PostMapping(value = "/Cuid")
 	public ResponseEntity<Cuid> addOne(@Valid @RequestBody Cuid cuid) {
 		Cuid newCuid = null;
+		System.out.println("le cuid : " + cuid);
 		try {
 			newCuid = cuidService.addOne(cuid);
 		} catch(Exception e) {
