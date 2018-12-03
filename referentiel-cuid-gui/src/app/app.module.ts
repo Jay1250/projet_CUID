@@ -61,6 +61,8 @@ import { CreationCollaborateurComponent } from './creation-collaborateur/creatio
 import { LoginComponent } from './login/login.component';
 import { GestionComponent } from './gestion/gestion.component';
 import { HomeComponent } from './home/home.component';
+import { FicheCollaborateurComponent } from './fiche-collaborateur/fiche-collaborateur.component';
+import { LocalisationModalComponent } from './modals/localisation/localisation.component';
 
 
 
@@ -109,11 +111,14 @@ let routes: Routes = [{
   path: 'gestion',
   component: GestionComponent
 },{
+  path: 'ficheCollaborateur/:trigrame',
+  component: FicheCollaborateurComponent
+},{
   path: 'home',
   component: HomeComponent
 },{
   path: '**',
-  redirectTo: 'accueil'
+  redirectTo: 'home'
 }
 ];
 @NgModule({
@@ -136,7 +141,9 @@ let routes: Routes = [{
     CreationCollaborateurComponent,
     LoginComponent,
     GestionComponent,
-    HomeComponent
+    HomeComponent,
+    FicheCollaborateurComponent,
+    LocalisationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -180,7 +187,7 @@ let routes: Routes = [{
   
   bootstrap: [AppComponent],
 
-  entryComponents: [OutilsModalComponent, ApplicationsModalComponent]
+  entryComponents: [OutilsModalComponent, ApplicationsModalComponent, LocalisationModalComponent]
   
 })
 export class AppModule { }

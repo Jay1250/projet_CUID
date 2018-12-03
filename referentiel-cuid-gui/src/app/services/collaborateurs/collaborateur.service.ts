@@ -13,6 +13,9 @@ export class CollaborateurService {
         return this.http.get(`${environment.url}/Collaborateurs`);
     }
 
+    getCollab = (collab: any) => {
+        return this.http.get(`${environment.url}/Collaborateurs/${collab}`);
+    }
 
     findByNomOrPrenom = (nom: String, prenom: String) => {
         return this.http.get(`${environment.url}/collaborateur/_search?nom=${nom}&prenom=${prenom}`);
@@ -26,5 +29,7 @@ export class CollaborateurService {
         return this.http.delete(`${environment.url}/collaborateur/${collab}`)
     }
 
-    
+    getCuids = (collab: any) => {
+        return this.http.get(`${environment.url}/CuidsCollaborateur/${collab}`);
+    }
 }

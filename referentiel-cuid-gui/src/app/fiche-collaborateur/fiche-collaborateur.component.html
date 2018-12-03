@@ -5,29 +5,13 @@
       <div class="card p-2">
         <div class="col-md-12 form-group">
           <div class="card-header" id="titre">
-            <h3>Nouveau Collaborateur</h3>
-          </div>
-
-          <!-- champ trigrame-->
-          <div class="row">
-            <mat-form-field class="col-md-4 offset-4">
-              <input matInput placeholder="Trigrame*" formControlName="trigrame" [errorStateMatcher]="matcher">
-              <button mat-button type="button" *ngIf="collabForm.get('trigrame').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({trigrame: ''})">
-                  <mat-icon>close</mat-icon>
-              </button>
-              <mat-error *ngIf="collabForm.get('trigrame').hasError('required')">
-                Le champ Trigrame est <strong>requis</strong>
-              </mat-error>
-              <mat-error *ngIf="collabForm.get('trigrame').hasError('minlength')">
-                Le champ est <strong>trop court</strong>
-              </mat-error>
-            </mat-form-field>
+            <h3>Collaborateur {{nomCollab}}</h3>
           </div>
 
           <!-- champ nom-->
           <mat-form-field class="col-md-5">
             <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
+            <button mat-button type="button" *ngIf="collabForm.get('nom').value && hello" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('nom').hasError('required')">
@@ -59,8 +43,8 @@
           </mat-form-field>
 
           <!-- champ localisation-->
-          
-            <mat-form-field class="col-md-5">
+          <ng-container *ngIf ="hello">
+            <mat-form-field class="col-md-5" >
               <mat-select placeholder="Localisation" formControlName="localisation" [errorStateMatcher]="matcher">
                 <mat-option value="{{local.id}}" *ngFor="let local of localisations">{{local.pays}}</mat-option>
               </mat-select>
@@ -68,10 +52,21 @@
                 Le champ Localisation <strong>est requis</strong>
               </mat-error>
             </mat-form-field>
-          
-              <button mat-mini-fab type="button" color="basic" (click)="openDialogLocalisation()">
-                <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-              </button>
+          </ng-container>
+
+          <ng-container *ngIf="!hello">
+          <!-- champ role-->
+          <mat-form-field class="col-md-5" >
+            <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
+            <button mat-button type="button" *ngIf="collabForm.get('role').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="collabForm.get('role').hasError('required')">
+              Le champ Rôle <strong>est requis</strong>
+            </mat-error>
+          </mat-form-field>
+
+          </ng-container>
 
           <!-- champ role-->
           <mat-form-field class="col-md-5 offset-1" >
@@ -81,28 +76,6 @@
             </button>
             <mat-error *ngIf="collabForm.get('role').hasError('required')">
               Le champ Rôle <strong>est requis</strong>
-            </mat-error>
-          </mat-form-field>
-        
-          <!-- champ password-->
-          <mat-form-field class="col-md-5">
-            <input type="password" matInput placeholder="Password" formControlName="password">      
-            <button mat-button type="button" *ngIf="collabForm.get('password').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({password: ''})">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-error *ngIf="collabForm.get('password').hasError('required')">
-              Le champ Password <strong>est requis</strong>
-            </mat-error>
-          </mat-form-field>
-
-          <!-- champ vérification password-->
-          <mat-form-field class="col-md-5 offset-1">
-            <input type ="password" matInput placeholder="Confirmer password" formControlName="passwordVerif">      
-            <button mat-button type="button" *ngIf="collabForm.get('passwordVerif').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({passwordVerif: ''})">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-error *ngIf="collabForm.get('passwordVerif').hasError('required')">
-              Le champ Password <strong>est requis</strong>
             </mat-error>
           </mat-form-field>
 
@@ -177,7 +150,7 @@
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
           </div>
-
+        
           <div class="offset-10">
             <button mat-raised-button color="accent" class="m-2" (click)="saveCollab()">Valider</button>
           </div>
@@ -186,3 +159,4 @@
     </form>
 	</div>
 </div>
+

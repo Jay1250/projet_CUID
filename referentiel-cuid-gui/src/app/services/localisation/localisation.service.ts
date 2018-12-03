@@ -16,6 +16,6 @@ export class LocalisationService {
     }
 
     addLocalisation = (local: any) => {
-        return this.http.post(`${environment.url}/localisation`, local);
+        return this.http.post(`${environment.url}/Localisation`, local);
     }
 }

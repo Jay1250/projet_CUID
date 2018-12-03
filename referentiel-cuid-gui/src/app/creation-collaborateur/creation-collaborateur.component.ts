@@ -6,6 +6,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import { LocalisationService } from '../services/localisation/localisation.service';
 import { CuidService } from '../services/cuid/cuid.service';
 import swal from 'sweetalert2';
+import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
 
 
 export interface Collaborateur {
@@ -113,7 +114,8 @@ export class CreationCollaborateurComponent implements OnInit {
   constructor(
     private collaborateurService: CollaborateurService,
     private localisationService: LocalisationService,
-    private cuidService: CuidService
+    private cuidService: CuidService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -255,6 +257,17 @@ console.log(this.collaborateur);
       }, this)
     }
   }
+
+  openDialogLocalisation(): void {
+    const dialogRef = this.dialog.open(LocalisationModalComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+     
+      if(result !== null && result !== undefined)
+        this.localisations = result;
+    });
+  }
+
+
   passwordValidator(password: String): ValidatorFn
   {
     return (control: AbstractControl): {[key: string]: boolean} | null => {
