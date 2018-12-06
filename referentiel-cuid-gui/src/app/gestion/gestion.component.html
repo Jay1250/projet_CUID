@@ -28,50 +28,15 @@
 
           <mat-tab label="Applications">  
 							
-							<div class="row">
-									<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6">
 									
-										<h3 class="p-2">Applications</h3>
-										<mat-chip-list class="mat-chip-list-stacked" class="offset-6" *ngFor="let app of applications">
-											<mat-chip  class="col-md-3 mr-4" [color]="primary" selected>
-												{{app.nomApplication}}
-											</mat-chip>
-											<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
-												<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-											</button>
-										</mat-chip-list>
-									
-									
-									</div>
-					
-									
-									</div>
-
-							<form [formGroup]="appliForm" (ngSubmit)="appliSubmit()">
-							<mat-form-field class="col-md-4">
-									<mat-select placeholder="Contrat" formControlName="contrat" [errorStateMatcher]="matcher">
-										<mat-option value="{{cont.id}}" *ngFor="let cont of contrats">{{cont.nom}}</mat-option>
-									</mat-select>
-									<mat-error *ngIf="appliForm.get('contrat').hasError('required')">
-										Le champ Localisation <strong>est requis</strong>
-								</mat-error>
-								</mat-form-field>
-
-						<mat-form-field class="col-md-4">
-							<input matInput placeholder="Application*" formControlName="appli" [errorStateMatcher]="matcher">
-							<button mat-button type="button" *ngIf="appliForm.get('appli').value" matSuffix mat-icon-button aria-label="Clear" (click)="appliForm.patchValue({appli: ''})">
-									<mat-icon>close</mat-icon>
-							</button>
-							<mat-error *ngIf="appliForm.get('appli').hasError('required')">
-									Le champ Trigrame est <strong>requis</strong>
-							</mat-error>
-							<mat-error *ngIf="appliForm.get('appli').hasError('minlength')">
-								Le champ est <strong>trop court</strong>
-						</mat-error>
-							</mat-form-field>
-							<button mat-raised-button type="submit" color="accent" class="m-2">Valider</button>
-						</form>
-					</mat-tab>
+						<h3 class="p-2">Applications<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
+							<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon></button></h3>				
+					</div>			
+				</div>
+	
+			</mat-tab>
 				
           <mat-tab label="Outils"> 
 

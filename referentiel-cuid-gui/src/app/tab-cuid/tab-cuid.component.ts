@@ -49,4 +49,9 @@ export class TabCuidComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  colorCuid(nbcollab: number){
+    if(nbcollab > 1) return 'text-danger';
+    return '';
+  }
 }

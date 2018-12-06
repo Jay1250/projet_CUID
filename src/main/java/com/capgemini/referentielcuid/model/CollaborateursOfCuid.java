@@ -2,6 +2,7 @@ package com.capgemini.referentielcuid.model;
 
 import java.util.Date;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,10 +13,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Table(name = "collaborateurs_of_cuid")
 public class CollaborateursOfCuid {
 
-	@Id 
-	private String cuid;
-	
-	private String trigrame;
+	@EmbeddedId
+	private CuidCollaborateursId cuidcollaborateur;
+
 	private int statuscollaborateur;
 	private String nom;
 	private String prenom;
@@ -26,17 +26,12 @@ public class CollaborateursOfCuid {
 	public CollaborateursOfCuid() {
 	}
 	
-	public String getCuid() {
-		return cuid;
+	public CuidCollaborateursId getCuidcollaborateur() {
+		return cuidcollaborateur;
 	}
-	public void setCuid(String cuid) {
-		this.cuid = cuid;
-	}
-	public String getTrigrame() {
-		return trigrame;
-	}
-	public void setTrigrame(String trigrame) {
-		this.trigrame = trigrame;
+
+	public void setCuidcollaborateur(CuidCollaborateursId cuidcollaborateur) {
+		this.cuidcollaborateur = cuidcollaborateur;
 	}
 
 	public int getStatuscollaborateur() {
@@ -76,10 +71,5 @@ public class CollaborateursOfCuid {
 		this.dateliberation = dateliberation;
 	}
 
-	@Override
-	public String toString() {
-		return "CollaborateursOfCuid [cuid=" + cuid + ", trigrame=" + trigrame + ", statuscollaborateur="
-				+ statuscollaborateur + ", nom=" + nom + ", prenom=" + prenom + ", pays=" + pays + ", dateaffectation="
-				+ dateaffectation + ", dateliberation=" + dateliberation + "]";
-	}
+
 }

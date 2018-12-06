@@ -9,17 +9,20 @@
           </div>
 
           <mat-form-field class="col-md-5">
-            <input matInput maxlength="256" minlength="3" #cuid placeholder="Cuid"  formControlName="ccuid" [errorStateMatcher]="matcher" >
+            <input matInput #cuid placeholder="Cuid"  formControlName="ccuid" [errorStateMatcher]="matcher" >
             <button mat-button type="button" *ngIf="cuidForm.get('ccuid').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({ccuid: ''})">
                 <mat-icon>close</mat-icon>
             </button>
-            <mat-error *ngIf="cuidForm.get('ccuid').hasError('required') ">
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('required')">
               Le champ Cuid est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('ccuid').hasError('minlength') && !cuidForm.get('ccuid').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
-            <mat-hint align="end"> {{cuid.value.length}} / 10</mat-hint>
+            <mat-error *ngIf="cuidForm.get('ccuid').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{cuid.value.length}} / 9</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="col-md-5 offset-1">
@@ -32,89 +35,116 @@
           </mat-form-field>
 
           <mat-form-field class="col-md-5">
-            <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher" >
+            <input matInput #nom placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher" >
             <button mat-button type="button" *ngIf="cuidForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({nom: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('nom').hasError('required') ">
               Le champ Nom est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('nom').hasError('minlength') && !cuidForm.get('nom').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('nom').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
+            <mat-error *ngIf="cuidForm.get('nom').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{nom.value.length}} / 25</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="col-md-5 offset-1">
-            <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
+            <input matInput #prenom placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('prenom').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({prenom: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('prenom').hasError('required') ">
               Le champ Prenom est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('prenom').hasError('minlength') && !cuidForm.get('prenom').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('prenom').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
+            <mat-error *ngIf="cuidForm.get('prenom').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{prenom.value.length}} / 25</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="col-md-5">
-            <input matInput placeholder="NomGir*"  formControlName="nomGir" [errorStateMatcher]="matcher">
+            <input matInput #nomgir placeholder="NomGir*"  formControlName="nomGir" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('nomGir').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({nomGir: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('nomGir').hasError('required') ">
               Le champ NomGir est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('nomGir').hasError('minlength') && !cuidForm.get('nomGir').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('nomGir').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
+            <mat-error *ngIf="cuidForm.get('nomGir').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{nomgir.value.length}} / 25</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="col-md-5 offset-1">
-            <input matInput placeholder="Prenomgir*"  formControlName="prenomGir" [errorStateMatcher]="matcher">
+            <input matInput #prenomgir placeholder="Prenomgir*"  formControlName="prenomGir" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('prenomGir').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({prenomGir: ''})">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('prenomGir').hasError('required') ">
               Le champ PrenomGir est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('prenomGir').hasError('minlength') && !cuidForm.get('prenomGir').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('prenomGir').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
+            <mat-error *ngIf="cuidForm.get('prenomGir').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{prenomgir.value.length}} / 25</mat-hint>
           </mat-form-field>
         
           <mat-form-field class="col-md-5">
-            <input type="password" matInput placeholder="Password*"  formControlName="password" [errorStateMatcher]="matcher">
+            <input type="password" matInput #password placeholder="Password*"  formControlName="password" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('password').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({password: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('password').hasError('required') ">
               Le champ Password est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('password').hasError('minlength') && !cuidForm.get('password').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('password').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
+            <mat-error *ngIf="cuidForm.get('password').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{password.value.length}} / 10</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="col-md-5 offset-1">
-            <input type="password" matInput placeholder="Password2*"  formControlName="passwordVerif" [errorStateMatcher]="matcher">
+            <input type="password" matInput #passwordverif placeholder="Confirmer password*"  formControlName="passwordVerif" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('passwordVerif').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({passwordVerif: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('required') ">
               Le champ Password est <strong>requis</strong>
             </mat-error>
-            <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('minlength') && !cuidForm.get('passwordVerif').hasError('required')">
+            <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('minlength')">
               Le champ est <strong>trop court</strong>
             </mat-error>
-            <mat-hint>Confirmer le mot de passe</mat-hint>
+            <mat-error *ngIf="cuidForm.get('passwordVerif').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{passwordverif.value.length}} / 10</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="col-md-10 ">
-            <input matInput placeholder="Commentaires" >      
+            <input matInput #commentaire placeholder="Commentaires" formControlName="commentaires" [errorStateMatcher]="matcher">      
             <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-error *ngIf="cuidForm.get('commentaires').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{commentaire.value.length}} / 250</mat-hint>
           </mat-form-field>
 
           <mat-divider></mat-divider>
@@ -163,27 +193,27 @@
               <!-- Nom Prénom Column -->
               <ng-container matColumnDef="nomprenom">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
-                <td mat-cell *matCellDef="let row"> {{row.nomprenom}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.nomprenom}} </td>
               </ng-container>
               <!-- Contrat Column -->
               <ng-container matColumnDef="role">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>role</th>
-                <td mat-cell *matCellDef="let row"> {{row.role}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.role}} </td>
               </ng-container>
               <!-- Manager Column -->
               <ng-container matColumnDef="pays">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>pays</th>
-                <td mat-cell *matCellDef="let row"> {{row.pays}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.pays}} </td>
               </ng-container>
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="nbr_cuid">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbr_cuid</th>
-                <td mat-cell *matCellDef="let row"> {{row.nbr_cuid}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.nbr_cuid}} </td>
               </ng-container>
               <!-- Ajouter Column -->
               <ng-container matColumnDef="ajouter">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ajouter</th>
-                <td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" color="accent" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"><button mat-stroked-button type="button" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

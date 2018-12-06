@@ -7,7 +7,7 @@ import { LocalisationService } from '../services/localisation/localisation.servi
 import { CuidService } from '../services/cuid/cuid.service';
 import swal from 'sweetalert2';
 import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
-
+import { AffectationsService } from '../services/affectations/affectations.service';
 
 export interface Collaborateur {
 	trigrame: String;
@@ -49,7 +49,6 @@ export interface CuidCollaborateur{
   dateliberation: String;
 }
 
-
 @Component({
   selector: 'app-creation-collaborateur',
   templateUrl: './creation-collaborateur.component.html',
@@ -70,25 +69,31 @@ export class CreationCollaborateurComponent implements OnInit {
   localisations: Localisation[] = [];
   cuids: Cuid[] = [];
   addCuids: Cuid[] = [];
+  aaaaCuid: String;
   collaborateur: Collaborateur;
   tabCuidCollaborateur: CuidCollaborateur;
   chipsCuid: string[] = [];
+
+  local: String;
 
   collabForm = new FormGroup({
 
     trigrame : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
+      Validators.maxLength(4)
     ]),
     nom : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(25)
     ]),  
     prenom : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(25)
     ]),
     localisation : new FormControl('', [
       Validators.required,
@@ -96,39 +101,31 @@ export class CreationCollaborateurComponent implements OnInit {
     role : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(30)
     ]),
     password : new FormControl('', [
       Validators.required,
       Validators.minLength(5),
+      Validators.maxLength(10)
     ]),
     passwordVerif : new FormControl('', [
       Validators.required,
-      Validators.minLength(5)
+      Validators.minLength(5),
+      Validators.maxLength(10)
     ]),
   });
-
-
-
 
   constructor(
     private collaborateurService: CollaborateurService,
     private localisationService: LocalisationService,
     private cuidService: CuidService,
+    private affectationsService: AffectationsService,
     public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
-/*
-    this.collabForm.patchValue({
-      passwordVerif : new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-        this.passwordValidator(this.collabForm.get("password").value)
-      ]),
-    
-    });
-  */
+
     this.localisationService.getLocalisations()
     .subscribe((data: any) => {
         this.localisations = data;
@@ -148,59 +145,58 @@ export class CreationCollaborateurComponent implements OnInit {
   }
   
 
-  saveCollab(){
-/*
-    this.collabForm.get("trigrame").value
-    this.collabForm.get("nom").value
-    this.collabForm.get("prenom").value
-    this.collabForm.get("localisation").value
-    this.collabForm.get("role").value
-    this.collabForm.get("password").value
-    this.collabForm.get("passwordVerif").value*/
 
+  saveCollab(){
+
+
+
+    this.localisations.forEach(function(element){
+
+      if(element.id == this.collabForm.get("localisation").value){
+        this.local = element.pays; 
+      }
+    }, this);
 
     this.collabForm.setValue
     this.collaborateur = {
-
-     
 
       trigrame: this.collabForm.get("trigrame").value,
       role: this.collabForm.get("role").value,
       mdp: this.collabForm.get("password").value,
       nom: this.collabForm.get("nom").value,
       prenom: this.collabForm.get("prenom").value,
-      localisation: this.localisations[0],
+      localisation: {
+        id:this.collabForm.get("localisation").value,
+        pays:this.local
+      },
       statusCollaborateur: 1
     }
 
     this.collaborateurService.addCollab(this.collaborateur)
     .subscribe((data: any) => {
 
-     
-console.log("hello");
+
       this.addCuids.forEach(function(element){
 
         this.tabCuidCollaborateur = {
           cuidcollaborateurId:{
-            cuid: "hello",
-            trigrame: "hello"
+            cuid: element.cuid,
+            trigrame: this.collaborateur.trigrame
           },
           dateaffectation: "2018-11-09",
-          dateliberation: "2018-11-09"
+          
         }
-
-        console.log("hello2");
-        console.log("cuid" + this.tabCuidCollaborateur);
 
         this.affectationsService.addAffectations(this.tabCuidCollaborateur)
         .subscribe((data: any) => {
-          swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
+        //  swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
         }, (err) => {
-          swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
+        //  swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
         }); 
         
       }, this);
       swal('Succès', 'Le collaborateur a bien été crée', 'success');
+      
     }, (err) => {
 
     switch(err.status){
@@ -223,13 +219,7 @@ console.log("hello");
       default:
         swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
     }
-
-    console.log(err);
 }); 
-
-console.log(this.collaborateur);
-
-
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -245,13 +235,12 @@ console.log(this.collaborateur);
 
     else {
       this.chipsCuid.push(cuid);
-      this.addCuids
       this.cuids.forEach(function(element){
 
       if(element.cuid == cuid){
 
         element.utiliser = true;
-        this.addCuids.push(element.utiliser);
+        this.addCuids.push(element);
       }
         
       }, this)
@@ -267,7 +256,6 @@ console.log(this.collaborateur);
     });
   }
 
-
   passwordValidator(password: String): ValidatorFn
   {
     return (control: AbstractControl): {[key: string]: boolean} | null => {
@@ -279,6 +267,11 @@ console.log(this.collaborateur);
       return null;
     }
     };
+
+    colorCollab(nbrCuid: number){
+      if(nbrCuid >= 1) return 'text-danger';
+      return '';
+    }
 }
 
 /** Error when invalid control is dirty, touched, or submitted. */

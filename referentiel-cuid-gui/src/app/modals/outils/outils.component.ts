@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import { OutilService } from '../../services/outil/outil.service';
 import swal from 'sweetalert2';
+import {FormControl, Validators} from '@angular/forms';
 
 export interface Outil {
   nomOutil: String;
@@ -22,7 +23,12 @@ export class OutilsModalComponent implements OnInit {
 
   outils: Outil;
   tabOutils: tabOutil[] = [];
-  nomOutil: String;
+ 
+
+  nomOutil = new FormControl('', [
+    Validators.required,
+    Validators.minLength(3)
+  ]);
 
   constructor(
     public dialogRef: MatDialogRef<OutilsModalComponent>,
@@ -37,9 +43,9 @@ export class OutilsModalComponent implements OnInit {
     if(!this.estNewOutil(this.nomOutil))
       swal('Erreur', ' Cet Outil existe déjà ', 'error');
     
-    else if(this.nomOutil !== null && this.nomOutil !== undefined && this.nomOutil !== ''){
+    else if(this.nomOutil !== null && this.nomOutil !== undefined && this.nomOutil.value !== ''){
 
-      this.outils = {nomOutil: this.nomOutil};
+      this.outils = {nomOutil: this.nomOutil.value};
 
       this.outilService.addOutil(this.outils)
       .subscribe((data: any) => {

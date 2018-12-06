@@ -112,6 +112,7 @@ export class CreationCuidComponent implements OnInit{
     ccuid : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
+      Validators.maxLength(9)
     ]),
     ccontrat : new FormControl('', [
       Validators.required,
@@ -119,33 +120,40 @@ export class CreationCuidComponent implements OnInit{
     nom : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(25)
     ]),  
     prenom : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(25)
     ]),
     nomGir : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(25)
     ]),
     prenomGir : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z]+$')
+      Validators.pattern('^[a-zA-Z]+$'),
+      Validators.maxLength(25)
     ]),
     password : new FormControl('', [
       Validators.required,
-      Validators.minLength(5)
+      Validators.minLength(5),
+      Validators.maxLength(10)
     ]),
     passwordVerif : new FormControl('', [
       Validators.required,
-      Validators.minLength(5)
+      Validators.minLength(5),
+      Validators.maxLength(10)
     ]),
     commentaires : new FormControl('', [
       Validators.required,
+      Validators.maxLength(250)
     ]),
   
   });
@@ -302,12 +310,6 @@ azerty(){
      this.contratsCuid = this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value);
       this.CollaborateurInfos = this.CollaborateurInfos.filter(element => element.utiliser == true);
 
-      //console.log(this.contratsCuid);
-
-
-
-//console.log(this.contrats);
-
       this.newCuid = {
         cuid: this.cuidForm.get("ccuid").value, 
         nom:  this.cuidForm.get("nom").value, 
@@ -407,6 +409,12 @@ azerty(){
     //onsole.log();
     //console.log(form.value);
   }
+
+  colorCuid(nbr_cuid: number){
+    if(nbr_cuid >= 1) return 'text-danger';
+    return '';
+  }
+
 }
 
 /** Error when invalid control is dirty, touched, or submitted. */

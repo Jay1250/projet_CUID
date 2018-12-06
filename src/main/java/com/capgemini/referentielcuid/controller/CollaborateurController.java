@@ -47,6 +47,7 @@ public class CollaborateurController {
 		try {
 			newCollab = collaborateurService.addOne(collaborateur);
 		} catch(Exception e) {
+
 			throw new ConflictException("Erreur lors du POST du collaborateur : " + collaborateur.getTrigrame() + " -> " + e.getMessage());
 		}
 		return new ResponseEntity<Collaborateurs>(newCollab, HttpStatus.ACCEPTED);

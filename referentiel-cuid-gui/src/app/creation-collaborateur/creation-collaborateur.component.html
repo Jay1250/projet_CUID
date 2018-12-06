@@ -11,7 +11,7 @@
           <!-- champ trigrame-->
           <div class="row">
             <mat-form-field class="col-md-4 offset-4">
-              <input matInput placeholder="Trigrame*" formControlName="trigrame" [errorStateMatcher]="matcher">
+              <input matInput #trigr placeholder="Trigrame*" formControlName="trigrame" [errorStateMatcher]="matcher">
               <button mat-button type="button" *ngIf="collabForm.get('trigrame').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({trigrame: ''})">
                   <mat-icon>close</mat-icon>
               </button>
@@ -21,12 +21,16 @@
               <mat-error *ngIf="collabForm.get('trigrame').hasError('minlength')">
                 Le champ est <strong>trop court</strong>
               </mat-error>
+              <mat-error *ngIf="collabForm.get('trigrame').hasError('maxlength')">
+                Le champ est <strong>trop long</strong>
+              </mat-error>
+              <mat-hint align="end"> {{trigr.value.length}} / 9</mat-hint>
             </mat-form-field>
           </div>
 
           <!-- champ nom-->
           <mat-form-field class="col-md-5">
-            <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
+            <input matInput #nom placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="collabForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
               <mat-icon>close</mat-icon>
             </button>
@@ -39,11 +43,15 @@
             <mat-error *ngIf="collabForm.get('nom').hasError('pattern')">
               Le champ contient des <strong>caractères incorrects</strong>
             </mat-error>
+            <mat-error *ngIf="collabForm.get('nom').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{nom.value.length}} / 9</mat-hint>
           </mat-form-field>
 
           <!-- champ prenom-->
           <mat-form-field class="col-md-5 offset-1">
-            <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
+            <input matInput #prenom placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="collabForm.get('prenom').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({prenom: ''})">
               <mat-icon>close</mat-icon>
             </button>
@@ -56,6 +64,10 @@
             <mat-error *ngIf="collabForm.get('prenom').hasError('pattern')">
               Le champ contient des <strong>caractères incorrects</strong>
             </mat-error>
+            <mat-error *ngIf="collabForm.get('prenom').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{prenom.value.length}} / 9</mat-hint>
           </mat-form-field>
 
           <!-- champ localisation-->
@@ -68,42 +80,62 @@
                 Le champ Localisation <strong>est requis</strong>
               </mat-error>
             </mat-form-field>
-          
               <button mat-mini-fab type="button" color="basic" (click)="openDialogLocalisation()">
                 <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
               </button>
 
           <!-- champ role-->
           <mat-form-field class="col-md-5 offset-1" >
-            <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
+            <input matInput #role placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="collabForm.get('role').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('role').hasError('required')">
               Le champ Rôle <strong>est requis</strong>
             </mat-error>
+            <mat-error *ngIf="collabForm.get('role').hasError('minlength')">
+              Le champ est <strong>trop court</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('role').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{role.value.length}} / 9</mat-hint>
           </mat-form-field>
         
           <!-- champ password-->
           <mat-form-field class="col-md-5">
-            <input type="password" matInput placeholder="Password" formControlName="password">      
+            <input #password type="password" matInput placeholder="Password" formControlName="password">      
             <button mat-button type="button" *ngIf="collabForm.get('password').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({password: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('password').hasError('required')">
               Le champ Password <strong>est requis</strong>
             </mat-error>
+            <mat-error *ngIf="collabForm.get('password').hasError('minlength')">
+              Le champ est <strong>trop court</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('password').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{password.value.length}} / 9</mat-hint>
           </mat-form-field>
 
           <!-- champ vérification password-->
           <mat-form-field class="col-md-5 offset-1">
-            <input type ="password" matInput placeholder="Confirmer password" formControlName="passwordVerif">      
+            <input #passwordverif type ="password" matInput placeholder="Confirmer password" formControlName="passwordVerif">      
             <button mat-button type="button" *ngIf="collabForm.get('passwordVerif').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({passwordVerif: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('passwordVerif').hasError('required')">
               Le champ Password <strong>est requis</strong>
             </mat-error>
+            <mat-error *ngIf="collabForm.get('passwordVerif').hasError('minlength')">
+              Le champ est <strong>trop court</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('passwordVerif').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{passwordverif.value.length}} / 9</mat-hint>
           </mat-form-field>
 
           <mat-divider class="mt-2"></mat-divider>
@@ -139,37 +171,37 @@
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="contrat">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>contrat</th>
-                <td mat-cell *matCellDef="let row"> {{row.contrat}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.contrat}} </td>
               </ng-container>
 
               <!-- Nom Prénom Column -->
               <ng-container matColumnDef="nomprenom">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
-                <td mat-cell *matCellDef="let row"> {{row.nomprenom}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.nomprenom}} </td>
               </ng-container>
 
               <!-- Contrat Column -->
               <ng-container matColumnDef="manager">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nomPrenomGir</th>
-                <td mat-cell *matCellDef="let row"> {{row.manager}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.manager}} </td>
               </ng-container>
 
               <!-- Manager Column -->
               <ng-container matColumnDef="nbcollab">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbcollab</th>
-                <td mat-cell *matCellDef="let row"> {{row.nbcollab}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.nbcollab}} </td>
               </ng-container>
 
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="nbapplis">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbapplis</th>
-                <td mat-cell *matCellDef="let row"> {{row.nbapplis}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.nbapplis}} </td>
               </ng-container>
 
               <!-- Ajouter Column -->
               <ng-container matColumnDef="ajouter">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>attribuer</th>
-                <td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" color="accent" (click)="ajouterCuid(row.cuid)">Attribuer</button> </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"><button mat-stroked-button type="button" (click)="ajouterCuid(row.cuid)">Attribuer</button> </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -179,7 +211,7 @@
           </div>
 
           <div class="offset-10">
-            <button mat-raised-button color="accent" class="m-2" (click)="saveCollab()">Valider</button>
+            <button mat-raised-button color="accent" class="m-2">Valider</button>
           </div>
         </div>
       </div>

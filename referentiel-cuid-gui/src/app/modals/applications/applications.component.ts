@@ -40,6 +40,7 @@ export class ApplicationsModalComponent implements OnInit {
 
   nomApp = new FormControl('', [
     Validators.required,
+    Validators.minLength(3)
   ]);
 
   contrat = new FormControl('', [

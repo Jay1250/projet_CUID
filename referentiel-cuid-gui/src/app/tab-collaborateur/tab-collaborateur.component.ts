@@ -46,4 +46,9 @@ export class TabCollaborateurComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  colorCollab(nbrCuid: number){
+    if(nbrCuid > 1) return 'text-danger';
+    return '';
+  }
 }

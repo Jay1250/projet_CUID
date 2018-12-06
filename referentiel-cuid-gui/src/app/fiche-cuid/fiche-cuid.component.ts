@@ -93,7 +93,7 @@ export class FicheCuidComponent implements OnInit {
   CollaborateurInfos: Collaborateur[] = [];
   cuidCollaborateur: CuidCollaborateur[] = [];
   tabCuidCollaborateur: CuidCollaborateur[] = [];
-  displayedColumns: string[] = ['trigrame','nom', 'prenom', 'pays', 'dateaffectation', 'dateliberation'];
+  displayedColumns: string[] = ['trigrame','cuid', 'prenom', 'pays', 'dateaffectation', 'dateliberation'];
   dataSource;
   selection = new SelectionModel<Collaborateur>(true, []);
 
@@ -159,23 +159,24 @@ cuidForm = new FormGroup({
 
   ngOnInit() {
 
+    this.contrat = {id: null, nom: ''};
+
     this.cuid = this.route.snapshot.params['cuid'];
     console.log(this.cuid);
 
     
     this.cuidService.findById(this.cuid)
     .subscribe((data: any) => {
-        //this.tabCuidCollaborateur = data;
+
         console.log(data);
         console.log(data.contrat.nom);
-//this.cuidForm.
+
         this.cuidForm.get("ccuid").setValue(data.cuid);
         this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
         this.cuidForm.get("nom").setValue(data.nom);
         this.cuidForm.get("prenom").setValue(data.prenom); 
         this.cuidForm.get("nomGir").setValue(data.nomgir);
         this.cuidForm.get("prenomGir").setValue(data.prenomgir);
-      //  this.cuidForm.get("password").setValue({value:data.password.value, disabled:true});
         this.cuidForm.get("commentaires").setValue(data.commentaires);
 
       this.contrat = data.contrat;
@@ -185,58 +186,34 @@ cuidForm = new FormGroup({
         this.applications = data.applications;
     });
 
+console.log("ldcqnckzqsn" + this.cuid);
+
+
     this.affectationsService.getCollaborateursOfCuid(this.cuid)
     .subscribe((data: any) => {
 
       
         this.tabCuidCollaborateur = data;
+
+
+console.log("hello" + data);
+        
         //marche pas
-       // if(data != null && data != undefined){
-         // this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
-         // console.log(this.dataSource);
-         // this.dataSource.paginator = this.paginator;
-         // this.dataSource.sort = this.sort;
-       // }
+        if(data != null && data != undefined){
+          this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
+          console.log("datasource" + this.dataSource);
+          console.log("tableau" + this.tabCuidCollaborateur);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
       
     });
-/*
-    this.creationCuidService.getAllOutils()
-    .subscribe((data: any) => {
-        this.outils = data;
-        this.outils.forEach(function(outil){
-           outil.utiliser = false;
-        })
-    });
-
-    this.creationCuidService.getAllApplications()
-    .subscribe((data: any) => {
-        this.applications = data;
-        this.applications.forEach(function(application){
-          application.utiliser = false;
-       })
-    });
-*/
 
 
     this.creationCuidService.getAllContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
-
-    this.cuidService.recupCollaborateurs(this.cuid)
-    .subscribe((data: any) => {
-      console.log(data);
-        this.cuidCollaborateur = data;
-//console.log(this.CollaborateurInfos);
-
-      this.dataSource = null;
-
-      this.dataSource = new MatTableDataSource<CuidCollaborateur>(this.cuidCollaborateur);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log("dataSource" + this.dataSource);
-    });
-
   }
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
@@ -280,99 +257,9 @@ cuidForm = new FormGroup({
     this.cuidForm.controls.prenomGir.markAsTouched();
     this.cuidForm.controls.commentaires.markAsTouched();
 
-/*
-    this.cuidForm.get('ccuid').disable();
-    //this.cuidForm.get('ccontrat').disable();
-    this.cuidForm.get('nom').disable();
-    this.cuidForm.get('prenom').disable();
-    this.cuidForm.get('nomGir').disable();
-    this.cuidForm.get('prenomGir').disable();
-    this.cuidForm.get('commentaires').disable();
-
-
-*/
-
     this.outils.forEach(function(element){
 
-//element.utiliser.disable();
-
     });
-
-
-    //this.outils.utiliser
-
-    //this.cuidForm.controls.prenom.
-/*
-    if(this.ccuid.hasError("required") || this.ccontrat.hasError("required") || this.nom.hasError("required")
-    || this.prenom.hasError("required") || this.nomGir.hasError("required") || this.prenomGir.hasError("required")
-    || this.password.hasError("required") || this.passwordVerif.hasError("required"))
-        swal('Erreur', 'Les champs (*) sont obligatoires !', 'error');
-
-    else if(this.ccuid.hasError("minlength") || this.nom.hasError("minlength")
-    || this.prenom.hasError("minlength") || this.nomGir.hasError("minlength") || this.prenomGir.hasError("minlength")
-    || this.password.hasError("minlength") || this.passwordVerif.hasError("minlength"))
-        swal('Erreur', 'Les champs ont une taille min de 3 charactères', 'error');
-
-    else if(this.nom.hasError("pattern")
-    || this.prenom.hasError("pattern") || this.nomGir.hasError("pattern") || this.prenomGir.hasError("pattern"))
-        swal('Erreur', 'Les champs nom/prénom ne doivent être composés que de lettres', 'error');
-
-    else if(this.password.value !== this.passwordVerif.value)
-      swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
-
-    else{
-      this.outils = this.outils.filter(element => element.utiliser == true);
-      this.applications = this.applications.filter(element => element.utiliser == true);
-      this.outils.forEach(function(element){
-        delete element.utiliser;
-      });
-      this.applications.forEach(function(element){
-        delete element.utiliser;
-      });
-
-      this.contrats.filter(element => element.id == this.ccontrat.value);
-      this.CollaborateurInfos = this.CollaborateurInfos.filter(element => element.utiliser == true);
-
-      this.newCuid = {
-        cuid: this.ccuid.value, 
-        nom: this.nom.value, 
-        prenom: this.prenom.value, 
-        mdp: this.password.value, 
-        status: 1, 
-        commentaires: this.commentaires.value,           
-        nomgir: this.nomGir.value, 
-        prenomgir: this.prenomGir.value, 
-        contrat: this.contrats[0],
-        outil: this.outils,
-        application: this.applications,
-        };
-
-      this.cuidCollaborateur = {
-        cuidcollaborateurId:{
-          cuid: this.newCuid.cuid,
-          trigrame: this.CollaborateurInfos[0].trigrame
-        },
-        dateaffectation: "2018-11-09",
-        dateliberation: "2018-11-09"
-      }
-
-      this.creationCuidService.addCuid(this.newCuid)
-          .subscribe((data: any) => {
-
-            this.affectationsService.addAffectations(this.cuidCollaborateur)
-            .subscribe((data: any) => {
-              swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
-            }, (err) => {
-              swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
-            }); 
-  
-            swal('Succès', 'Le cuid a bien été crée', 'success');
-          }, (err) => {
-          swal('Erreur', 'Problème lors de la création du Cuid', 'error');
-      }); 
-      window.location.href='tabCuid';
-    }
-    */
   }
 
   ajouterCollab(trigrame){

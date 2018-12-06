@@ -4,9 +4,18 @@
     <mat-select placeholder="Contrat"  [formControl]="contrat">
       <mat-option value="{{contrat.id}}" *ngFor="let contrat of tabContrat">{{contrat.nom}}</mat-option>
     </mat-select>
+    <mat-error *ngIf="contrat.hasError('required') ">
+      Le champ Contrat est <strong>requis</strong>
+    </mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input matInput [formControl]="nomApp">
+    <input matInput [formControl]="nomApp" placeholder="Nom">
+    <mat-error *ngIf="nomApp.hasError('required') ">
+      Le champ Nom est <strong>requis</strong>
+    </mat-error>
+    <mat-error *ngIf="nomApp.hasError('minlength')">
+      Le champ est <strong>trop court</strong>
+    </mat-error>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
