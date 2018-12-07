@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import { LocalisationService } from '../../services/localisation/localisation.service';
 import swal from 'sweetalert2';
+import {FormControl, Validators} from '@angular/forms';
 
 export interface Localisation {
   pays: String;
@@ -21,7 +22,13 @@ export class LocalisationModalComponent implements OnInit {
 
   localisation: Localisation;
   localisations: tabLocalisation[] = [];
-  nomLocalisation: String;
+  //nomLocalisation: String;
+
+  nomLocalisation = new FormControl('', [
+    Validators.required,
+    Validators.minLength(3),
+    Validators.maxLength(20)
+  ]);
 
   constructor(
     public dialogRef: MatDialogRef<LocalisationModalComponent>,
@@ -36,9 +43,9 @@ export class LocalisationModalComponent implements OnInit {
     if(!this.estNewLocalisation(this.nomLocalisation))
       swal('Erreur', ' Cet Outil existe déjà ', 'error');
     
-    else if(this.nomLocalisation !== null && this.nomLocalisation !== undefined && this.nomLocalisation !== ''){
+    else if(this.nomLocalisation !== null && this.nomLocalisation !== undefined && this.nomLocalisation.value !== ''){
 
-      this.localisation = {pays: this.nomLocalisation};
+      this.localisation = {pays: this.nomLocalisation.value};
 
       console.log(this.localisation);
 

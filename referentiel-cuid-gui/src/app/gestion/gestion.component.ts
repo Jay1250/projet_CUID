@@ -5,7 +5,10 @@ import { OutilService } from '../services/outil/outil.service';
 import { LocalisationService } from '../services/localisation/localisation.service';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 import { MyErrorStateMatcher } from '../fiche-cuid/fiche-cuid.component';
-
+import {MatDialog} from '@angular/material';
+import { OutilsModalComponent } from '../modals/outils/outils.component';
+import { ApplicationsModalComponent } from '../modals/applications/applications.component';
+import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
 
 export interface Contrat {
 	id: number;
@@ -62,7 +65,8 @@ export class GestionComponent implements OnInit {
     private contratService: ContratService,
     private applicationService: ApplicationService,
     private outilService: OutilService,
-    private localisationService: LocalisationService
+    private localisationService: LocalisationService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -98,6 +102,33 @@ export class GestionComponent implements OnInit {
     console.log(this.appliForm.get('appli').value);
     console.log(this.appliForm.get('contrat').value);
 
+  }
+
+  openDialogOutil(): void {
+    const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+     
+      if(result !== null && result !== undefined)
+        this.outils = result;
+    });
+  }
+
+  openDialogApp(): void {
+    const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+     
+    if(result !== null && result !== undefined)
+      this.applications = result;
+    });
+  }
+
+  openDialogLocalisation(): void {
+    const dialogRef = this.dialog.open(LocalisationModalComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+     
+      if(result !== null && result !== undefined)
+        this.localisations = result;
+    });
   }
 
 }

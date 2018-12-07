@@ -27,7 +27,8 @@ export class OutilsModalComponent implements OnInit {
 
   nomOutil = new FormControl('', [
     Validators.required,
-    Validators.minLength(3)
+    Validators.minLength(3),
+    Validators.maxLength(20)
   ]);
 
   constructor(

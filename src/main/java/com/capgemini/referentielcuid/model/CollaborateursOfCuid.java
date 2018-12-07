@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class CollaborateursOfCuid {
 
 	@EmbeddedId
-	private CuidCollaborateursId cuidcollaborateur;
+	private CollaborateursOfCuidId cuidcollaborateur;
 
 	private int statuscollaborateur;
 	private String nom;
@@ -26,11 +26,11 @@ public class CollaborateursOfCuid {
 	public CollaborateursOfCuid() {
 	}
 	
-	public CuidCollaborateursId getCuidcollaborateur() {
+	public CollaborateursOfCuidId getCuidcollaborateur() {
 		return cuidcollaborateur;
 	}
 
-	public void setCuidcollaborateur(CuidCollaborateursId cuidcollaborateur) {
+	public void setCuidcollaborateur(CollaborateursOfCuidId cuidcollaborateur) {
 		this.cuidcollaborateur = cuidcollaborateur;
 	}
 

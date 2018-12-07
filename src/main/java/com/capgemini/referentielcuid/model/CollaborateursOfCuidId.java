@@ -6,21 +6,20 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class CuidCollaborateursId implements Serializable{
+public class CollaborateursOfCuidId implements Serializable{
 	
-	@Column(name = "cuid_cuid")
-	//@Column(name = "cuid")
+	
+	@Column(name = "cuid")
 	private String cuid;
 	
-	@Column(name = "collaborateurs_trigrame")
-	//@Column(name = "trigrame")
+	@Column(name = "trigrame")
 	private String trigrame;
 	
-	public CuidCollaborateursId() {
+	public CollaborateursOfCuidId() {
 		super();
 	}
 	
-	public CuidCollaborateursId(String cuid, String trigrame) {
+	public CollaborateursOfCuidId(String cuid, String trigrame) {
 		super();
 		this.cuid = cuid;
 		this.trigrame = trigrame;

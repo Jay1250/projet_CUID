@@ -7,62 +7,79 @@
 					<h3>Gestion
 					</h3>
 				</div>
-				<table mat-table [dataSource]="dataSourceOutils" class="mat-elevation-z8">
 
-						<!-- Position Column -->
-						<ng-container matColumnDef="id">
-						  <th mat-header-cell *matHeaderCellDef> No. </th>
-						  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-						</ng-container>
-					  
-						<!-- Name Column -->
-						<ng-container matColumnDef="nomOutil">
-						  <th mat-header-cell *matHeaderCellDef> Name </th>
-						  <td mat-cell *matCellDef="let element"> {{element.nomOutil}} </td>
-						</ng-container>
 
-						<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-						<tr mat-row *matRowDef="let row; columns: displayedColumnsOutils;"></tr>
-					  </table>
-        <mat-tab-group>
-
-          <mat-tab label="Applications">  
 							
-				<div class="row">
-					<div class="col-md-6">
-									
-						<h3 class="p-2">Applications<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
-							<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon></button></h3>				
-					</div>			
-				</div>
-	
-			</mat-tab>
+
+						<div class="row">
+							<div class="col-md-12">
+
+									<h3 class="p-2">Applications
+											<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
+												<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+											</button>
+											<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
+													<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+												</button>						
+										</h3>				
+										
 				
-          <mat-tab label="Outils"> 
+										<mat-chip-list class="mat-chip-list-stacked" class="offset-1">
+												<mat-chip *ngFor="let application of applications"  [color]="primary" selected>
+													{{application.nomApplication}}
+												</mat-chip>
+											</mat-chip-list>
+							</div>
+						</div>
+			
+									
 
-	
+
+						<mat-divider></mat-divider>
+							<div class="row">
+									<div class="col-md-12">
+		
+											<h3 class="p-2">Outils
+													<button mat-mini-fab color="basic" (click)="openDialogOutil()" [hidden] = "disable">
+														<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+													</button>
+													<button mat-mini-fab color="basic" (click)="openDialogOutil()" [hidden] = "disable">
+															<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+														</button>						
+												</h3>				
+						
+												<mat-chip-list class="mat-chip-list-stacked" class="offset-1">
+														<mat-chip *ngFor="let outil of outils"  [color]="primary" selected>
+															{{outil.nomOutil}}
+														</mat-chip>
+													</mat-chip-list>
+									</div>
+								</div>
+								<mat-divider></mat-divider>
+
+							<div class="row">
+									<div class="col-md-12">
+		
+											<h3 class="p-2">Localisations
+													<button mat-mini-fab color="basic" (click)="openDialogLocalisation()" [hidden] = "disable">
+														<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+													</button>
+													<button mat-mini-fab color="basic" (click)="openDialogLocalisation()" [hidden] = "disable">
+															<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+														</button>						
+												</h3>				
+						
+												<mat-chip-list class="mat-chip-list-stacked" class="offset-1">
+														<mat-chip *ngFor="let localisation of localisations"  [color]="primary" selected>
+															{{localisation.pays}}
+														</mat-chip>
+													</mat-chip-list>
+									</div>
+								</div>
 
 
-							<form [formGroup]="appliForm" (ngSubmit)="appliSubmit()">
 
-								<mat-form-field class="col-md-4">
-									<input matInput placeholder="Application*" formControlName="appli" [errorStateMatcher]="matcher">
-									<button mat-button type="button" *ngIf="appliForm.get('appli').value" matSuffix mat-icon-button aria-label="Clear" (click)="appliForm.patchValue({appli: ''})">
-											<mat-icon>close</mat-icon>
-									</button>
-									<mat-error *ngIf="appliForm.get('appli').hasError('required')">
-											Le champ Trigrame est <strong>requis</strong>
-									</mat-error>
-									<mat-error *ngIf="appliForm.get('appli').hasError('minlength')">
-										Le champ est <strong>trop court</strong>
-								</mat-error>
-									</mat-form-field>
-									<button mat-raised-button type="submit" color="accent" class="m-2">Valider</button>
-								</form>
 
-					</mat-tab>
-          <mat-tab label="Localisations"> Content 3 </mat-tab>
-        </mat-tab-group>
 			</div>
 		</div>
 	</div>

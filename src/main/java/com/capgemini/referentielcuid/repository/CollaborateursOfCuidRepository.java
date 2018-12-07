@@ -13,5 +13,5 @@ public interface CollaborateursOfCuidRepository extends JpaRepository<Collaborat
 	//public Iterable<CollaborateursOfCuid> findByCuidAndDateliberationIsNotNull(String trigrame);
 	
 	public List<CollaborateursOfCuid> findByCuidcollaborateur(CuidCollaborateursId cuidcollaborateur);
-	public List<CuidCollaborateursId> findByCuidcollaborateurCuid(String cuid);
+	public List<CollaborateursOfCuid> findByCuidcollaborateurCuid(String cuid);
 }

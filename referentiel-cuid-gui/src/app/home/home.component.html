@@ -4,46 +4,55 @@
    
     <div class="card p-2">
       <div class="col-md-12 form-group">
+
         <div class="card-header" id="titre">
           <h3>CUID Orange</h3>
         </div>
+
         <div class="row">
 
-          <h4>Contrat : TMA OSS</h4> 
-          <button mat-stroked-button color="primary" class="m-2">Exporter</button>
+          <div class="col-md-2 offset-1 m-3">
+            <h4>Cuid : {{cuids.length}}</h4> 
+          </div>
+
+          <div class="col-md-5 m-1">
+            <mat-form-field class="mr-3">
+              <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()">
+                <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
+              </mat-select>
+            </mat-form-field> 
+            <button mat-stroked-button color="primary">Exporter</button>
+          </div>
+        </div>
+       
+      
+        <div class="row">
+
+          <div class="col-md-4 p-3">
+            <p><span matBadge="4" matBadgeOverlap="false">Non affectés  </span></p>
+          </div>
+
+          <div class="col-md-4 p-3">
+            <p><span matBadge="4" matBadgeOverlap="false">1 Collaborateur</span></p>
+          </div>
+
+          <div class="col-md-4 p-3">
+            <p><span matBadge="4" matBadgeOverlap="false">Plusieurs Collaborateurs</span></p>
+          </div>
         </div>
 
-      
-      <div class="row">
-
-
-        <mat-chip-list class="offset-4 col-md-4">
-              <p>Cuid actuels : </p>
-              <mat-chip color="primary" selected>120</mat-chip>
-              <p><span matBadge="4" matBadgeOverlap="false">Non affectés  </span></p>
-              <p><span matBadge="4" matBadgeOverlap="false">Collaborateur > 1  </span></p>
-          
-        </mat-chip-list>
-
-
-
-      </div>
-
         <mat-divider class="mt-2"></mat-divider>
-<div class="row">
-
-
-</div>
-<mat-divider class="mt-2"></mat-divider>
+        <mat-divider class="mt-2"></mat-divider>
 
         <h3 class="p-2">Collaborateurs</h3>
+        
         <mat-card class="example-card">
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>Shiba Inu</mat-card-title>
             <mat-card-subtitle>Dog Breed</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+          <img mat-card-image src="" alt="Photo of a Shiba Inu">
           <mat-card-content>
             <p>
               The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.

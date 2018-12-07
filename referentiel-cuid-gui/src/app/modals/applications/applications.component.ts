@@ -5,6 +5,7 @@ import { ContratService } from '../../services/contrat/contrat.service';
 import swal from 'sweetalert2';
 import {FormControl, Validators} from '@angular/forms';
 
+
 // POST
 export interface Application {
   nomApplication: String;
@@ -40,7 +41,8 @@ export class ApplicationsModalComponent implements OnInit {
 
   nomApp = new FormControl('', [
     Validators.required,
-    Validators.minLength(3)
+    Validators.minLength(3),
+    Validators.maxLength(20)
   ]);
 
   contrat = new FormControl('', [
@@ -50,7 +52,7 @@ export class ApplicationsModalComponent implements OnInit {
   constructor(    
     public dialogRef: MatDialogRef<ApplicationsModalComponent>,
     private applicationService: ApplicationService,
-    private contratService: ContratService
+    private contratService: ContratService,
     ) {}
 
     onNoClick(): void {

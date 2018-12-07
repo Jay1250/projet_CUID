@@ -28,7 +28,7 @@ public class CollaborateursOfCuidController {
 	
 	// ne fonctionne pas
 	@GetMapping(value = "/CollaborateursCuid/{cuid}")
-	public List<CuidCollaborateursId> afficherCollaborateursCuid(@PathVariable String cuid) {
+	public List<CollaborateursOfCuid> afficherCollaborateursCuid(@PathVariable String cuid) {
 		return collaborateursCuidRepository.findByCuidcollaborateurCuid(cuid);
 	}
 	/*

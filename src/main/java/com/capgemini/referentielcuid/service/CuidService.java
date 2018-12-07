@@ -16,6 +16,10 @@ public class CuidService {
 	@Autowired
 	private CuidRepository cuidRepository;
 	
+	public List<Cuid> findCuidsContrat(int contratId) {
+		return cuidRepository.findByContratId(contratId);
+	}
+	
 	public List<Cuid> findAll() {
 		return cuidRepository.findAll();
 	}

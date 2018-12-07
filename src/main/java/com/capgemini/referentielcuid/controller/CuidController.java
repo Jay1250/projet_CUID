@@ -1,5 +1,6 @@
 package com.capgemini.referentielcuid.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -38,6 +39,12 @@ public class CuidController {
 	public Optional<Cuid> afficherUnCuid(@PathVariable String cuid){
 		return cuidService.findById(cuid);
 	}
+	
+	@GetMapping(value = "/CuidFromContrat/{contratId}")
+	public List<Cuid> afficherUnCuidAvecContrat(@PathVariable int contratId){
+		return cuidService.findCuidsContrat(contratId);
+	}
+	
 	
 	@PostMapping(value = "/Cuid")
 	public ResponseEntity<Cuid> addOne(@Valid @RequestBody Cuid cuid) {

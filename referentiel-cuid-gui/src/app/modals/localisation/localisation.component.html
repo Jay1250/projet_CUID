@@ -1,7 +1,16 @@
 <h1 mat-dialog-title>Nouvelle Localisation</h1>
 <div mat-dialog-content>
   <mat-form-field>
-    <input matInput [(ngModel)]="nomLocalisation">
+    <input matInput  [formControl]="nomLocalisation" placeholder="Nom">
+    <mat-error *ngIf="nomLocalisation.hasError('required') ">
+        Le champ Nom est <strong>requis</strong>
+      </mat-error>
+      <mat-error *ngIf="nomLocalisation.hasError('minlength')">
+        Le champ est <strong>trop court</strong>
+      </mat-error>
+      <mat-error *ngIf="nomLocalisation.hasError('maxlength')">
+          Le champ est <strong>trop long</strong>
+    </mat-error>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
