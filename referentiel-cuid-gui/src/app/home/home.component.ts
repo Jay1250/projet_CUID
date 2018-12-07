@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
     this.cuidService.getAllCuid()
     .subscribe((data: any) => {
         this.cuids = data;
+      
     });
   }
 

@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Date Affectation</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input type="date" matInput [formControl]="dateaffectation" placeholder="affectation">
+  </mat-form-field>
+  <mat-form-field>
+      <input type="date" matInput [formControl]="dateliberation" placeholder="liberation">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="onClick()">Ajouter</button>
+</div>

@@ -8,7 +8,10 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 import { OutilsModalComponent } from '../modals/outils/outils.component';
 import { ApplicationsModalComponent } from '../modals/applications/applications.component';
+import { DateCollabModalComponent } from '../modals/date-collab/date-collab.component';
 import swal from 'sweetalert2';
+
+
 
 
 
@@ -107,6 +110,8 @@ export class CreationCuidComponent implements OnInit{
   chipsCollaborateur: string[] = [];
   matcher = new MyErrorStateMatcher();
 
+  dateNom: Date;
+
   cuidForm = new FormGroup({
 
     ccuid : new FormControl('', [
@@ -171,18 +176,14 @@ export class CreationCuidComponent implements OnInit{
         this.tabCuidCollaborateur = data;
         console.log(this.tabCuidCollaborateur);
     }, (err) => {
-console.log(err.status);
-      switch(err.status){
 
+      switch(err.status){
         case 0:
           swal('Erreur', 'Impossible de se connecter au serveur', 'error');
           break;
         default:
           swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
       }
-
-
-
     });
 
     this.creationCuidService.getAllOutils()
@@ -222,7 +223,6 @@ console.log(err.status);
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
       if(result !== null && result !== undefined)
         this.outils = result;
     });
@@ -231,10 +231,17 @@ console.log(err.status);
   openDialogApp(): void {
     const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
     if(result !== null && result !== undefined)
       this.applications = result;
     });
+  }
+
+  openDialogDateCollab(): void{
+    const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== null && result !== undefined)
+        this.applications = result;
+      });
   }
 
   applyFilter(filterValue: string) {
@@ -251,21 +258,16 @@ console.log(err.status);
     }
 
     this.CollaborateurInfos.forEach(function(element){
-
       if(element.trigrame == chip)
         element.utiliser = false;
       })
   }
 
-azerty(){
+  azerty(){
 
-  console.log("incroyable !");
-
- // this.applications = this.cuidForm.value.contrat.applications;
-
- console.log(this.applications)
-}
-
+    // this.applications = this.cuidForm.value.contrat.applications;
+    console.log(this.applications)
+  }
 
   hello(vaz){
 
@@ -304,7 +306,6 @@ azerty(){
       });
       this.applications.forEach(function(element){
         delete element.utiliser;
-        
       });
 
      this.contratsCuid = this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value);
@@ -325,41 +326,32 @@ azerty(){
         applications: this.applicationsCuid,
         };
 
-        console.log(this.newCuid);
-
       this.creationCuidService.addCuid(this.newCuid)
-          .subscribe((data: any) => {
-
-
-  
-            swal('Succès', 'Le cuid a bien été crée', 'success');
-
-                  
-      this.CollaborateurInfos.forEach(function(element){
-
-        this.cuidCollaborateur = {
-          cuidcollaborateurId:{
-            cuid: this.newCuid.cuid,
-            trigrame: element.trigrame
-          },
-          dateaffectation: "2018-11-09",
-          dateliberation: "2018-11-09"
-        }
-
-        
-       // console.log(this.cuidCollaborateur);
-
-        this.affectationsService.addAffectations(this.cuidCollaborateur)
         .subscribe((data: any) => {
-          //swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
+
+          swal('Succès', 'Le cuid a bien été crée', 'success');
+          this.dateNom  = new Date();
+          let dateNowISO = this.dateNom.toISOString();
+
+          this.CollaborateurInfos.forEach(function(element){
+
+          this.cuidCollaborateur = {
+            cuidcollaborateurId:{
+              cuid: this.newCuid.cuid,
+              trigrame: element.trigrame
+            },
+            dateaffectation: dateNowISO,
+            dateliberation: "2018-11-09"
+          }
+
+          this.affectationsService.addAffectations(this.cuidCollaborateur)
+            .subscribe((data: any) => {
+              //swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
+            }, (err) => {
+              //swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
+            }); 
+          }, this);
         }, (err) => {
-          //swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
-        }); 
-      }, this);
-
-
-
-          }, (err) => {
 
           switch(err.status){
 
@@ -379,13 +371,11 @@ azerty(){
               swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
           }
 
-         // console.log(err);
+        //Observable.throw(err);
+        // throw new Error(err);
+        console.error(err);
       }); 
-
-
-
-
-    //  window.location.href='tabCuid';
+      //  window.location.href='tabCuid';
     }
   }
 
@@ -413,6 +403,12 @@ azerty(){
   colorCuid(nbr_cuid: number){
     if(nbr_cuid >= 1) return 'text-danger';
     return '';
+  }
+
+  //test
+  bonjour(){
+    this.dateNom  = new Date();
+    let dateNowISO = this.dateNom.toISOString();  
   }
 
 }

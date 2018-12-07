@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { DataTablesModule } from 'angular-datatables';
 import { RouterModule, ROUTES, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { ErrorHandler} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ColaborateurComponent } from './colaborateur/colaborateur.component';
@@ -63,9 +64,8 @@ import { GestionComponent } from './gestion/gestion.component';
 import { HomeComponent } from './home/home.component';
 import { FicheCollaborateurComponent } from './fiche-collaborateur/fiche-collaborateur.component';
 import { LocalisationModalComponent } from './modals/localisation/localisation.component';
-
-
-
+import { DateCollabModalComponent } from './modals/date-collab/date-collab.component';
+import { GestionErreurComponent } from './gestion-erreur/gestion-erreur.component';
 
 //Routage
 let routes: Routes = [{
@@ -143,7 +143,9 @@ let routes: Routes = [{
     GestionComponent,
     HomeComponent,
     FicheCollaborateurComponent,
-    LocalisationModalComponent
+    LocalisationModalComponent,
+    DateCollabModalComponent,
+    GestionErreurComponent
   ],
   imports: [
     BrowserModule,
@@ -183,11 +185,14 @@ let routes: Routes = [{
     MatTabsModule,
     MatBadgeModule
   ],
-  providers: [CollaborateurService, CuidService, LocalisationService, HistoriqueService], 
+  providers: [
+              {provide: ErrorHandler,
+              useClass: GestionErreurComponent}
+  ], 
   
   bootstrap: [AppComponent],
 
-  entryComponents: [OutilsModalComponent, ApplicationsModalComponent, LocalisationModalComponent]
+  entryComponents: [OutilsModalComponent, ApplicationsModalComponent, LocalisationModalComponent, DateCollabModalComponent]
   
 })
 export class AppModule { }

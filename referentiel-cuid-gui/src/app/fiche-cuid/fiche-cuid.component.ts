@@ -88,12 +88,12 @@ export class FicheCuidComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   selectable = true;
-  removable = true;
+  removable = false;
 
   CollaborateurInfos: Collaborateur[] = [];
   cuidCollaborateur: CuidCollaborateur[] = [];
   tabCuidCollaborateur: CuidCollaborateur[] = [];
-  displayedColumns: string[] = ['trigrame','cuid', 'prenom', 'pays', 'dateaffectation', 'dateliberation'];
+  displayedColumns: string[] = ['trigrame', 'prenom', 'pays', 'dateaffectation', 'dateliberation','action'];
   dataSource;
   selection = new SelectionModel<Collaborateur>(true, []);
 
@@ -106,6 +106,8 @@ export class FicheCuidComponent implements OnInit {
   chipsCollaborateur: string[] = [];
   matcher = new MyErrorStateMatcher();
   disable=true;
+
+  dateNow  = new Date();
 
 cuidForm = new FormGroup({
 
@@ -164,61 +166,43 @@ cuidForm = new FormGroup({
     this.cuid = this.route.snapshot.params['cuid'];
     console.log(this.cuid);
 
-    
     this.cuidService.findById(this.cuid)
     .subscribe((data: any) => {
 
-        console.log(data);
-        console.log(data.contrat.nom);
-
-        this.cuidForm.get("ccuid").setValue(data.cuid);
-        this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
-        this.cuidForm.get("nom").setValue(data.nom);
-        this.cuidForm.get("prenom").setValue(data.prenom); 
-        this.cuidForm.get("nomGir").setValue(data.nomgir);
-        this.cuidForm.get("prenomGir").setValue(data.prenomgir);
-        this.cuidForm.get("commentaires").setValue(data.commentaires);
-
+      this.cuidForm.get("ccuid").setValue(data.cuid);
+      this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
+      this.cuidForm.get("nom").setValue(data.nom);
+      this.cuidForm.get("prenom").setValue(data.prenom); 
+      this.cuidForm.get("nomGir").setValue(data.nomgir);
+      this.cuidForm.get("prenomGir").setValue(data.prenomgir);
+      this.cuidForm.get("commentaires").setValue(data.commentaires);
       this.contrat = data.contrat;
-
-
         this.outils = data.outil;
         this.applications = data.applications;
     });
 
-console.log("ldcqnckzqsn" + this.cuid);
-
-
     this.affectationsService.getCollaborateursOfCuid(this.cuid)
     .subscribe((data: any) => {
 
-      
-        this.tabCuidCollaborateur = data;
+      this.tabCuidCollaborateur = data;
 
-
-console.log("hello" + data);
-        
-        //marche pas
-        if(data != null && data != undefined){
-          this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
-          console.log("datasource" + this.dataSource);
-          console.log("tableau" + this.tabCuidCollaborateur);
+      //marche pas
+      if(data != null && data != undefined){
+        this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
-      
     });
-
 
     this.creationCuidService.getAllContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
   }
+
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
       if(result !== null && result !== undefined)
         this.outils = result;
     });
@@ -227,7 +211,6 @@ console.log("hello" + data);
   openDialogApp(): void {
     const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
     if(result !== null && result !== undefined)
       this.applications = result;
     });
@@ -256,34 +239,24 @@ console.log("hello" + data);
     this.cuidForm.controls.nomGir.markAsTouched();
     this.cuidForm.controls.prenomGir.markAsTouched();
     this.cuidForm.controls.commentaires.markAsTouched();
-
-    this.outils.forEach(function(element){
-
-    });
   }
 
   ajouterCollab(trigrame){
 
     if(this.chipsCollaborateur.includes(trigrame))
       swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
-
-    else {
+    else 
       this.chipsCollaborateur.push(trigrame);
-    }
   }
 
   onSubmit(form: NgForm) {
-
     console.log();
     console.log(form.value);
   }
 
   modifierCuid() {
 
-    this.cuidForm.get('ccontrat').setValue('hello');
-
-console.log("hello");
-
+    this.removable = true;
     this.cuidForm.get('ccuid').enable();
     this.cuidForm.get('ccontrat').enable();
     this.cuidForm.get('nom').enable();
@@ -291,6 +264,10 @@ console.log("hello");
     this.cuidForm.get('nomGir').enable();
     this.cuidForm.get('prenomGir').enable();
     this.cuidForm.get('commentaires').enable();
+  }
+
+  estDateExpiree(date){
+    return new Date(date).getTime() <  this.dateNow.getTime();
   }
 }
 
