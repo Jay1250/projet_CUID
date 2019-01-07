@@ -1,7 +1,10 @@
+//angular
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TabCuidService } from '../services/tab-cuid/tab-cuid.service';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
+
+//services
+import { TabCuidService } from '../services/tab-cuid/tab-cuid.service';
 
 export interface Cuid {
 	cuid: string;
@@ -50,8 +53,10 @@ export class TabCuidComponent implements OnInit {
     }
   }
 
-  colorCuid(nbcollab: number){
-    if(nbcollab > 1) return 'text-danger';
-    return '';
+  colorCuid(nbcollab: number, status: String): String{
+    let classRow: String = '';
+    if(nbcollab > 1) classRow = 'text-danger';
+    else if(status == "Inactif" || nbcollab == 0) classRow = 'text-secondary';
+    return classRow;
   }
 }

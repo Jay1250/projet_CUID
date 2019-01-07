@@ -18,8 +18,6 @@ export class DateCollabModalComponent implements OnInit {
 
   dateaffectation = new FormControl('', [
     Validators.required,
-    Validators.minLength(3),
-    Validators.maxLength(20)
   ]);
 
   dateliberation = new FormControl('', [

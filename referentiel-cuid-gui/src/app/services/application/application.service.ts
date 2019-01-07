@@ -9,7 +9,6 @@ export class ApplicationService {
 
 	constructor(
 		private http: HttpClient
-
 	) { }
 
 	getApplication = () => {
@@ -20,6 +19,3 @@ export class ApplicationService {
         return this.http.post(`${environment.url}/Application`, app);
     }
 }
-
-
-

@@ -1,4 +1,8 @@
+//angular
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
+
+//services
 import { ContratService } from '../services/contrat/contrat.service';
 import { CuidService } from '../services/cuid/cuid.service';
 
@@ -29,6 +33,8 @@ export class HomeComponent implements OnInit {
   contrats: Contrat[] = [];
   cuids: Cuid[] = [];
 
+  panelColor = new FormControl();
+
   constructor(
     private contratService: ContratService,
     private cuidService: CuidService
@@ -46,10 +52,12 @@ export class HomeComponent implements OnInit {
         this.cuids = data;
       
     });
+
+    //this.panelColor.value = "tous";
   }
 
   chgContrat(){
 
-    
+    console.log(this.panelColor.value);
   }
 }

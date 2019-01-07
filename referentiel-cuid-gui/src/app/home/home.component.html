@@ -17,7 +17,8 @@
 
           <div class="col-md-5 m-1">
             <mat-form-field class="mr-3">
-              <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()">
+              <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()" [formControl] = "panelColor">
+                <mat-option value="tous" >Tous</mat-option>
                 <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
               </mat-select>
             </mat-form-field> 
@@ -25,7 +26,6 @@
           </div>
         </div>
        
-      
         <div class="row">
 
           <div class="col-md-4 p-3">
@@ -44,7 +44,7 @@
         <mat-divider class="mt-2"></mat-divider>
         <mat-divider class="mt-2"></mat-divider>
 
-        <h3 class="p-2">Collaborateurs</h3>
+        <h3 class="p-2">Affectations récentes</h3>
         
         <mat-card class="example-card">
           <mat-card-header>

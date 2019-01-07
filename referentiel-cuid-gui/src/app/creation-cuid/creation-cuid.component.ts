@@ -1,83 +1,31 @@
+//angular
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { CreationCuidService } from '../services/creation-cuid/creation-cuid.service';
-import { AffectationsService } from '../services/affectations/affectations.service';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { TabCollaborateurService } from '../services/tab-collaborateur/tab-collaborateur.service';
-import {SelectionModel} from '@angular/cdk/collections';
-import {ErrorStateMatcher} from '@angular/material/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
+import {SelectionModel} from '@angular/cdk/collections';
+import {Router} from '@angular/router';
+
+//components
 import { OutilsModalComponent } from '../modals/outils/outils.component';
 import { ApplicationsModalComponent } from '../modals/applications/applications.component';
 import { DateCollabModalComponent } from '../modals/date-collab/date-collab.component';
+
+//services
+import { CreationCuidService } from '../services/creation-cuid/creation-cuid.service';
+import { AffectationsService } from '../services/affectations/affectations.service';
+import { TabCollaborateurService } from '../services/tab-collaborateur/tab-collaborateur.service';
+import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
+
+// interfaces
+import {Cuid} from '../interfaces/cuid';
+import {CollaborateurInfo} from '../interfaces/collaborateur-info';
+import {Outil} from '../interfaces/outil';
+import {Application} from '../interfaces/application';
+import {Contrat} from '../interfaces/contrat';
+import {CuidCollaborateur} from '../interfaces/cuid-collaborateur';
+
+//others
 import swal from 'sweetalert2';
-
-
-
-
-
-
-export interface Cuid {
-	cuid: String;
-  nom: String;
-  prenom: String;
-  mdp: String;
-  status: number;
-	commentaires: String;
-	nomgir: String;
-	prenomgir: String;
-  contrat: Contrat;
-  outil: Outil[];
-  applications: Application[];
-}
-
-export interface Collaborateur {
-	trigrame: String;
-	role: String;
-	nomprenom: String;
-	pays: number;
-  nbr_cuid: number;
-  utiliser: boolean;
-}
-
-export interface Outil {
-	id: number;
-  nomOutil: String;
-  utiliser: boolean;
-}
-
-export interface Application {
-	id: number;
-  nomApplication: String;
-  utiliser: boolean;
-  contrat_id: number;
-}
-
-export interface Contrat {
-	id: number;
-  nom: String;
-}
-
-export interface CuidCollaborateur{
-
-  cuidcollaborateurId: {
-    cuid: String;
-    trigrame: String;
-  }
-  dateaffectation: String;
-  dateliberation: String;
-}
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
 
 @Component({
   selector: 'app-creation-cuid',
@@ -91,27 +39,19 @@ export class CreationCuidComponent implements OnInit{
 
   selectable = true;
   removable = true;
-
-  CollaborateurInfos: Collaborateur[] = [];
-  cuidCollaborateur: CuidCollaborateur;
-  tabCuidCollaborateur: CuidCollaborateur[] = [];
   displayedColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid', 'ajouter'];
   dataSource;
-  selection = new SelectionModel<Collaborateur>(true, []);
 
+  CollaborateurInfos: CollaborateurInfo[] = [];
+  tabCuidCollaborateur: CuidCollaborateur[] = [];
   outils: Outil[] = [];
-  outilsCuid: Outil[] = [];
   applications: Application[] = [];
-  applicationsCuid: Application[] = [];
   contrats: Contrat[] = [];
-  contratsCuid: Contrat[] = [];
-  test:any[] = [];
   newCuid: Cuid;
+
   chipsCollaborateur: string[] = [];
-  matcher = new MyErrorStateMatcher();
-
-  dateNom: Date;
-
+  matcher = new FormStateMatcherService();
+ 
   cuidForm = new FormGroup({
 
     ccuid : new FormControl('', [
@@ -157,24 +97,23 @@ export class CreationCuidComponent implements OnInit{
       Validators.maxLength(10)
     ]),
     commentaires : new FormControl('', [
-      Validators.required,
       Validators.maxLength(250)
     ]),
-  
+
   });
 
   constructor(private creationCuidService: CreationCuidService, 
               private tabCollaborateurService: TabCollaborateurService,
               public dialog: MatDialog,
               private affectationsService: AffectationsService,
-              ) { }
+              private router: Router
+              ) {}
 
   ngOnInit() {
 
     this.affectationsService.getAffectations()
     .subscribe((data: any) => {
         this.tabCuidCollaborateur = data;
-        console.log(this.tabCuidCollaborateur);
     }, (err) => {
 
       switch(err.status){
@@ -200,7 +139,6 @@ export class CreationCuidComponent implements OnInit{
         this.applications.forEach(function(application){
           application.utiliser = false;
        })
-       console.log(this.applications)
     });
 
     this.creationCuidService.getAllContrats()
@@ -214,7 +152,7 @@ export class CreationCuidComponent implements OnInit{
         this.CollaborateurInfos.forEach(function(CollaborateurInfos){
           CollaborateurInfos.utiliser = false;
        })
-      this.dataSource = new MatTableDataSource<Collaborateur>(this.CollaborateurInfos);
+      this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.CollaborateurInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -236,11 +174,10 @@ export class CreationCuidComponent implements OnInit{
     });
   }
 
-  openDialogDateCollab(): void{
+  openDialogDateCollab(index): void{
     const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-      if(result !== null && result !== undefined)
-        this.applications = result;
+      this.CollaborateurInfos[0].dateaffectation;
       });
   }
 
@@ -271,77 +208,43 @@ export class CreationCuidComponent implements OnInit{
 
   hello(vaz){
 
-    this.cuidForm.get("ccuid").markAsTouched();
-    this.cuidForm.get("ccontrat").markAsTouched();
-    this.cuidForm.get("nom").markAsTouched();
-    this.cuidForm.get("prenom").markAsTouched();
-    this.cuidForm.get("nomGir").markAsTouched();
-    this.cuidForm.get("prenomGir").markAsTouched();
-    this.cuidForm.get("password").markAsTouched();
-    this.cuidForm.get("passwordVerif").markAsTouched();
-    this.cuidForm.get("commentaires").markAsTouched();
-
-    if(this.cuidForm.get("ccuid").hasError("required") || this.cuidForm.get("ccontrat").hasError("required") || this.cuidForm.get("nom").hasError("required")
-    || this.cuidForm.get("prenom").hasError("required") || this.cuidForm.get("nomGir").hasError("required") || this.cuidForm.get("prenomGir").hasError("required")
-    || this.cuidForm.get("password").hasError("required") || this.cuidForm.get("passwordVerif").hasError("required"))
-        swal('Erreur', 'Les champs (*) sont obligatoires !', 'error');
-
-    else if(this.cuidForm.get("ccuid").hasError("minlength") || this.cuidForm.get("nom").hasError("minlength")
-    || this.cuidForm.get("prenom").hasError("minlength") || this.cuidForm.get("nomGir").hasError("minlength") || this.cuidForm.get("prenomGir").hasError("minlength")
-    || this.cuidForm.get("password").hasError("minlength") || this.cuidForm.get("passwordVerif").hasError("minlength"))
-        swal('Erreur', 'Les champs ont une taille min de 3 charactères', 'error');
-
-    else if(this.cuidForm.get("nom").hasError("pattern")
-    || this.cuidForm.get("prenom").hasError("pattern") || this.cuidForm.get("nomGir").hasError("pattern") || this.cuidForm.get("prenomGir").hasError("pattern"))
-        swal('Erreur', 'Les champs nom/prénom ne doivent être composés que de lettres', 'error');
-
-    else if(this.cuidForm.get("password").value !== this.cuidForm.get("passwordVerif").value)
-      swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
-
-    else{
-      this.outilsCuid = this.outils.filter(element => element.utiliser == true);
-      this.applicationsCuid = this.applications.filter(element => element.utiliser == true);
-      this.outils.forEach(function(element){
-        delete element.utiliser;
-      });
-      this.applications.forEach(function(element){
-        delete element.utiliser;
-      });
-
-     this.contratsCuid = this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value);
-      this.CollaborateurInfos = this.CollaborateurInfos.filter(element => element.utiliser == true);
+    if(this.isValidForm()){
 
       this.newCuid = {
         cuid: this.cuidForm.get("ccuid").value, 
         nom:  this.cuidForm.get("nom").value, 
         prenom: this.cuidForm.get("prenom").value, 
         mdp: this.cuidForm.get("password").value, 
-        status: 1, 
+        status: (this.CollaborateurInfos.filter(element => element.utiliser == true).length > 0)? 1 : 0, 
         commentaires:  this.cuidForm.get("commentaires").value,           
         nomgir: this.cuidForm.get("nomGir").value, 
         prenomgir: this.cuidForm.get("prenomGir").value, 
-        //marche pas
-        contrat: this.contratsCuid[0],
-        outil: this.outilsCuid,
-        applications: this.applicationsCuid,
+        contrat: this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value)[0],
+        outil: this.outils.filter(element => element.utiliser == true),
+        applications: this.applications.filter(element => element.utiliser == true),
         };
+
+        this.outils.forEach(function(element){
+          delete element.utiliser;
+        });
+        this.applications.forEach(function(element){
+          delete element.utiliser;
+        });
 
       this.creationCuidService.addCuid(this.newCuid)
         .subscribe((data: any) => {
 
           swal('Succès', 'Le cuid a bien été crée', 'success');
-          this.dateNom  = new Date();
-          let dateNowISO = this.dateNom.toISOString();
 
-          this.CollaborateurInfos.forEach(function(element){
+          this.CollaborateurInfos.filter(element => element.utiliser == true).forEach(function(element){
 
           this.cuidCollaborateur = {
             cuidcollaborateurId:{
               cuid: this.newCuid.cuid,
               trigrame: element.trigrame
             },
-            dateaffectation: dateNowISO,
-            dateliberation: "2018-11-09"
+            dateaffectation: element.dateaffectation,
+            dateliberation: element.dateliberation
           }
 
           this.affectationsService.addAffectations(this.cuidCollaborateur)
@@ -370,12 +273,9 @@ export class CreationCuidComponent implements OnInit{
             default:
               swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
           }
-
-        //Observable.throw(err);
-        // throw new Error(err);
         console.error(err);
       }); 
-      //  window.location.href='tabCuid';
+      this.router.navigateByUrl('/tabCuid');
     }
   }
 
@@ -388,9 +288,17 @@ export class CreationCuidComponent implements OnInit{
       this.chipsCollaborateur.push(trigrame);
       this.CollaborateurInfos.forEach(function(element){
 
-      if(element.trigrame == trigrame)
+      if(element.trigrame == trigrame){
+
         element.utiliser = true;
-      })
+
+        const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
+        dialogRef.afterClosed().subscribe(result => {
+          element.dateaffectation = result.affectation;
+          element.dateliberation = result.liberation;
+          });
+        }
+      }, this)
     }
   }
 
@@ -405,18 +313,38 @@ export class CreationCuidComponent implements OnInit{
     return '';
   }
 
-  //test
-  bonjour(){
-    this.dateNom  = new Date();
-    let dateNowISO = this.dateNom.toISOString();  
-  }
+  isValidForm(): boolean{
 
-}
+    this.cuidForm.get("ccuid").markAsTouched();
+    this.cuidForm.get("ccontrat").markAsTouched();
+    this.cuidForm.get("nom").markAsTouched();
+    this.cuidForm.get("prenom").markAsTouched();
+    this.cuidForm.get("nomGir").markAsTouched();
+    this.cuidForm.get("prenomGir").markAsTouched();
+    this.cuidForm.get("password").markAsTouched();
+    this.cuidForm.get("passwordVerif").markAsTouched();
+    this.cuidForm.get("commentaires").markAsTouched();
 
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    if(this.cuidForm.get("ccuid").hasError("required") || this.cuidForm.get("ccontrat").hasError("required") || this.cuidForm.get("nom").hasError("required")
+      || this.cuidForm.get("prenom").hasError("required") || this.cuidForm.get("nomGir").hasError("required") || this.cuidForm.get("prenomGir").hasError("required")
+      || this.cuidForm.get("password").hasError("required") || this.cuidForm.get("passwordVerif").hasError("required"))
+      swal('Erreur', 'Les champs (*) sont obligatoires !', 'error');
+
+    else if(this.cuidForm.get("ccuid").hasError("minlength") || this.cuidForm.get("nom").hasError("minlength")
+    || this.cuidForm.get("prenom").hasError("minlength") || this.cuidForm.get("nomGir").hasError("minlength") || this.cuidForm.get("prenomGir").hasError("minlength")
+    || this.cuidForm.get("password").hasError("minlength") || this.cuidForm.get("passwordVerif").hasError("minlength"))
+        swal('Erreur', 'Les champs ont une taille min de 3 charactères', 'error');
+
+    else if(this.cuidForm.get("nom").hasError("pattern")
+    || this.cuidForm.get("prenom").hasError("pattern") || this.cuidForm.get("nomGir").hasError("pattern") || this.cuidForm.get("prenomGir").hasError("pattern"))
+        swal('Erreur', 'Les champs nom/prénom ne doivent être composés que de lettres', 'error');
+
+    else if(this.cuidForm.get("password").value !== this.cuidForm.get("passwordVerif").value)
+      swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
+
+    else
+      return true;
+
+    return false;
   }
 }

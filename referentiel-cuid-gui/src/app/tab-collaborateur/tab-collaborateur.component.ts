@@ -47,8 +47,10 @@ export class TabCollaborateurComponent implements OnInit {
     }
   }
 
-  colorCollab(nbrCuid: number){
-    if(nbrCuid > 1) return 'text-danger';
-    return '';
+  colorCollab(nbrCuid: number): String{
+    let classRow: String = '';
+    if(nbrCuid > 1) classRow = 'text-danger';
+    else if(nbrCuid == 0) classRow = 'text-secondary';
+    return classRow;
   }
 }
