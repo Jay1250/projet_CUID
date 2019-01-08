@@ -1,7 +1,7 @@
 <!-- Page de recherche de CUID -->
 <div class="container" style="text-align:center;">
 	<div class="row" >
-    <form [formGroup]="cuidForm" (ngSubmit)="hello()">
+    <form [formGroup]="cuidForm" (ngSubmit)="validationCuid()">
       <div class="card p-2">
         <div class="col-md-12">
           <div class="card-header" id="titre">
@@ -26,7 +26,7 @@
           </mat-form-field>
 
           <mat-form-field class="col-md-5 offset-1">
-            <mat-select placeholder="Contrat"  formControlName="ccontrat" (ngModelChange)="azerty()" [errorStateMatcher]="matcher">
+            <mat-select placeholder="Contrat"  formControlName="ccontrat" [errorStateMatcher]="matcher">
               <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
             </mat-select>
             <mat-error *ngIf="cuidForm.get('ccontrat').hasError('required') ">
@@ -152,21 +152,21 @@
           <h3 class="p-2">Outils</h3>
           <mat-checkbox id="{{outil.id}}" *ngFor="let outil of outils" class="example-margin m-2" [(ngModel)]="outil.utiliser" [ngModelOptions]="{standalone: true}">{{outil.nomOutil}}</mat-checkbox>
           <button mat-mini-fab type="button" color="basic" (click)="openDialogOutil()">
-            <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+            <mat-icon aria-label="Example icon-button with a heart icon">create</mat-icon>
           </button>
           <mat-divider class="mt-2"></mat-divider>
 
           <h3 class="p-2">Applications</h3>
           <ng-container *ngFor="let application of applications"><mat-checkbox *ngIf="application.contrat.id == cuidForm.get('ccontrat').value" class="example-margin m-2" [(ngModel)]="application.utiliser" [ngModelOptions]="{standalone: true}">{{application.nomApplication}}</mat-checkbox></ng-container>
           <button mat-mini-fab type="button" color="basic" (click)="openDialogApp()">
-            <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+            <mat-icon aria-label="Example icon-button with a heart icon">create</mat-icon>
           </button>
 
           <mat-divider class="mt-2"></mat-divider>
 
           <h3 class="p-2">Collaborateurs</h3>
           <div class="col-md-12">
-            <mat-chip-list class="mat-chip-list-stacked" aria-orientation="horizontal" >
+            <mat-chip-list #chipList>
               <mat-chip color="accent" *ngFor="let chip of chipsCollaborateur" class="col-md-1"
                 [selectable]="selectable"
                 [removable]="removable"
@@ -193,27 +193,27 @@
               <!-- Nom Prénom Column -->
               <ng-container matColumnDef="nomprenom">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.nomprenom}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.nomprenom}} </td>
               </ng-container>
               <!-- Contrat Column -->
               <ng-container matColumnDef="role">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>role</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.role}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.role}} </td>
               </ng-container>
               <!-- Manager Column -->
               <ng-container matColumnDef="pays">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>pays</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.pays}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.pays}} </td>
               </ng-container>
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="nbr_cuid">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbr_cuid</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"> {{row.nbr_cuid}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.nbr_cuid}} </td>
               </ng-container>
               <!-- Ajouter Column -->
               <ng-container matColumnDef="ajouter">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ajouter</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorCuid(row.nbr_cuid)"><button mat-stroked-button type="button" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"><button mat-stroked-button type="button" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

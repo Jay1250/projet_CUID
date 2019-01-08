@@ -12,13 +12,13 @@
         <div class="row">
 
           <div class="col-md-2 offset-1 m-3">
-            <h4>Cuid : {{cuids.length}}</h4> 
+            <h4>Cuid : {{nbrCuid()}}</h4> 
           </div>
 
           <div class="col-md-5 m-1">
             <mat-form-field class="mr-3">
-              <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()" [formControl] = "panelColor">
-                <mat-option value="tous" >Tous</mat-option>
+              <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()" [(ngModel)] = "name">
+                <mat-option value="tous" selected>Tous</mat-option>
                 <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
               </mat-select>
             </mat-form-field> 
@@ -65,9 +65,7 @@
             <button mat-button>SHARE</button>
           </mat-card-actions>
         </mat-card>
-     
       </div>
     </div>
- 
 	</div>
 </div>

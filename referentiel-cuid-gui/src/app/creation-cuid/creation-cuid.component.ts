@@ -1,9 +1,7 @@
 //angular
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
-import {SelectionModel} from '@angular/cdk/collections';
-import {Router} from '@angular/router';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
+import {FormControl, Validators, FormGroup} from '@angular/forms';
 
 //components
 import { OutilsModalComponent } from '../modals/outils/outils.component';
@@ -32,28 +30,29 @@ import swal from 'sweetalert2';
   templateUrl: './creation-cuid.component.html',
   styleUrls: ['./creation-cuid.component.scss']
 })
+
 export class CreationCuidComponent implements OnInit{
 
+  // tab collaborateurs
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
   selectable = true;
   removable = true;
   displayedColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid', 'ajouter'];
   dataSource;
 
+  //data
   CollaborateurInfos: CollaborateurInfo[] = [];
   tabCuidCollaborateur: CuidCollaborateur[] = [];
   outils: Outil[] = [];
   applications: Application[] = [];
   contrats: Contrat[] = [];
   newCuid: Cuid;
-
   chipsCollaborateur: string[] = [];
-  matcher = new FormStateMatcherService();
- 
-  cuidForm = new FormGroup({
 
+// form
+  matcher = new FormStateMatcherService();
+  cuidForm = new FormGroup({
     ccuid : new FormControl('', [
       Validators.required,
       Validators.minLength(3),
@@ -99,23 +98,19 @@ export class CreationCuidComponent implements OnInit{
     commentaires : new FormControl('', [
       Validators.maxLength(250)
     ]),
-
   });
 
   constructor(private creationCuidService: CreationCuidService, 
               private tabCollaborateurService: TabCollaborateurService,
               public dialog: MatDialog,
               private affectationsService: AffectationsService,
-              private router: Router
               ) {}
 
   ngOnInit() {
-
     this.affectationsService.getAffectations()
     .subscribe((data: any) => {
         this.tabCuidCollaborateur = data;
     }, (err) => {
-
       switch(err.status){
         case 0:
           swal('Erreur', 'Impossible de se connecter au serveur', 'error');
@@ -125,6 +120,7 @@ export class CreationCuidComponent implements OnInit{
       }
     });
 
+    //recup outils
     this.creationCuidService.getAllOutils()
     .subscribe((data: any) => {
         this.outils = data;
@@ -133,6 +129,7 @@ export class CreationCuidComponent implements OnInit{
         })
     });
 
+    // recup applis
     this.creationCuidService.getAllApplications()
     .subscribe((data: any) => {
         this.applications = data;
@@ -141,11 +138,13 @@ export class CreationCuidComponent implements OnInit{
        })
     });
 
+    //recup contrats
     this.creationCuidService.getAllContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
 
+    //recup tab collaborateurs
     this.tabCollaborateurService.getAllTabCuid()
     .subscribe((data: any) => {
         this.CollaborateurInfos = data;
@@ -158,6 +157,7 @@ export class CreationCuidComponent implements OnInit{
     });
   }
 
+  // ***** modal windows
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
@@ -165,7 +165,6 @@ export class CreationCuidComponent implements OnInit{
         this.outils = result;
     });
   }
-
   openDialogApp(): void {
     const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
@@ -173,43 +172,61 @@ export class CreationCuidComponent implements OnInit{
       this.applications = result;
     });
   }
-
   openDialogDateCollab(index): void{
     const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
       this.CollaborateurInfos[0].dateaffectation;
       });
   }
+  // *****
 
+  // ***** tab collaborateurs 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
   removeChip(chip: string): void {
     const index = this.chipsCollaborateur.indexOf(chip);
     if (index >= 0) {
       this.chipsCollaborateur.splice(index, 1);
     }
-
     this.CollaborateurInfos.forEach(function(element){
       if(element.trigrame == chip)
         element.utiliser = false;
       })
   }
-
-  azerty(){
-
-    // this.applications = this.cuidForm.value.contrat.applications;
-    console.log(this.applications)
+  ajouterCollab(trigrame){
+    if(this.chipsCollaborateur.includes(trigrame))
+      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
+    else {
+      this.CollaborateurInfos.forEach(function(element){
+        if(element.trigrame == trigrame){
+          const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
+          dialogRef.afterClosed().subscribe(result => {
+            element.dateaffectation = result.affectation;
+            element.dateliberation = result.liberation;
+            if(element.dateaffectation != null){
+              element.utiliser = true;
+              this.chipsCollaborateur.push(trigrame);
+            }
+          });
+        }
+      }, this)
+    }
   }
+  
+  colorRow(nbr_cuid: number){
+    if(nbr_cuid >= 1) return 'text-danger';
+    return '';
+  }
+  // ***** 
 
-  hello(vaz){
-
+  // ***** form
+  validationCuid(){
     if(this.isValidForm()){
-
+      // creation cuid
       this.newCuid = {
         cuid: this.cuidForm.get("ccuid").value, 
         nom:  this.cuidForm.get("nom").value, 
@@ -223,21 +240,10 @@ export class CreationCuidComponent implements OnInit{
         outil: this.outils.filter(element => element.utiliser == true),
         applications: this.applications.filter(element => element.utiliser == true),
         };
-
-        this.outils.forEach(function(element){
-          delete element.utiliser;
-        });
-        this.applications.forEach(function(element){
-          delete element.utiliser;
-        });
-
+      // post cuid
       this.creationCuidService.addCuid(this.newCuid)
         .subscribe((data: any) => {
-
-          swal('Succès', 'Le cuid a bien été crée', 'success');
-
           this.CollaborateurInfos.filter(element => element.utiliser == true).forEach(function(element){
-
           this.cuidCollaborateur = {
             cuidcollaborateurId:{
               cuid: this.newCuid.cuid,
@@ -246,18 +252,18 @@ export class CreationCuidComponent implements OnInit{
             dateaffectation: element.dateaffectation,
             dateliberation: element.dateliberation
           }
-
+          // post affectations
           this.affectationsService.addAffectations(this.cuidCollaborateur)
             .subscribe((data: any) => {
-              //swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
+             // swal('Succès', 'Le cuid a bien été crée', 'success');
             }, (err) => {
-              //swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
+              swal('Erreur', 'Le cuid a été crée mais un problème est survenu lors de l\'affectation du collaborateur', 'error');
             }); 
+            swal('Succès', 'Le cuid a bien été crée', 'success');
+            this.router.navigateByUrl('/tabCuid');
           }, this);
         }, (err) => {
-
           switch(err.status){
-
             case 409:
               swal('Erreur', 'Ce cuid existe déjà', 'error');
               break;
@@ -275,46 +281,10 @@ export class CreationCuidComponent implements OnInit{
           }
         console.error(err);
       }); 
-      this.router.navigateByUrl('/tabCuid');
     }
-  }
-
-  ajouterCollab(trigrame){
-
-    if(this.chipsCollaborateur.includes(trigrame))
-      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
-
-    else {
-      this.chipsCollaborateur.push(trigrame);
-      this.CollaborateurInfos.forEach(function(element){
-
-      if(element.trigrame == trigrame){
-
-        element.utiliser = true;
-
-        const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
-        dialogRef.afterClosed().subscribe(result => {
-          element.dateaffectation = result.affectation;
-          element.dateliberation = result.liberation;
-          });
-        }
-      }, this)
-    }
-  }
-
-  onSubmit(form: NgForm) {
-
-    //onsole.log();
-    //console.log(form.value);
-  }
-
-  colorCuid(nbr_cuid: number){
-    if(nbr_cuid >= 1) return 'text-danger';
-    return '';
   }
 
   isValidForm(): boolean{
-
     this.cuidForm.get("ccuid").markAsTouched();
     this.cuidForm.get("ccontrat").markAsTouched();
     this.cuidForm.get("nom").markAsTouched();
@@ -329,22 +299,18 @@ export class CreationCuidComponent implements OnInit{
       || this.cuidForm.get("prenom").hasError("required") || this.cuidForm.get("nomGir").hasError("required") || this.cuidForm.get("prenomGir").hasError("required")
       || this.cuidForm.get("password").hasError("required") || this.cuidForm.get("passwordVerif").hasError("required"))
       swal('Erreur', 'Les champs (*) sont obligatoires !', 'error');
-
     else if(this.cuidForm.get("ccuid").hasError("minlength") || this.cuidForm.get("nom").hasError("minlength")
     || this.cuidForm.get("prenom").hasError("minlength") || this.cuidForm.get("nomGir").hasError("minlength") || this.cuidForm.get("prenomGir").hasError("minlength")
     || this.cuidForm.get("password").hasError("minlength") || this.cuidForm.get("passwordVerif").hasError("minlength"))
         swal('Erreur', 'Les champs ont une taille min de 3 charactères', 'error');
-
     else if(this.cuidForm.get("nom").hasError("pattern")
     || this.cuidForm.get("prenom").hasError("pattern") || this.cuidForm.get("nomGir").hasError("pattern") || this.cuidForm.get("prenomGir").hasError("pattern"))
         swal('Erreur', 'Les champs nom/prénom ne doivent être composés que de lettres', 'error');
-
     else if(this.cuidForm.get("password").value !== this.cuidForm.get("passwordVerif").value)
       swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
-
     else
       return true;
-
     return false;
   }
+  // ***** 
 }

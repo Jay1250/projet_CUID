@@ -21,7 +21,7 @@ export class GestionErreurComponent implements ErrorHandler {
       console.error('Response body:', error.message);          	  
   } else {
       //A client-side or network error occurred.	          
-      console.error('An error occurred:', error.message);          
+      console.error('An error occurred:', error);          
   } 
   }
 

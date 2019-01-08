@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   contrats: Contrat[] = [];
   cuids: Cuid[] = [];
 
-  panelColor = new FormControl();
+  name = 'tous';
 
   constructor(
     private contratService: ContratService,
@@ -52,12 +52,24 @@ export class HomeComponent implements OnInit {
         this.cuids = data;
       
     });
-
-    //this.panelColor.value = "tous";
   }
 
   chgContrat(){
 
-    console.log(this.panelColor.value);
+   // console.log(this.panelColor.value);
+  // console.log(this.name);
+  }
+
+  nbrCuid(): number{
+
+    let nbr: number = 0;
+    if(this.name == "tous")
+      nbr = this.cuids.length;
+    else{
+      this.cuids.forEach(function(element){
+        if(element.contrat.id == this.name) nbr++;
+      }, this);
+    }
+    return nbr;
   }
 }

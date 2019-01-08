@@ -4,11 +4,11 @@ import { ApplicationService } from '../services/application/application.service'
 import { OutilService } from '../services/outil/outil.service';
 import { LocalisationService } from '../services/localisation/localisation.service';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
-import { MyErrorStateMatcher } from '../fiche-cuid/fiche-cuid.component';
 import {MatDialog} from '@angular/material';
 import { OutilsModalComponent } from '../modals/outils/outils.component';
 import { ApplicationsModalComponent } from '../modals/applications/applications.component';
 import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
+import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
 
 export interface Contrat {
 	id: number;
@@ -45,7 +45,7 @@ export class GestionComponent implements OnInit {
   applications: Application[] = [];
   outils: Outil[] = [];
   localisations: Localisation[] = [];
-  matcher = new MyErrorStateMatcher();
+  matcher = new FormStateMatcherService();
 
   displayedColumnsOutils: string[] = ['id', 'nomOutil'];
   dataSourceOutils;
