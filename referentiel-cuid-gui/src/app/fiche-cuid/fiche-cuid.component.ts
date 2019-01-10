@@ -177,7 +177,7 @@ export class FicheCuidComponent implements OnInit {
   }
 
   hello(vaz){
-/*
+
     if(this.isValidForm()){
 
       this.cuid.cuid = this.cuidForm.get("ccuid").value;
@@ -193,24 +193,6 @@ export class FicheCuidComponent implements OnInit {
 
           swal('Succès', 'Le cuid a bien été crée', 'success');
 
-         /this.CollaborateurInfos.filter(element => element.utiliser == true).forEach(function(element){
-
-          this.cuidCollaborateur = {
-            cuidcollaborateurId:{
-              cuid: this.newCuid.cuid,
-              trigrame: element.trigrame
-            },
-            dateaffectation: element.dateaffectation,
-            dateliberation: element.dateliberation
-          }
-
-          this.affectationsService.addAffectations(this.cuidCollaborateur)
-            .subscribe((data: any) => {
-              //swal('Succès', 'Les collaborateurs ont été ajouté', 'success');
-            }, (err) => {
-              //swal('Erreur', 'Problème lors de la création des collaborateurs', 'error');
-            }); 
-          }, this);
         }, (err) => {
 
           switch(err.status){
@@ -233,7 +215,6 @@ export class FicheCuidComponent implements OnInit {
         console.error(err);
       }); 
     }
-    */
   }
 
   ajouterCollab(trigrame){

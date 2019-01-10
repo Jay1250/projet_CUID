@@ -1,27 +1,15 @@
 //angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 //services
 import { ContratService } from '../services/contrat/contrat.service';
 import { CuidService } from '../services/cuid/cuid.service';
 
-export interface Contrat {
-	id: number;
-  nom: String;
-}
-
-export interface Cuid {
-	cuid: String;
-  nom: String;
-  prenom: String;
-  mdp: String;
-  status: number;
-	commentaires: String;
-	nomgir: String;
-	prenomgir: String;
-  contrat: Contrat;
-}
+//interfaces
+import {Cuid} from '../interfaces/cuid';
+import {Contrat} from '../interfaces/contrat';
+import {CuidInfo} from '../interfaces/cuid-info';
 
 @Component({
   selector: 'app-home',
@@ -30,14 +18,21 @@ export interface Cuid {
 })
 export class HomeComponent implements OnInit {
 
+  
+
   contrats: Contrat[] = [];
-  cuids: Cuid[] = [];
+  cuids: CuidInfo[] = [];
 
   name = 'tous';
 
+  cuidNonAffect: Number = 0;
+  cuidUnCollab: Number = 0;
+  cuidPlusieursCollab: Number = 0;
+
   constructor(
     private contratService: ContratService,
-    private cuidService: CuidService
+    private cuidService: CuidService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -47,10 +42,11 @@ export class HomeComponent implements OnInit {
         this.contrats = data;
     });
 
-    this.cuidService.getAllCuid()
+    this.cuidService.recupInfosCuid()
     .subscribe((data: any) => {
         this.cuids = data;
-      
+
+        console.log(this.cuids);
     });
   }
 
@@ -61,14 +57,26 @@ export class HomeComponent implements OnInit {
   }
 
   nbrCuid(): number{
-
     let nbr: number = 0;
+    this.cuidNonAffect = 0;
+    this.cuidUnCollab = 0;
+    this.cuidPlusieursCollab =0;
     if(this.name == "tous")
       nbr = this.cuids.length;
     else{
       this.cuids.forEach(function(element){
-        if(element.contrat.id == this.name) nbr++;
+      //  console.log(element.contrat);
+        
+        if(element.contrat == this.name){
+         // console.log(element.contrat);
+          if(element.nbcollab == 0) this.cuidNonAffect++;
+          else if(element.nbcollab == 1) this.cuidUnCollab++;
+          else if(element.nbcollab > 1) this.cuidPlusieursCollab++;
+          nbr++;
+        
+        } 
       }, this);
+    //  this.cdRef.detectChanges();
     }
     return nbr;
   }

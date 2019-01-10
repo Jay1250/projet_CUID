@@ -28,12 +28,6 @@ public class Collaborateurs {
 	@Size(max = 3, message = "le champ trigramme est trop long (max : {max})")
 	private String trigrame;
 	
-	@Column(name="statuscollaborateur")
-	@NotNull(message = "le champ status collaborateur ne peut pas être null")
-
-	@Range(max = 1, message = "le champ status collaborateur est trop long (max : {max})")
-	private Integer statusCollaborateur;
-	
 	@Size(max = 30, message="le champ role est trop long (max : {max})")
 	private String role;
 	
@@ -53,10 +47,23 @@ public class Collaborateurs {
 	@JoinColumn(name = "localisation_id")
 	@NotNull
 	private Localisation localisation;
-	/*
-	@JsonIgnore
+	
+
+/*
 	@OneToMany(mappedBy = "collaborateurs")
 	private Set<CuidCollaborateurs> cuidCollaborateurs;
+*/
+	
+	
+	
+	/*
+	public Set<CuidCollaborateurs> getCuidCollaborateurs() {
+		return cuidCollaborateurs;
+	}
+
+	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
+		this.cuidCollaborateurs = cuidCollaborateurs;
+	}
 */
 	public Collaborateurs() {
 	}
@@ -67,14 +74,6 @@ public class Collaborateurs {
 
 	public void setTrigrame(String trigrame) {
 		this.trigrame = trigrame;
-	}
-
-	public int getStatusCollaborateur() {
-		return statusCollaborateur;
-	}
-
-	public void setStatusCollaborateur(int statusCollaborateur) {
-		this.statusCollaborateur = statusCollaborateur;
 	}
 
 	public String getRole() {

@@ -1,4 +1,4 @@
-package com.capgemini.referentielcuid.controller;
+package com.capgemini.referentielcuid.trash;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capgemini.referentielcuid.model.CollaborateursOfCuid;
 import com.capgemini.referentielcuid.model.CuidCollaborateursId;
-import com.capgemini.referentielcuid.repository.CollaborateursOfCuidRepository;
 
 @RestController
 @CrossOrigin("*")

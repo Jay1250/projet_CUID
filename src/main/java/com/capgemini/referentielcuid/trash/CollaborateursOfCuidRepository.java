@@ -1,10 +1,9 @@
-package com.capgemini.referentielcuid.repository;
+package com.capgemini.referentielcuid.trash;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.capgemini.referentielcuid.model.CollaborateursOfCuid;
 import com.capgemini.referentielcuid.model.CuidCollaborateursId;
 
 public interface CollaborateursOfCuidRepository extends JpaRepository<CollaborateursOfCuid, CuidCollaborateursId> {

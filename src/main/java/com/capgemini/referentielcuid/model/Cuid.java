@@ -1,14 +1,9 @@
 package com.capgemini.referentielcuid.model;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,62 +19,64 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "cuid")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Cuid {
 
 	@Id
-	@Size(max = 9, message = "le champ cuid est trop long (max : {max})")
+	@Size(max = 9)
 	private String cuid;
-	
-	@NotNull(message = "le champ nom ne peut pas être null")
+
+	@NotNull(message = "{javax.validation.constraints.NotNull.message}" + "le champ nom ne peut pas être null")
 	@Size(max = 25, message = "le champ nom est trop long (max : {max})")
 	private String nom;
-	
+
 	@NotNull(message = "le champ prenom ne peut pas être null")
 	@Size(max = 25, message = "le champ prenom est trop long (max : {max})")
 	private String prenom;
-	
+
 	@Size(max = 10, message = "le champ mdp est trop long (max : {max})")
 	@JsonIgnore
 	private String mdp;
-	
+
 	@NotNull(message = "le champ status ne peut pas être null")
 	@Range(max = 4, message = "le champ status est trop long (max : {max})")
 	private int status;
-	
+
 	@Size(max = 250, message = "le champ commentaires est trop long (max : {max})")
 	private String commentaires;
-	
+
 	@NotNull(message = "le champ nomgir ne peut pas être null")
 	@Size(max = 25, message = "le champ nomgir est trop long (max : {max})")
 	private String nomgir;
-	
+
 	@NotNull(message = "le champ prenomgir ne peut pas être null")
 	@Size(max = 25, message = "le champ prenomgir est trop long (max : {max})")
 	private String prenomgir;
-	/*
-	@OneToMany(mappedBy = "cuid")
-	private Set<CuidCollaborateurs> cuidCollaborateurs;
-	*/
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "cuid_outil")
-	private Set<Outil> outil = new HashSet<>();
-	
+
 	@ManyToOne
-	@JoinColumn(name = "contrat_id")
 	private Contrat contrat;
-	
-	//@ManyToMany(fetch = FetchType.LAZY)
-	//@JoinTable(name = "cuid_applications")
-	//@JsonIgnore
-	//private Set<Application> application = new HashSet<>();
-	
-	@ManyToMany()
+
+	@ManyToMany
 	private List<Application> applications;
+
+	@ManyToMany
+	private List<Outil> outil;
+
+	@OneToMany(mappedBy = "cuid")
+	@JsonIgnore
+	private List<CuidCollaborateurs> cuidCollaborateurs;
 
 	public Cuid() {
 	}
-	
+
+	public List<CuidCollaborateurs> getCuidCollaborateurs() {
+		return cuidCollaborateurs;
+	}
+
+	public void setCuidCollaborateurs(List<CuidCollaborateurs> cuidCollaborateurs) {
+		this.cuidCollaborateurs = cuidCollaborateurs;
+	}
+
 	public String getCuid() {
 		return cuid;
 	}
@@ -143,34 +140,27 @@ public class Cuid {
 	public void setPrenomgir(String prenomgir) {
 		this.prenomgir = prenomgir;
 	}
-/*
-	public Set<CuidCollaborateurs> getCuidCollaborateurs() {
-		return cuidCollaborateurs;
+	/*
+	 * public Set<Outil> getOutil() { return outil; }
+	 * 
+	 * public void setOutil(Set<Outil> outil) { this.outil = outil; }
+	 */
+
+	public Contrat getContrat() {
+		return contrat;
 	}
 
-	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
-		this.cuidCollaborateurs = cuidCollaborateurs;
-	}
-*/
-	public Set<Outil> getOutil() {
+	public List<Outil> getOutil() {
 		return outil;
 	}
 
-	public void setOutil(Set<Outil> outil) {
-		this.outil = outil;
-	}
-	
-	public Contrat getContrat() {
-		return contrat;
+	public void setOutil(List<Outil> outils) {
+		this.outil = outils;
 	}
 
 	public void setContrat(Contrat contrat) {
 		this.contrat = contrat;
 	}
-	
-	
-
-
 
 	public List<Application> getApplications() {
 		return applications;
@@ -184,6 +174,6 @@ public class Cuid {
 	public String toString() {
 		return "Cuid [cuid=" + cuid + ", nom=" + nom + ", prenom=" + prenom + ", mdp=" + mdp + ", status=" + status
 				+ ", commentaire=" + commentaires + ", nomGir=" + nomgir + ", prenomGir=" + prenomgir
-				+ ", cuidCollaborateurs="  + "]";
+				+ ", cuidCollaborateurs=" + "]";
 	}
 }

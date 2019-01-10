@@ -38,11 +38,11 @@ public class CuidCollaborateursController {
 		//System.out.println(cuidCollaborateur.get);
 		
 		return cuidCollaborateur;
-	}*/
+	}
 	@PostMapping(value = "/CuidCollaborateurs")
 	public CuidCollaborateurs addOne(@RequestBody CuidCollaborateurs cuidCollaborateurs){	    
 		System.out.println(cuidCollaborateurs);
 		return cuidCollaborateurRepository.save(cuidCollaborateurs);
 	}
-	
+	*/
 }

@@ -1,4 +1,4 @@
-package com.capgemini.referentielcuid.model;
+package com.capgemini.referentielcuid.trash;
 
 import java.util.Date;
 

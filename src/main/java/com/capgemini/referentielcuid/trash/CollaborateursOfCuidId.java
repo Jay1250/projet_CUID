@@ -1,4 +1,4 @@
-package com.capgemini.referentielcuid.model;
+package com.capgemini.referentielcuid.trash;
 
 import java.io.Serializable;
 
@@ -45,6 +45,4 @@ public class CollaborateursOfCuidId implements Serializable{
 	public String toString() {
 		return "CuidCollaborateurId [cuid=" + cuid + ", trigrame=" + trigrame + "]";
 	}
-	
-	
 }

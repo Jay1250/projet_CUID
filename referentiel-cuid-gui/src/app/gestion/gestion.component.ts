@@ -1,38 +1,25 @@
+//angular
 import { Component, OnInit } from '@angular/core';
+import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material';
+
+//services
 import { ContratService } from '../services/contrat/contrat.service';
 import { ApplicationService } from '../services/application/application.service';
 import { OutilService } from '../services/outil/outil.service';
 import { LocalisationService } from '../services/localisation/localisation.service';
-import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
+
+//components
 import { OutilsModalComponent } from '../modals/outils/outils.component';
 import { ApplicationsModalComponent } from '../modals/applications/applications.component';
 import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
-import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
 
-export interface Contrat {
-	id: number;
-  nom: String;
-}
-
-export interface Application {
-	id: number;
-  nomApplication: String;
-  utiliser: boolean;
-  contrat_id: number;
-}
-
-export interface Outil {
-	id: number;
-  nomOutil: String;
-  utiliser: boolean;
-}
-
-export interface Localisation {
-
-  id: Number;
-  pays: String
-}
+//interfaces
+import {Contrat} from '../interfaces/contrat';
+import {Application} from '../interfaces/application';
+import {Outil} from '../interfaces/outil';
+import {Localisation} from '../interfaces/localisation';
 
 @Component({
   selector: 'app-gestion',

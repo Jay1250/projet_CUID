@@ -1,9 +1,12 @@
 package com.capgemini.referentielcuid.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -21,10 +24,6 @@ public class Application {
 	@Column(name = "nomapplication")
 	@Size(max = 20, message="le champ nom d'application est trop long (max : {max})")
 	private String nomApplication;
-	
-	@Column(name = "nbapplications")
-	@Range(max = 11, message = "le champ nombres d'applications est trop long (max : {max})")
-	private int nbApplications;
 	
 	@ManyToOne
 	@JoinColumn(name = "contrat_id")
@@ -49,14 +48,6 @@ public class Application {
 		this.nomApplication = nomApplication;
 	}
 
-	public int getNbApplications() {
-		return nbApplications;
-	}
-
-	public void setNbApplications(int nbApplications) {
-		this.nbApplications = nbApplications;
-	}
-	
 	public Contrat getContrat() {
 		return contrat;
 	}
@@ -67,7 +58,6 @@ public class Application {
 
 	@Override
 	public String toString() {
-		return "Application [id=" + id + ", nomApplication=" + nomApplication + ", nbApplications=" + nbApplications
-				+ "]";
+		return "Application [id=" + id + ", nomApplication=" + nomApplication + "]";
 	}
 }

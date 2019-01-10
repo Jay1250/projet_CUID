@@ -6,15 +6,8 @@ import {SelectionModel} from '@angular/cdk/collections';
 //services
 import { TabCuidService } from '../services/tab-cuid/tab-cuid.service';
 
-export interface Cuid {
-	cuid: string;
-	nomprenom: String;
-	manager: String;
-	nbapplis: number;
-	nbcollab: number;
-	status: String;
-	contrat: String;
-}
+//interfaces
+import {CuidInfo} from '../interfaces/cuid-info';
 
 @Component({
 	selector: 'app-tab-cuid',
@@ -27,10 +20,10 @@ export class TabCuidComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  CuidInfos: Cuid[] = [];
+  CuidInfos: CuidInfo[] = [];
   displayedColumns: string[] = ['cuid','contrat', 'nomprenom', 'manager', 'nbapplis', 'nbcollab', 'status'];
   dataSource;
-  selection = new SelectionModel<Cuid>(true, []);
+  selection = new SelectionModel<CuidInfo>(true, []);
 
   constructor(  private tabCuidService: TabCuidService) {
    }
@@ -40,7 +33,7 @@ export class TabCuidComponent implements OnInit {
     .subscribe((data: any) => {
         this.CuidInfos = data;
         console.log(data);
-        this.dataSource = new MatTableDataSource<Cuid>(this.CuidInfos);
+        this.dataSource = new MatTableDataSource<CuidInfo>(this.CuidInfos);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
     });

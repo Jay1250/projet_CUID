@@ -1,7 +1,9 @@
 package com.capgemini.referentielcuid.exception;
 
-import java.util.logging.Logger;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -12,8 +14,8 @@ public class NotFoundException extends RuntimeException {
 	
 	public NotFoundException(String s) {	
 		super(s);
-		Logger logger = Logger.getLogger("logger");
-		logger.info("----------- NOT FOUND EXCEPTION -----------");
-		logger.info(s);
+		Logger logger = LoggerFactory.getLogger(ConflictException.class);
+		logger.error("----------- NOT FOUND EXCEPTION -----------");
+		logger.error(s);
 	}
 }

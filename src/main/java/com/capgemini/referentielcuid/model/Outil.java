@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
@@ -16,13 +17,10 @@ public class Outil {
 	@Range(max = 11, message = "le champ id collaborateur est trop long (max : {max})")
 	private int id;
 	
+	@NotNull(message = "le champ nomOutil ne peut pas être null")
 	@Column(name = "nomoutil")
 	@Size(max =20, message="le champ nom outil est trop long (max : {max})")
 	private String nomOutil;
-	
-	@Column(name = "nboutils")
-	@Range(max = 11, message = "le champ nombre outils  collaborateur est trop long (max : {max})")
-	private int nbOutils;
 	
 	public Outil() {
 	}
@@ -43,16 +41,8 @@ public class Outil {
 		this.nomOutil = nomOutil;
 	}
 
-	public int getNbOutils() {
-		return nbOutils;
-	}
-
-	public void setNbOutils(int nbOutils) {
-		this.nbOutils = nbOutils;
-	}
-
 	@Override
 	public String toString() {
-		return "Outil [id=" + id + ", nomOutil=" + nomOutil + ", nbOutils=" + nbOutils + "]";
+		return "Outil [id=" + id + ", nomOutil=" + nomOutil + "]";
 	}
 }

@@ -6,15 +6,22 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cuid_collaborateurs")
 public class CuidCollaborateurs implements Serializable{
 	
 	@EmbeddedId
+	@JsonIgnore
 	private CuidCollaborateursId cuidcollaborateur;
 	
 	@Column(name = "dateaffectation")
@@ -23,9 +30,32 @@ public class CuidCollaborateurs implements Serializable{
 	@Column(name = "dateliberation")
 	private Date dateliberation;
 	
+	@ManyToOne
+	@MapsId("cuid")
+	private Cuid cuid;
+	
+	@ManyToOne
+	@MapsId("trigrame")
+	private Collaborateurs collaborateurs;
 	
 	
-	
+
+	public Cuid getCuid() {
+		return cuid;
+	}
+
+	public void setCuid(Cuid cuid) {
+		this.cuid = cuid;
+	}
+
+	public Collaborateurs getCollaborateurs() {
+		return collaborateurs;
+	}
+
+	public void setCollaborateurs(Collaborateurs collaborateurs) {
+		this.collaborateurs = collaborateurs;
+	}
+
 	/*
 	public CuidCollaborateurs(String cuid, String collaborateur) {
 		this.cuidcollaborateur = new CuidCollaborateursId(cuid, collaborateur);

@@ -19,7 +19,7 @@
             <mat-form-field class="mr-3">
               <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()" [(ngModel)] = "name">
                 <mat-option value="tous" selected>Tous</mat-option>
-                <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
+                <mat-option value="{{contrat.nom}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
               </mat-select>
             </mat-form-field> 
             <button mat-stroked-button color="primary">Exporter</button>
@@ -29,15 +29,15 @@
         <div class="row">
 
           <div class="col-md-4 p-3">
-            <p><span matBadge="4" matBadgeOverlap="false">Non affectés  </span></p>
+            <p><span matBadge="{{cuidNonAffect}}" matBadgeOverlap="false">Non affectés  </span></p>
           </div>
 
           <div class="col-md-4 p-3">
-            <p><span matBadge="4" matBadgeOverlap="false">1 Collaborateur</span></p>
+            <p><span matBadge="{{cuidUnCollab}}" matBadgeOverlap="false">1 Collaborateur</span></p>
           </div>
 
           <div class="col-md-4 p-3">
-            <p><span matBadge="4" matBadgeOverlap="false">Plusieurs Collaborateurs</span></p>
+            <p><span matBadge="{{cuidPlusieursCollab}}" matBadgeOverlap="false">Plusieurs Collaborateurs</span></p>
           </div>
         </div>
 

@@ -9,11 +9,9 @@ import javax.persistence.Embeddable;
 public class CuidCollaborateursId implements Serializable{
 	
 	@Column(name = "cuid_cuid")
-	//@Column(name = "cuid")
 	private String cuid;
 	
 	@Column(name = "collaborateurs_trigrame")
-	//@Column(name = "trigrame")
 	private String trigrame;
 	
 	public CuidCollaborateursId() {
@@ -46,6 +44,4 @@ public class CuidCollaborateursId implements Serializable{
 	public String toString() {
 		return "CuidCollaborateurId [cuid=" + cuid + ", trigrame=" + trigrame + "]";
 	}
-	
-	
 }
