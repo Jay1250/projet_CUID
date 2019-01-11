@@ -14,8 +14,5 @@ public class NotFoundException extends RuntimeException {
 	
 	public NotFoundException(String s) {	
 		super(s);
-		Logger logger = LoggerFactory.getLogger(ConflictException.class);
-		logger.error("----------- NOT FOUND EXCEPTION -----------");
-		logger.error(s);
 	}
 }

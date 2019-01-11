@@ -9,8 +9,5 @@ public class BadRequestException extends RuntimeException {
 
 	public BadRequestException(String s) {	
 		super(s);
-		Logger logger = LoggerFactory.getLogger(ConflictException.class);
-		logger.error("----------- BAD REQUEST EXCEPTION -----------");
-		logger.error(s);
 	}
 }

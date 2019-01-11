@@ -18,8 +18,5 @@ public class ConflictException extends RuntimeException {
 
 	public ConflictException(String s) {	
 		super(s);
-		Logger logger = LoggerFactory.getLogger(ConflictException.class);
-		logger.error("----------- CONFLICT EXCEPTION -----------");
-		logger.error(s);
 	}
 }

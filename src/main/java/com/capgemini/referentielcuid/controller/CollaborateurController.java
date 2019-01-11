@@ -21,6 +21,7 @@ import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.Collaborateurs;
 import com.capgemini.referentielcuid.service.CollaborateursService;
+import com.capgemini.referentielcuid.service.ServiceException;
 
 
 
@@ -32,12 +33,16 @@ public class CollaborateurController {
 	private CollaborateursService collaborateurService;
 	
 	@GetMapping(value = "/Collaborateurs")
-	public List<Collaborateurs> findAll() {
-		return collaborateurService.findAll();
+	public List<Collaborateurs> findAll() throws ServiceException {
+		try {
+			return collaborateurService.findAll();
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
 	}
 	
 	@GetMapping(value = "/Collaborateurs/{trigrame}")
-	public Optional<Collaborateurs> afficherUnCollaborateur(@PathVariable String trigrame){
+	public Optional<Collaborateurs> afficherUnCollaborateur(@PathVariable String trigrame) throws ServiceException{
 		return collaborateurService.findById(trigrame);
 	}
 	
@@ -65,7 +70,7 @@ public class CollaborateurController {
 	}
 
 	@DeleteMapping(value = "/Collaborateurs/{trigrame}")
-	public ResponseEntity<Boolean> supprimerCollaborateur(@PathVariable String trigrame) {
+	public ResponseEntity<Boolean> supprimerCollaborateur(@PathVariable String trigrame) throws ServiceException {
 		if (!collaborateurService.deleteById(trigrame)) {
 			throw new NotFoundException("Erreur lors du DELETE du collaborateur : " + trigrame);
 		}
