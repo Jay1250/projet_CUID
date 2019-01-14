@@ -1,4 +1,4 @@
-package com.capgemini.referentielcuid.controller;
+package com.capgemini.referentielcuid.trash;
 
 import java.net.URI;
 import java.util.Optional;

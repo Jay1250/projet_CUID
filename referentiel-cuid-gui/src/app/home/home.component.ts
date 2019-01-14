@@ -3,8 +3,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 //services
-import { ContratService } from '../services/contrat/contrat.service';
-import { CuidService } from '../services/cuid/cuid.service';
+import { ContratService } from '../services/http/contrat/contrat.service';
+import { CuidService } from '../services/http/cuid/cuid.service';
 
 //interfaces
 import {Cuid} from '../interfaces/cuid';
@@ -37,12 +37,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.contratService.getAllContrats()
+    this.contratService.getContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
 
-    this.cuidService.recupInfosCuid()
+    this.cuidService.getTabCuid()
     .subscribe((data: any) => {
         this.cuids = data;
 

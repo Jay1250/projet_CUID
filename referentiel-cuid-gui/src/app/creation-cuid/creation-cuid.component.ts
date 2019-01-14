@@ -9,10 +9,13 @@ import { ApplicationsModalComponent } from '../modals/applications/applications.
 import { DateCollabModalComponent } from '../modals/date-collab/date-collab.component';
 
 //services
-import { CreationCuidService } from '../services/creation-cuid/creation-cuid.service';
-import { AffectationsService } from '../services/affectations/affectations.service';
-import { TabCollaborateurService } from '../services/tab-collaborateur/tab-collaborateur.service';
+import { CuidService } from '../services/http/cuid/cuid.service';
+import { AffectationService } from '../services/http/affectation/affectation.service';
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
+import { OutilService } from '../services/http/outil/outil.service';
+import { ApplicationService } from '../services/http/application/application.service';
+import { ContratService } from '../services/http/contrat/contrat.service';
 
 // interfaces
 import {Cuid} from '../interfaces/cuid';
@@ -100,14 +103,17 @@ export class CreationCuidComponent implements OnInit{
     ]),
   });
 
-  constructor(private creationCuidService: CreationCuidService, 
-              private tabCollaborateurService: TabCollaborateurService,
+  constructor(private cuidService: CuidService, 
+              private collaborateurService: CollaborateurService,
               public dialog: MatDialog,
-              private affectationsService: AffectationsService,
+              private affectationService: AffectationService,
+              private outilService: OutilService,
+              private applicationService: ApplicationService,
+              private contratService: ContratService
               ) {}
 
   ngOnInit() {
-    this.affectationsService.getAffectations()
+    this.affectationService.getAffectations()
     .subscribe((data: any) => {
         this.tabCuidCollaborateur = data;
     }, (err) => {
@@ -121,7 +127,7 @@ export class CreationCuidComponent implements OnInit{
     });
 
     //recup outils
-    this.creationCuidService.getAllOutils()
+    this.outilService.getOutils()
     .subscribe((data: any) => {
         this.outils = data;
         this.outils.forEach(function(outil){
@@ -130,7 +136,7 @@ export class CreationCuidComponent implements OnInit{
     });
 
     // recup applis
-    this.creationCuidService.getAllApplications()
+    this.applicationService.getApplications()
     .subscribe((data: any) => {
         this.applications = data;
         this.applications.forEach(function(application){
@@ -139,13 +145,13 @@ export class CreationCuidComponent implements OnInit{
     });
 
     //recup contrats
-    this.creationCuidService.getAllContrats()
+    this.contratService.getContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
 
     //recup tab collaborateurs
-    this.tabCollaborateurService.getAllTabCuid()
+    this.cuidService.getTabCuid()
     .subscribe((data: any) => {
         this.CollaborateurInfos = data;
         this.CollaborateurInfos.forEach(function(CollaborateurInfos){
@@ -241,7 +247,7 @@ export class CreationCuidComponent implements OnInit{
         applications: this.applications.filter(element => element.utiliser == true),
         };
       // post cuid
-      this.creationCuidService.addCuid(this.newCuid)
+      this.cuidService.addCuid(this.newCuid)
         .subscribe((data: any) => {
           this.CollaborateurInfos.filter(element => element.utiliser == true).forEach(function(element){
           this.cuidCollaborateur = {

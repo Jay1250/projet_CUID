@@ -38,19 +38,11 @@ public class CuidController {
 	private CuidService cuidService;
 
 	@GetMapping(value = "/Cuid")
-	public List<Cuid> listeCuid() throws ServiceException {
+	public List<Cuid> listeCuids() throws ServiceException {
 		List<Cuid> cuids = null;
-		logger.trace("listeCuid()");
-	    logger.debug("Debugging log");
-	     logger.info("Info log");
-	       logger.warn("Hey, This is a warning!");
-	        logger.error("Oops! We have an Error. OK");
-	       logger.fatal("Damn! Fatal error. Please fix me.");
-	        
 		try {
 			cuids = cuidService.findAll();
-			if (cuids.isEmpty())
-				throw new NotFoundException("Aucun cuid n'a été trouvé");
+			if (cuids.isEmpty()) throw new NotFoundException("Aucun cuid n'a été trouvé");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");
 		}
@@ -59,12 +51,10 @@ public class CuidController {
 
 	@GetMapping(value = "/Cuid/{cuid}")
 	public Optional<Cuid> afficherUnCuid(@PathVariable String cuid) throws ServiceException {
-
 		Optional<Cuid> cuids = null;
 		try {
 			cuids = cuidService.findById(cuid);
-			if (!cuids.isPresent())
-				throw new NotFoundException("Le cuid " + cuid + " est introuvable");
+			if (!cuids.isPresent()) throw new NotFoundException("Le cuid " + cuid + " est introuvable");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");
 		}
@@ -72,14 +62,11 @@ public class CuidController {
 	}
 
 	@GetMapping(value = "/CuidFromContrat/{contratId}")
-	public List<Cuid> afficherUnCuidAvecContrat(@PathVariable int contratId)
-			throws ServiceException {
-
+	public List<Cuid> afficherUnCuidAvecContrat(@PathVariable int contratId) throws ServiceException {
 		List<Cuid> cu = null;
 		try {
 			cu = cuidService.findCuidsContrat(contratId);
-			if (cu.isEmpty())
-				throw new NotFoundException("Les cuids du contrat " + contratId + " sont introuvables");
+			if (cu.isEmpty()) throw new NotFoundException("Les cuids du contrat " + contratId + " sont introuvables");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");
 		}
@@ -88,12 +75,10 @@ public class CuidController {
 
 	@GetMapping(value = "/TabCuids")
 	public List<CuidInfos> afficherLeTabCuid() throws ServiceException {
-
 		List<CuidInfos> cu = null;
 		try {
 			cu = cuidService.findAllCuidInfos();
-			if (cu.isEmpty())
-				throw new NotFoundException("Aucun cuid n'a été trouvé");
+			if (cu.isEmpty()) throw new NotFoundException("Aucun cuid n'a été trouvé");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");
 		}
@@ -106,7 +91,6 @@ public class CuidController {
 		try {
 			newCuid = cuidService.addOne(cuid);
 		} catch (ServiceException e) {
-
 			throw new ConflictException("Erreur lors du POST du cuid : " + cuid.getCuid() + " -> " + e.getMessage());
 		}
 		return new ResponseEntity<Cuid>(newCuid, HttpStatus.CREATED);

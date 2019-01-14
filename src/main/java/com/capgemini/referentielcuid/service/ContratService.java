@@ -15,29 +15,29 @@ public class ContratService {
 	@Autowired
 	private ContratRepository contratRepository;
 	
-	public List<Contrat> findAll() {
+	public List<Contrat> findAll() throws ServiceException {
 		return contratRepository.findAll();
 	}
 	
-	public Optional<Contrat> findById(int id){
+	public Optional<Contrat> findById(int id) throws ServiceException {
 		return contratRepository.findById(id);
 	}
 	
-	public Contrat addOne(Contrat contrat) throws Exception {	    
+	public Contrat addOne(Contrat contrat) throws ServiceException {	    
 		Optional<Contrat> old = contratRepository.findById(contrat.getId());
 		if(old.isPresent())
-			throw new Exception("Application déjà existant");
+			throw new ServiceException("Application déjà existant");
 		return contratRepository.save(contrat);
 	}
 	
-	public Contrat update(Contrat contrat) throws Exception  {
+	public Contrat update(Contrat contrat) throws ServiceException  {
 		Optional<Contrat> old = contratRepository.findById(contrat.getId());
 		if (!old.isPresent())
-			throw new Exception("Collaborateur introuvable");
+			throw new ServiceException("Collaborateur introuvable");
 		return contratRepository.save(contrat);
 	}
 	
-	public boolean deleteById(int  id) {
+	public boolean deleteById(int  id) throws ServiceException {
 		Optional<Contrat> collab = contratRepository.findById(id);
 		if (collab.isPresent()) {
 			contratRepository.deleteById(id);

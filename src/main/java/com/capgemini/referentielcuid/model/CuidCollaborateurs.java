@@ -38,7 +38,6 @@ public class CuidCollaborateurs implements Serializable{
 	@MapsId("trigrame")
 	private Collaborateurs collaborateurs;
 	
-	
 
 	public Cuid getCuid() {
 		return cuid;
@@ -90,8 +89,5 @@ public class CuidCollaborateurs implements Serializable{
 		return "CuidCollaborateur [cuidcollaborateur=" + cuidcollaborateur + ", dateaffectation=" + dateaffectation
 				+ ", dateliberation=" + dateliberation + "]";
 	}
-	
-	
-	
 }
 

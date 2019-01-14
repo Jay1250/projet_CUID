@@ -7,10 +7,10 @@ import{ActivatedRoute} from '@angular/router'
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 
 //services
-import { CreationCuidService } from '../services/creation-cuid/creation-cuid.service';
-import { AffectationsService } from '../services/affectations/affectations.service';
-import { CuidService } from '../services/cuid/cuid.service';
-import { TabCollaborateurService } from '../services/tab-collaborateur/tab-collaborateur.service';
+//import { CreationCuidService } from '../services/http/cuid/cuid.service';
+import { AffectationService } from '../services/http/affectation/affectation.service';
+import { CuidService } from '../services/http/cuid/cuid.service';
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
 
 //components
@@ -99,10 +99,9 @@ export class FicheCuidComponent implements OnInit {
     ])
 });
 
-  constructor(private creationCuidService: CreationCuidService, 
-              private tabCollaborateurService: TabCollaborateurService,
+  constructor(private collaborateurService: CollaborateurService,
               public dialog: MatDialog,
-              private affectationsService: AffectationsService,
+              private affectationsService: AffectationService,
               private cuidService: CuidService,
               private route: ActivatedRoute) { }
 
@@ -111,7 +110,7 @@ export class FicheCuidComponent implements OnInit {
     // recup param get cuid
     this.getCuid = this.route.snapshot.params['cuid'];
 
-    this.cuidService.findById(this.getCuid)
+    this.cuidService.getCuid(this.getCuid)
     .subscribe((data: any) => {
 
       this.cuid.cuid = data.cuid;
@@ -135,7 +134,7 @@ export class FicheCuidComponent implements OnInit {
     });
 
     //recup Collaborateurs of Cuid
-    this.affectationsService.getCollaborateursOfCuid(this.getCuid)
+    this.affectationsService.getAffectationCuid(this.getCuid)
     .subscribe((data: any) => {
       this.tabCuidCollaborateur = data;
       if(data != null && data != undefined){
@@ -173,6 +172,8 @@ export class FicheCuidComponent implements OnInit {
     const index = this.chipsCollaborateur.indexOf(chip);
     if (index >= 0) {
       this.chipsCollaborateur.splice(index, 1);
+
+      
     }
   }
 

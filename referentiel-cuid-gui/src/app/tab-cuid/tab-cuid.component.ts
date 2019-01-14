@@ -4,7 +4,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 
 //services
-import { TabCuidService } from '../services/tab-cuid/tab-cuid.service';
+import { CuidService } from '../services/http/cuid/cuid.service';
 
 //interfaces
 import {CuidInfo} from '../interfaces/cuid-info';
@@ -25,11 +25,11 @@ export class TabCuidComponent implements OnInit {
   dataSource;
   selection = new SelectionModel<CuidInfo>(true, []);
 
-  constructor(  private tabCuidService: TabCuidService) {
+  constructor(  private cuidService: CuidService) {
    }
 
   ngOnInit() {
-    this.tabCuidService.getAllTabCuid()
+    this.cuidService.getTabCuid()
     .subscribe((data: any) => {
         this.CuidInfos = data;
         console.log(data);

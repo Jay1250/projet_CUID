@@ -21,6 +21,7 @@ import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.Application;
 import com.capgemini.referentielcuid.service.ApplicationService;
+import com.capgemini.referentielcuid.service.ServiceException;
 
 @RestController
 @CrossOrigin("*")
@@ -30,42 +31,56 @@ public class ApplicationController {
 	private ApplicationService applicationService;
 	
 	@GetMapping(value = "/Application")
-	public List<Application> findAll() {
-		return applicationService.findAll();
+	public List<Application> findAll() throws ServiceException {
+		List<Application> app = null;
+		try {
+			app  = applicationService.findAll();
+			if (app.isEmpty()) throw new NotFoundException("Aucune application n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return app;
 	}
 	
 	@GetMapping(value = "/Application/{id}")
-	public Optional<Application> afficherUneApplication(@PathVariable int id){
-		return applicationService.findById(id);
+	public Optional<Application> afficherUneApplication(@PathVariable int id) throws ServiceException{
+		Optional<Application> app = null;
+		try {
+			app = applicationService.findById(id);
+			if (!app.isPresent()) throw new NotFoundException("L'application " + id + " est introuvable");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return app;
 	}
 	
 	@PostMapping(value = "/Application")
-	public ResponseEntity<Application> addOne(@Valid @RequestBody Application application) {
+	public ResponseEntity<Application> addOne(@Valid @RequestBody Application application) throws ServiceException {
 		Application newApp = null;
 		try {
 			newApp = applicationService.addOne(application);
-		} catch(Exception e) {
+		} catch(ServiceException e) {
 			throw new ConflictException("Erreur lors du POST de l'application : " + application.getId() + " -> " + e.getMessage());
 		}
-		return new ResponseEntity<Application>(newApp, HttpStatus.ACCEPTED);
+		return new ResponseEntity<Application>(newApp, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(value = "/Application")
-	public ResponseEntity<Application> updateApplication(@RequestBody Application application) {
+	public ResponseEntity<Application> updateApplication(@RequestBody Application application) throws ServiceException {
 		Application NewApp = null;
 		try {
 			NewApp = applicationService.update(application);
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			throw new NotFoundException("Erreur lors du PUT de l'application : " + application.getId() + " -> " + e.getMessage());
 		}
-		return new ResponseEntity<Application>(NewApp, HttpStatus.ACCEPTED);
+		return new ResponseEntity<Application>(NewApp, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/Application/{id}")
-	public ResponseEntity<Boolean> supprimerApplication(@PathVariable int id) {
-		if (!applicationService.deleteById(id)) {
-			throw new NotFoundException("Erreur lors du DELETE de l'application : " + id);
+	public ResponseEntity<Boolean> supprimerApplication(@PathVariable Application application) throws ServiceException {
+		if (!applicationService.deleteById(application)) {
+			throw new NotFoundException("Erreur lors du DELETE de l'application : " + application);
 		}
-		return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 }

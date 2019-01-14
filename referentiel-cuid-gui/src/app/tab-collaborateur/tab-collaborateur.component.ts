@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TabCollaborateurService } from '../services/tab-collaborateur/tab-collaborateur.service';
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
@@ -27,10 +27,10 @@ export class TabCollaborateurComponent implements OnInit {
   dataSource;
   selection = new SelectionModel<Collaborateur>(true, []);
 
-  constructor(private tabCollaborateurService: TabCollaborateurService) { }
+  constructor(private collaborateurService: CollaborateurService) { }
 
   ngOnInit() {
-    this.tabCollaborateurService.getAllTabCuid()
+    this.collaborateurService.getTabCollaborateur()
     .subscribe((data: any) => {
         this.CollaborateurInfos = data;
         console.log(data);

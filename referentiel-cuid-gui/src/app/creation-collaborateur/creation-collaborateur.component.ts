@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, AbstractControl, ValidatorFn} from '@angular/forms';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { CollaborateurService } from '../services/collaborateurs/collaborateur.service';
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import {ErrorStateMatcher} from '@angular/material/core';
-import { LocalisationService } from '../services/localisation/localisation.service';
-import { CuidService } from '../services/cuid/cuid.service';
+import { LocalisationService } from '../services/http/localisation/localisation.service';
+import { CuidService } from '../services/http/cuid/cuid.service';
 import swal from 'sweetalert2';
 import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
-import { AffectationsService } from '../services/affectations/affectations.service';
+import { AffectationService } from '../services/http/affectation/affectation.service';
 
 export interface Collaborateur {
 	trigrame: String;
@@ -120,7 +120,7 @@ export class CreationCollaborateurComponent implements OnInit {
     private collaborateurService: CollaborateurService,
     private localisationService: LocalisationService,
     private cuidService: CuidService,
-    private affectationsService: AffectationsService,
+    private affectationService: AffectationService,
     public dialog: MatDialog,
   ) { }
 
@@ -132,7 +132,7 @@ export class CreationCollaborateurComponent implements OnInit {
         console.log(this.localisations);
     });
 
-    this.cuidService.recupInfosCuid()
+    this.cuidService.getTabCuid()
     .subscribe((data: any) => {
         this.cuids = data;
         this.cuids.forEach(function(element){
@@ -172,7 +172,7 @@ export class CreationCollaborateurComponent implements OnInit {
       statusCollaborateur: 1
     }
 
-    this.collaborateurService.addCollab(this.collaborateur)
+    this.collaborateurService.addCollaborateur(this.collaborateur)
     .subscribe((data: any) => {
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { ContratService } from '../services/contrat/contrat.service';
+import { ContratService } from '../services/http/contrat/contrat.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ export class MenuComponent implements OnInit {
   }
 
   getAllContrats = () => {
-    this.contratService.getAllContrats().subscribe((data: any) => {
+    this.contratService.getContrats().subscribe((data: any) => {
         this.contrats = data;
         this.dtTrigger.next();
         this.champContrat = this.contrats[0].nom; 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import { ApplicationService } from '../../services/application/application.service';
-import { ContratService } from '../../services/contrat/contrat.service';
+import { ApplicationService } from '../../services/http/application/application.service';
+import { ContratService } from '../../services/http/contrat/contrat.service';
 import swal from 'sweetalert2';
 import {FormControl, Validators} from '@angular/forms';
 
@@ -76,7 +76,7 @@ export class ApplicationsModalComponent implements OnInit {
         .subscribe((data: any) => {
   
             swal('Application bien ajoutée', '', 'success');
-            this.applicationService.getApplication()
+            this.applicationService.getApplications()
             .subscribe((data: any) => {
                 this.tabApplication = data;
                 this.dialogRef.close(this.tabApplication);
@@ -94,20 +94,18 @@ export class ApplicationsModalComponent implements OnInit {
      
     }
 
-
   ngOnInit() {
 
-    this.applicationService.getApplication()
+    this.applicationService.getApplications()
     .subscribe((data: any) => {
         this.tabApplication = data;
     });
 
-    this.contratService.getAllContrats()
+    this.contratService.getContrats()
     .subscribe((data: any) => {
         this.tabContrat = data;
     });
   }
-
 
   estNewApp(valeur): boolean{
 

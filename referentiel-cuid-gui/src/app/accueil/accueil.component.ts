@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CuidService } from '../services/cuid/cuid.service';
+import { CuidService } from '../services/http/cuid/cuid.service';
 import { Subject } from 'rxjs';
 import swal from 'sweetalert2';
 import { query } from '@angular/core/src/render3/query';
@@ -43,9 +43,9 @@ export class AccueilComponent implements OnInit {
             confirmButtonText: 'Supprimer'
         }).then((result) => {
             if (result.value) {
-                this.cuidService.delete(cuid)
+                this.cuidService.deleteCuid(cuid)
                     .subscribe((data: any) => {
-                        this.cuidService.getAllCuid().subscribe((data: any) => {
+                        this.cuidService.getCuids().subscribe((data: any) => {
                             this.cuids = data;
                             
                         });
@@ -60,7 +60,7 @@ export class AccueilComponent implements OnInit {
     }
 
     getAllCuid = () => {
-        this.cuidService.getAllCuid().subscribe((data: any) => {
+        this.cuidService.getCuids().subscribe((data: any) => {
             this.cuids = data;
             this.dtTrigger.next();
         });

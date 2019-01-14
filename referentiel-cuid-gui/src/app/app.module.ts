@@ -6,28 +6,22 @@ import { DataTablesModule } from 'angular-datatables';
 import { RouterModule, ROUTES, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { ErrorHandler} from '@angular/core';
-
 import { AppComponent } from './app.component';
-import { ColaborateurComponent } from './colaborateur/colaborateur.component';
 import { MenuComponent } from './menu/menu.component';
-import { CuidComponent } from './cuid/cuid.component';
 import { AccueilComponent } from './accueil/accueil.component';
-import { ConsulterCUIDComponent } from './consulter-cuid/consulter-cuid.component';
-import { CollaborateurService } from './services/collaborateurs/collaborateur.service';
-import { CuidService } from './services/cuid/cuid.service';
+import { CollaborateurService } from './services/http/collaborateurs/collaborateur.service';
+import { CuidService } from './services/http/cuid/cuid.service';
 import { HttpClientModule } from '@angular/common/http'; 
-import { LocalisationService } from './services/localisation/localisation.service';
+import { LocalisationService } from './services/http/localisation/localisation.service';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { HistoriqueComponent } from './historique/historique.component';
-import { HistoriqueService } from './services/historique/historique.service';
 import { FormWizardModule } from 'angular2-wizard';
 import { FiltreContratsPipe } from './pipes/filtreContrats.pipe';
 import { TabCuidComponent } from './tab-cuid/tab-cuid.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import { TestComponent } from './test/test.component';
+
 
 import {
   MatButtonModule,
@@ -69,26 +63,11 @@ import { GestionErreurComponent } from './gestion-erreur/gestion-erreur.componen
 
 //Routage
 let routes: Routes = [{
-  path: 'cuid',
-  component: CuidComponent
-}, {
-  path: 'collaborateur',
-  component: ColaborateurComponent
-},  {
   path: 'accueil/:contrat',
   component: AccueilComponent
 },{
   path: 'accueil',
   component: AccueilComponent
-}, {
-  path: 'cuid/:id',
-  component: ConsulterCUIDComponent
-}, {
-  path: 'historique',
-  component: HistoriqueComponent
-}, {
-  path: 'test',
-  component: TestComponent
 },{
   path: 'tabCuid',
   component: TabCuidComponent
@@ -125,13 +104,8 @@ let routes: Routes = [{
   declarations: [
     AppComponent,
     MenuComponent,
-    CuidComponent,
-    ColaborateurComponent,
     AccueilComponent,
-    ConsulterCUIDComponent,
-    HistoriqueComponent,
     FiltreContratsPipe,
-    TestComponent,
     TabCuidComponent,
     CreationCuidComponent,
     OutilsModalComponent,

@@ -46,10 +46,10 @@ public class CollaborateursService {
 		return collaborateurRepository.save(collaborateur);
 	}
 	
-	public boolean deleteById(String trigrame) throws ServiceException {
-		Optional<Collaborateurs> collab = collaborateurRepository.findById(trigrame);
+	public boolean deleteById(Collaborateurs collaborateur) throws ServiceException {
+		Optional<Collaborateurs> collab = collaborateurRepository.findById(collaborateur.getTrigrame());
 		if (collab.isPresent()) throw new ServiceException("Collaborateur introuvable"); 
-		collaborateurRepository.deleteById(trigrame);
+		collaborateurRepository.deleteById(collaborateur.getTrigrame());
 		return true;
 	}
 }

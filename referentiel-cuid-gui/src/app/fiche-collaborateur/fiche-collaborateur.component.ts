@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, AbstractControl, ValidatorFn} from '@angular/forms';
-import { CollaborateurService } from '../services/collaborateurs/collaborateur.service';
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import{ActivatedRoute} from '@angular/router'
-import { LocalisationService } from '../services/localisation/localisation.service';
+import { LocalisationService } from '../services/http/localisation/localisation.service';
 
 CollaborateurService
 export interface Collaborateur {
@@ -76,7 +76,7 @@ export class FicheCollaborateurComponent implements OnInit {
 
     this.trigramCollab = this.route.snapshot.params['trigrame'];
 
-    this.collaborateurService.getCollab(this.trigramCollab)
+    this.collaborateurService.getCollaborateur(this.trigramCollab)
     .subscribe((data: any) => {
         this.collaborateur = data;
         console.log(this.collaborateur);
@@ -92,12 +92,12 @@ export class FicheCollaborateurComponent implements OnInit {
         this.localisations = data;
         console.log(this.localisations);
     });
-
+/*
     this.collaborateurService.getCuids(this.trigramCollab)
     .subscribe((data: any) => {
         this.localisations = data;
         console.log(this.localisations);
-    });
+    });*/
   }
 
   saveCollab(){

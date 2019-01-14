@@ -4,10 +4,10 @@ import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@a
 import {MatDialog} from '@angular/material';
 
 //services
-import { ContratService } from '../services/contrat/contrat.service';
-import { ApplicationService } from '../services/application/application.service';
-import { OutilService } from '../services/outil/outil.service';
-import { LocalisationService } from '../services/localisation/localisation.service';
+import { ContratService } from '../services/http/contrat/contrat.service';
+import { ApplicationService } from '../services/http/application/application.service';
+import { OutilService } from '../services/http/outil/outil.service';
+import { LocalisationService } from '../services/http/localisation/localisation.service';
 import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
 
 //components
@@ -58,12 +58,12 @@ export class GestionComponent implements OnInit {
 
   ngOnInit() {
 
-    this.contratService.getAllContrats()
+    this.contratService.getContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
 
-    this.outilService.getOutil()
+    this.outilService.getOutils()
     .subscribe((data: any) => {
         this.outils = data;
         this.dataSourceOutils = data;
@@ -74,7 +74,7 @@ export class GestionComponent implements OnInit {
         this.localisations = data;
     });
 
-    this.applicationService.getApplication()
+    this.applicationService.getApplications()
     .subscribe((data: any) => {
         this.applications = data;
         this.applications.forEach(function(application){

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import { OutilService } from '../../services/outil/outil.service';
+import { OutilService } from '../../services/http/outil/outil.service';
 import swal from 'sweetalert2';
 import {FormControl, Validators} from '@angular/forms';
 
@@ -52,7 +52,7 @@ export class OutilsModalComponent implements OnInit {
       .subscribe((data: any) => {
 
           swal('Outil bien ajouté', '', 'success');
-          this.outilService.getOutil()
+          this.outilService.getOutils()
           .subscribe((data: any) => {
               this.tabOutils = data;
               this.dialogRef.close(this.tabOutils);
@@ -69,7 +69,7 @@ export class OutilsModalComponent implements OnInit {
 
   ngOnInit() {
 
-    this.outilService.getOutil()
+    this.outilService.getOutils()
     .subscribe((data: any) => {
         this.tabOutils = data;
     });
