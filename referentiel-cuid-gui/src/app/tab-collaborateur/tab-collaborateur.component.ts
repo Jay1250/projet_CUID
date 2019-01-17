@@ -1,16 +1,13 @@
+//angular
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
-import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {SelectionModel} from '@angular/cdk/collections';
 
-export interface Collaborateur {
-	trigrame: string;
-	role: String;
-	nomprenom: String;
-	pays: number;
-	nbr_cuid: number;
-}
+//services
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 
+// interfaces
+import {Collaborateur} from '../interfaces/collaborateur';
 
 @Component({
   selector: 'app-tab-collaborateur',

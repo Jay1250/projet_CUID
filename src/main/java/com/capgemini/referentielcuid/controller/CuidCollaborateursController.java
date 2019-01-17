@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.CuidCollaborateurs;
+import com.capgemini.referentielcuid.model.CuidCollaborateursId;
 import com.capgemini.referentielcuid.service.CuidCollaborateursService;
 import com.capgemini.referentielcuid.service.ServiceException;
 
@@ -66,12 +67,13 @@ public class CuidCollaborateursController {
 	}
 	
 	@PostMapping(value = "/CuidCollaborateur")
-	public ResponseEntity<CuidCollaborateurs> addOne(@Valid @RequestBody CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
+	public ResponseEntity<CuidCollaborateurs> addApplication(@Valid @RequestBody CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
 		CuidCollaborateurs newApp = null;
 		try {
+			cuidCollaborateurs.setCuidcollaborateur(new CuidCollaborateursId(cuidCollaborateurs.getCuid().getCuid(), cuidCollaborateurs.getCollaborateurs().getTrigrame()));
 			newApp = cuidCollaborateurService.addOne(cuidCollaborateurs);
 		} catch(ServiceException e) {
-			throw new ConflictException("Erreur lors du POST de l'application : " + cuidCollaborateurs.getCuidcollaborateurId() + " -> " + e.getMessage());
+			throw new ConflictException("Erreur lors du POST de l'application : " + cuidCollaborateurs.getCuidcollaborateur() + " -> " + e.getMessage());
 		}
 		return new ResponseEntity<CuidCollaborateurs>(newApp, HttpStatus.CREATED);
 	}
@@ -80,15 +82,17 @@ public class CuidCollaborateursController {
 	public ResponseEntity<CuidCollaborateurs> updateApplication(@RequestBody CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
 		CuidCollaborateurs NewApp = null;
 		try {
+			cuidCollaborateurs.setCuidcollaborateur(new CuidCollaborateursId(cuidCollaborateurs.getCuid().getCuid(), cuidCollaborateurs.getCollaborateurs().getTrigrame()));
 			NewApp = cuidCollaborateurService.update(cuidCollaborateurs);
 		} catch (ServiceException e) {
-			throw new NotFoundException("Erreur lors du PUT de l'application : " + cuidCollaborateurs.getCuidcollaborateurId() + " -> " + e.getMessage());
+			throw new NotFoundException("Erreur lors du PUT de l'application : " + cuidCollaborateurs.getCuidcollaborateur() + " -> " + e.getMessage());
 		}
 		return new ResponseEntity<CuidCollaborateurs>(NewApp, HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/CuidCollaborateur/{id}")
-	public ResponseEntity<Boolean> supprimerApplication(@PathVariable CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
+	@DeleteMapping(value = "/CuidCollaborateur")
+	public ResponseEntity<Boolean> supprimerApplication(@RequestBody CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
+		cuidCollaborateurs.setCuidcollaborateur(new CuidCollaborateursId(cuidCollaborateurs.getCuid().getCuid(), cuidCollaborateurs.getCollaborateurs().getTrigrame()));
 		if (!cuidCollaborateurService.deleteById(cuidCollaborateurs)) {
 			throw new NotFoundException("Erreur lors du DELETE de l'application : " + cuidCollaborateurs);
 		}

@@ -1,8 +1,10 @@
+import { Localisation } from "../interfaces/localisation";
+
 export interface Collaborateur {
 	trigrame: String;
+	role: String;
+	mdp: String;
 	nom: String;
 	prenom: String;
-	pays: number;
-	dateaffectation: Date;
-	dateliberation: Date;
+	localisations: Localisation;
 }

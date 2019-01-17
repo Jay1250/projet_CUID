@@ -1,5 +1,6 @@
 package com.capgemini.referentielcuid.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,11 @@ public class CollaborateursService {
 	}
 	
 	public List<CollaborateurInfos> findAllCollaborateurInfos() throws ServiceException {
-		return collaborateurInfosRepository.findAll();
+		List<CollaborateurInfos> collabInfo = new ArrayList<CollaborateurInfos>();
+		List<Collaborateurs> collab = findAll();
+		for(Collaborateurs col: collab) 
+			collabInfo.add(new CollaborateurInfos(col, col.getCuidCollaborateurs().size()));
+		return collabInfo;
 	}
 	
 	public Collaborateurs addOne(Collaborateurs collaborateur) throws ServiceException {	    

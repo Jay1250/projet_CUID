@@ -1,5 +1,6 @@
 package com.capgemini.referentielcuid.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -48,81 +49,60 @@ public class Collaborateurs {
 	@NotNull
 	private Localisation localisation;
 	
-
-/*
-	@OneToMany(mappedBy = "collaborateurs")
-	private Set<CuidCollaborateurs> cuidCollaborateurs;
-*/
+	@OneToMany(mappedBy =  "collaborateurs")
+	@JsonIgnore
+	private List<CuidCollaborateurs> cuidCollaborateurs;
 	
-	
-	
-	/*
-	public Set<CuidCollaborateurs> getCuidCollaborateurs() {
-		return cuidCollaborateurs;
-	}
-
-	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
-		this.cuidCollaborateurs = cuidCollaborateurs;
-	}
-*/
 	public Collaborateurs() {
 	}
-	
+	public Collaborateurs(String trigrame, String role, String nom, String prenom, Localisation localisation) {
+		super();
+		this.trigrame = trigrame;
+		this.role = role;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.localisation = localisation;
+	}
 	public String getTrigrame() {
 		return trigrame;
 	}
-
 	public void setTrigrame(String trigrame) {
 		this.trigrame = trigrame;
 	}
-
 	public String getRole() {
 		return role;
 	}
-
 	public void setRole(String role) {
 		this.role = role;
 	}
-
 	public String getMdp() {
 		return mdp;
 	}
-
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
 	}
-
 	public String getNom() {
 		return nom;
 	}
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-
 	public String getPrenom() {
 		return prenom;
 	}
-
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-
 	public Localisation getLocalisation() {
 		return localisation;
 	}
-
 	public void setLocalisation(Localisation localisation) {
 		this.localisation = localisation;
 	}
-/*
-	public Set<CuidCollaborateurs> getCuidCollaborateurs() {
+	public List<CuidCollaborateurs> getCuidCollaborateurs() {
 		return cuidCollaborateurs;
 	}
-
-	public void setCuidCollaborateurs(Set<CuidCollaborateurs> cuidCollaborateurs) {
+	public void setCuidCollaborateurs(List<CuidCollaborateurs> cuidCollaborateurs) {
 		this.cuidCollaborateurs = cuidCollaborateurs;
 	}
-*/
-	
 }

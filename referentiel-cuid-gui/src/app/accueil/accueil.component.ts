@@ -1,10 +1,15 @@
+// angular
 import { Component, OnInit } from '@angular/core';
-import { CuidService } from '../services/http/cuid/cuid.service';
-import { Subject } from 'rxjs';
-import swal from 'sweetalert2';
 import { query } from '@angular/core/src/render3/query';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+
+// services
+import { CuidService } from '../services/http/cuid/cuid.service';
+
+// others
+import { Subject } from 'rxjs';
+import swal from 'sweetalert2';
 
 @Component({
     selector: 'app-accueil',
@@ -65,7 +70,4 @@ export class AccueilComponent implements OnInit {
             this.dtTrigger.next();
         });
     }
-
-
-
 }

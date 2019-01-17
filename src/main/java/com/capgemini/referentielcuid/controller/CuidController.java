@@ -1,5 +1,6 @@
 package com.capgemini.referentielcuid.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
+import com.capgemini.referentielcuid.model.Contrat;
 import com.capgemini.referentielcuid.model.Cuid;
 import com.capgemini.referentielcuid.model.CuidInfos;
 import com.capgemini.referentielcuid.service.CuidService;
@@ -75,14 +77,14 @@ public class CuidController {
 
 	@GetMapping(value = "/TabCuids")
 	public List<CuidInfos> afficherLeTabCuid() throws ServiceException {
-		List<CuidInfos> cu = null;
+		List<CuidInfos> cuidInfo = null;
 		try {
-			cu = cuidService.findAllCuidInfos();
-			if (cu.isEmpty()) throw new NotFoundException("Aucun cuid n'a été trouvé");
+			cuidInfo = cuidService.findAllCuidInfos();
+			if (cuidInfo.isEmpty()) throw new NotFoundException("Aucun cuid n'a été trouvé");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");
 		}
-		return cu;
+		return cuidInfo;
 	}
 
 	@PostMapping(value = "/Cuid")

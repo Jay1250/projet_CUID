@@ -1,7 +1,10 @@
+//angular
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, AbstractControl, ValidatorFn} from '@angular/forms';
-import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import{ActivatedRoute} from '@angular/router'
+
+//services
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import { LocalisationService } from '../services/http/localisation/localisation.service';
 
 CollaborateurService

@@ -1,13 +1,23 @@
+// angular
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, AbstractControl, ValidatorFn} from '@angular/forms';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import {ErrorStateMatcher} from '@angular/material/core';
+
+//services
+import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 import { LocalisationService } from '../services/http/localisation/localisation.service';
 import { CuidService } from '../services/http/cuid/cuid.service';
-import swal from 'sweetalert2';
-import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
 import { AffectationService } from '../services/http/affectation/affectation.service';
+
+//components
+import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
+
+// interfaces
+//import {Collaborateur} from '../interfaces/collaborateur'
+
+//others
+import swal from 'sweetalert2';
 
 export interface Collaborateur {
 	trigrame: String;
@@ -71,7 +81,7 @@ export class CreationCollaborateurComponent implements OnInit {
   addCuids: Cuid[] = [];
   aaaaCuid: String;
   collaborateur: Collaborateur;
-  tabCuidCollaborateur: CuidCollaborateur;
+  tabCuidCollaborateur: Collaborateur;
   chipsCuid: string[] = [];
 
   local: String;

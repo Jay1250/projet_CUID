@@ -1,5 +1,6 @@
 package com.capgemini.referentielcuid.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,11 @@ public class CuidService {
 	}
 
 	public List<CuidInfos> findAllCuidInfos() throws ServiceException {
-		return cuidInfosRepository.findAll();
+		List<CuidInfos> cuidInfo = new ArrayList<CuidInfos>();
+		List<Cuid> cuid = findAll();
+		for (Cuid cu: cuid) 
+			cuidInfo.add(new CuidInfos(cu , cu.getCuidCollaborateurs().size(), cu.getApplications().size()));
+		return cuidInfo;
 	}
 
 	public Cuid addOne(Cuid cuid) throws ServiceException {

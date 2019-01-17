@@ -68,6 +68,29 @@ public class Cuid {
 
 	public Cuid() {
 	}
+	
+	public Cuid(@Size(max = 9) String cuid,
+			@NotNull(message = "{javax.validation.constraints.NotNull.message}le champ nom ne peut pas être null") @Size(max = 25, message = "le champ nom est trop long (max : {max})") String nom,
+			@NotNull(message = "le champ prenom ne peut pas être null") @Size(max = 25, message = "le champ prenom est trop long (max : {max})") String prenom,
+			@NotNull(message = "le champ status ne peut pas être null") @Range(max = 4, message = "le champ status est trop long (max : {max})") int status,
+			@Size(max = 250, message = "le champ commentaires est trop long (max : {max})") String commentaires,
+			@NotNull(message = "le champ nomgir ne peut pas être null") @Size(max = 25, message = "le champ nomgir est trop long (max : {max})") String nomgir,
+			@NotNull(message = "le champ prenomgir ne peut pas être null") @Size(max = 25, message = "le champ prenomgir est trop long (max : {max})") String prenomgir,
+			Contrat contrat, List<Application> applications, List<Outil> outil) {
+		super();
+		this.cuid = cuid;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.status = status;
+		this.commentaires = commentaires;
+		this.nomgir = nomgir;
+		this.prenomgir = prenomgir;
+		this.contrat = contrat;
+		this.applications = applications;
+		this.outil = outil;
+	}
+
+
 
 	public List<CuidCollaborateurs> getCuidCollaborateurs() {
 		return cuidCollaborateurs;

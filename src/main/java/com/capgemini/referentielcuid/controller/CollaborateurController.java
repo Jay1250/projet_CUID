@@ -21,6 +21,7 @@ import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.CollaborateurInfos;
 import com.capgemini.referentielcuid.model.Collaborateurs;
+import com.capgemini.referentielcuid.model.Localisation;
 import com.capgemini.referentielcuid.service.CollaborateursService;
 import com.capgemini.referentielcuid.service.ServiceException;
 
@@ -59,14 +60,14 @@ public class CollaborateurController {
 	
 	@GetMapping(value = "/TabCollaborateur")
 	public List<CollaborateurInfos> afficherLeTabCollabs() throws ServiceException{
-		List<CollaborateurInfos> collabs = null;
+		List<CollaborateurInfos> collabsInfo = null;
 		try {
-			collabs = collaborateurService.findAllCollaborateurInfos();
-			if (collabs.isEmpty()) throw new NotFoundException("Aucun collaborateur n'a été trouvé");
+			collabsInfo = collaborateurService.findAllCollaborateurInfos();
+			if (collabsInfo.isEmpty()) throw new NotFoundException("Aucun collaborateur n'a été trouvé");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");
 		}
-		return collabs;
+		return collabsInfo;
 	}
 	
 	@PostMapping(value = "/Collaborateur")

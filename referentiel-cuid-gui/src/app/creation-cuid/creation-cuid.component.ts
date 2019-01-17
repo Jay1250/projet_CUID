@@ -43,16 +43,20 @@ export class CreationCuidComponent implements OnInit{
   removable = true;
   displayedColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid', 'ajouter'];
   dataSource;
+  chipsCollaborateur: string[] = [];
 
   //data
-  CollaborateurInfos: CollaborateurInfo[] = [];
-  tabCuidCollaborateur: CuidCollaborateur[] = [];
+  infoCollaborateurs: CollaborateurInfo[] = [];
   outils: Outil[] = [];
   applications: Application[] = [];
   contrats: Contrat[] = [];
-  newCuid: Cuid;
-  chipsCollaborateur: string[] = [];
 
+  //creation Cuid
+  newCuid: Cuid;
+  collaborateursCuid: CuidCollaborateur[] = [];
+  outilsCuid: Outil[] = [];
+  applicationsCuid: Application[] = [];
+  
 // form
   matcher = new FormStateMatcherService();
   cuidForm = new FormGroup({
@@ -113,35 +117,17 @@ export class CreationCuidComponent implements OnInit{
               ) {}
 
   ngOnInit() {
-    this.affectationService.getAffectations()
-    .subscribe((data: any) => {
-        this.tabCuidCollaborateur = data;
-    }, (err) => {
-      switch(err.status){
-        case 0:
-          swal('Erreur', 'Impossible de se connecter au serveur', 'error');
-          break;
-        default:
-          swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
-      }
-    });
 
     //recup outils
     this.outilService.getOutils()
     .subscribe((data: any) => {
         this.outils = data;
-        this.outils.forEach(function(outil){
-           outil.utiliser = false;
-        })
     });
 
     // recup applis
     this.applicationService.getApplications()
     .subscribe((data: any) => {
         this.applications = data;
-        this.applications.forEach(function(application){
-          application.utiliser = false;
-       })
     });
 
     //recup contrats
@@ -153,11 +139,9 @@ export class CreationCuidComponent implements OnInit{
     //recup tab collaborateurs
     this.cuidService.getTabCuid()
     .subscribe((data: any) => {
-        this.CollaborateurInfos = data;
-        this.CollaborateurInfos.forEach(function(CollaborateurInfos){
-          CollaborateurInfos.utiliser = false;
-       })
-      this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.CollaborateurInfos);
+        this.infoCollaborateurs = data;
+      // tab constructor 
+      this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.infoCollaborateurs);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -167,62 +151,70 @@ export class CreationCuidComponent implements OnInit{
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-      if(result !== null && result !== undefined)
-        this.outils = result;
+      if(result !== null && result !== undefined) this.outils = result;
     });
   }
   openDialogApp(): void {
     const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-    if(result !== null && result !== undefined)
-      this.applications = result;
+    if(result !== null && result !== undefined) this.applications = result;
     });
   }
   openDialogDateCollab(index): void{
     const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-      this.CollaborateurInfos[0].dateaffectation;
+    //if(result !== null && result !== undefined) this.infoCollaborateurs[0].dateaffectation;
       });
   }
   // *****
 
   // ***** tab collaborateurs 
+  ajouterCollab(trigrame){
+    if(this.chipsCollaborateur.includes(trigrame))
+      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
+    else {
+      this.infoCollaborateurs.forEach(function(element){
+        if(element.collaborateur.trigrame == trigrame){
+          const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
+          dialogRef.afterClosed().subscribe(result => {
+            if(result.affectation != null){
+              this.collaborateursCuid.push(
+                {
+                  cuid: null,
+                  collaborateur: element.collaborateur,
+                  dateaffectation: result.affectation,
+                  dateliberation: result.liberation
+                }
+              );
+              this.chipsCollaborateur.push(trigrame);
+            }
+            else swal('Erreur', 'La date d\'affectation est obligatoire', 'error');
+          });
+        }
+      }, this)
+
+
+
+    }
+  }
+
+  removeChip(chip: string): void {
+    const index = this.chipsCollaborateur.indexOf(chip);
+    if (index >= 0) this.chipsCollaborateur.splice(index, 1);
+    
+    for(var i=0; i < this.collaborateursCuid.length; i++){
+      if(this.collaborateursCuid[i].collaborateur.trigrame == chip)
+        delete this.collaborateursCuid[i];
+    }
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-  removeChip(chip: string): void {
-    const index = this.chipsCollaborateur.indexOf(chip);
-    if (index >= 0) {
-      this.chipsCollaborateur.splice(index, 1);
-    }
-    this.CollaborateurInfos.forEach(function(element){
-      if(element.trigrame == chip)
-        element.utiliser = false;
-      })
-  }
-  ajouterCollab(trigrame){
-    if(this.chipsCollaborateur.includes(trigrame))
-      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
-    else {
-      this.CollaborateurInfos.forEach(function(element){
-        if(element.trigrame == trigrame){
-          const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
-          dialogRef.afterClosed().subscribe(result => {
-            element.dateaffectation = result.affectation;
-            element.dateliberation = result.liberation;
-            if(element.dateaffectation != null){
-              element.utiliser = true;
-              this.chipsCollaborateur.push(trigrame);
-            }
-          });
-        }
-      }, this)
-    }
-  }
-  
+
   colorRow(nbr_cuid: number){
     if(nbr_cuid >= 1) return 'text-danger';
     return '';
@@ -238,7 +230,7 @@ export class CreationCuidComponent implements OnInit{
         nom:  this.cuidForm.get("nom").value, 
         prenom: this.cuidForm.get("prenom").value, 
         mdp: this.cuidForm.get("password").value, 
-        status: (this.CollaborateurInfos.filter(element => element.utiliser == true).length > 0)? 1 : 0, 
+        status: (this.collaborateursCuid.length > 0)? 1 : 0, 
         commentaires:  this.cuidForm.get("commentaires").value,           
         nomgir: this.cuidForm.get("nomGir").value, 
         prenomgir: this.cuidForm.get("prenomGir").value, 
@@ -246,29 +238,23 @@ export class CreationCuidComponent implements OnInit{
         outil: this.outils.filter(element => element.utiliser == true),
         applications: this.applications.filter(element => element.utiliser == true),
         };
+
       // post cuid
       this.cuidService.addCuid(this.newCuid)
         .subscribe((data: any) => {
-          this.CollaborateurInfos.filter(element => element.utiliser == true).forEach(function(element){
-          this.cuidCollaborateur = {
-            cuidcollaborateurId:{
-              cuid: this.newCuid.cuid,
-              trigrame: element.trigrame
-            },
-            dateaffectation: element.dateaffectation,
-            dateliberation: element.dateliberation
-          }
-          // post affectations
-          this.affectationsService.addAffectations(this.cuidCollaborateur)
-            .subscribe((data: any) => {
-             // swal('Succès', 'Le cuid a bien été crée', 'success');
-            }, (err) => {
-              swal('Erreur', 'Le cuid a été crée mais un problème est survenu lors de l\'affectation du collaborateur', 'error');
-            }); 
-            swal('Succès', 'Le cuid a bien été crée', 'success');
-            this.router.navigateByUrl('/tabCuid');
-          }, this);
-        }, (err) => {
+          this.collaborateursCuid.forEach(function(element){
+            this.collaborateursCuid.cuid = this.newCuid;
+            // post affectations
+            this.affectationsService.addAffectations(this.collaborateursCuid)
+              .subscribe((data: any) => {
+              // swal('Succès', 'Le cuid a bien été crée', 'success');
+              }, (err) => {
+                swal('Erreur', 'Le cuid a été crée mais un problème est survenu lors de l\'affectation du collaborateur', 'error');
+              }); 
+              swal('Succès', 'Le cuid a bien été crée', 'success');
+              this.router.navigateByUrl('/tabCuid');
+            }, this);
+          }, (err) => {
           switch(err.status){
             case 409:
               swal('Erreur', 'Ce cuid existe déjà', 'error');

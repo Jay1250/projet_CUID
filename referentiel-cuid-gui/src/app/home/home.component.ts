@@ -18,8 +18,6 @@ import {CuidInfo} from '../interfaces/cuid-info';
 })
 export class HomeComponent implements OnInit {
 
-  
-
   contrats: Contrat[] = [];
   cuids: CuidInfo[] = [];
 
@@ -60,14 +58,14 @@ export class HomeComponent implements OnInit {
     let nbr: number = 0;
     this.cuidNonAffect = 0;
     this.cuidUnCollab = 0;
-    this.cuidPlusieursCollab =0;
+    this.cuidPlusieursCollab = 0;
     if(this.name == "tous")
       nbr = this.cuids.length;
     else{
       this.cuids.forEach(function(element){
       //  console.log(element.contrat);
         
-        if(element.contrat == this.name){
+        if(element.cuid.contrat.nom == this.name){
          // console.log(element.contrat);
           if(element.nbcollab == 0) this.cuidNonAffect++;
           else if(element.nbcollab == 1) this.cuidUnCollab++;

@@ -39,21 +39,21 @@ public class CuidCollaborateursService {
 	}
 	
 	public CuidCollaborateurs addOne(CuidCollaborateurs cuidCollaborateurs) throws ServiceException {	    
-		Optional<CuidCollaborateurs> old = cuidCollaborateursRepository.findById(cuidCollaborateurs.getCuidcollaborateurId());
+		Optional<CuidCollaborateurs> old = cuidCollaborateursRepository.findById(cuidCollaborateurs.getCuidcollaborateur());
 		if(old.isPresent()) throw new ServiceException("CuidCollaborateur déjà existant");
 		return cuidCollaborateursRepository.save(cuidCollaborateurs);
 	}
 	
 	public CuidCollaborateurs update(CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
-		Optional<CuidCollaborateurs> old = cuidCollaborateursRepository.findById(cuidCollaborateurs.getCuidcollaborateurId());
+		Optional<CuidCollaborateurs> old = cuidCollaborateursRepository.findById(cuidCollaborateurs.getCuidcollaborateur());
 		if (!old.isPresent()) throw new ServiceException("CuidCollaborateur introuvable");
 		return cuidCollaborateursRepository.save(cuidCollaborateurs);
 	}
 	
 	public boolean deleteById(CuidCollaborateurs cuidCollaborateurs) throws ServiceException {
-		Optional<CuidCollaborateurs> collab = cuidCollaborateursRepository.findById(cuidCollaborateurs.getCuidcollaborateurId());
-		if (collab.isPresent()) throw new ServiceException("CuidCollaborateur introuvable");
-		cuidCollaborateursRepository.deleteById(cuidCollaborateurs.getCuidcollaborateurId());
+		Optional<CuidCollaborateurs> collab = cuidCollaborateursRepository.findById(cuidCollaborateurs.getCuidcollaborateur());
+		if (!collab.isPresent()) throw new ServiceException("CuidCollaborateur introuvable");
+		cuidCollaborateursRepository.deleteById(cuidCollaborateurs.getCuidcollaborateur());
 		return true;
 	}
 }

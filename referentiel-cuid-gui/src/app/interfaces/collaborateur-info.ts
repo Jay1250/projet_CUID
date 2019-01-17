@@ -1,10 +1,7 @@
+import { Collaborateur } from "../fiche-collaborateur/fiche-collaborateur.component";
+
 export interface CollaborateurInfo {
-    trigrame: String;
-	role: String;
-	nomprenom: String;
-	pays: number;
+
+    collaborateur: Collaborateur;    
     nbr_cuid: number;
-    utiliser: boolean;
-    dateaffectation: String;
-    dateliberation: String;
 }

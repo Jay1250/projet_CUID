@@ -1,8 +1,9 @@
+import { Cuid } from "../interfaces/cuid";
+import { Collaborateur } from "../interfaces/collaborateur";
+
 export interface CuidCollaborateur {
-    cuidcollaborateurId: {
-        cuid: String;
-        trigrame: String;
-      }
+    cuid: Cuid;
+    collaborateur: Collaborateur
     dateaffectation: String;
     dateliberation: String;
 }

@@ -1,9 +1,7 @@
+import {Cuid} from '../interfaces/cuid';
+
 export interface CuidInfo {
-    cuid: string;
-	nomprenom: String;
-	manager: String;
+    cuid: Cuid;
 	nbapplis: number;
 	nbcollab: number;
-	status: String;
-	contrat: String;
 }

@@ -1,8 +1,12 @@
+//angular
 import { Component, OnInit} from '@angular/core';
-import { ContratService } from '../services/http/contrat/contrat.service';
-import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
+//services
+import { ContratService } from '../services/http/contrat/contrat.service';
+
+//others
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'menu-cuid',

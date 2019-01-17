@@ -46,6 +46,14 @@ public class Localisation implements Serializable{
 	public Localisation() {
 	}
 	
+	public Localisation(int id, @Size(max = 25) @NotNull String pays) {
+		super();
+		this.id = id;
+		this.pays = pays;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}

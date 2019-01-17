@@ -1,11 +1,14 @@
 package com.capgemini.referentielcuid.exception;
 
+import java.util.NoSuchElementException;
+
 import javax.persistence.RollbackException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
@@ -117,6 +120,34 @@ public class ExceptionHandlerControllerAdvice {
 		error.callerURL(request.getRequestURI());
 		return error;
 	}
+	
+	@ExceptionHandler(NoSuchElementException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ExceptionResponse handleResourceNoSuchElement(final NoSuchElementException exception,
+			final HttpServletRequest request) {
+		
+		logger.error("----------- NO SUCH ELEMENT EXCEPTION -----------");
+		logger.error(exception.getMessage());
+		
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage("Ressource non trouvée -> " + exception.getMessage());
+		error.callerURL(request.getRequestURI());
+		return error;
+	}
+	
+	@ExceptionHandler(CannotCreateTransactionException.class)
+	@ResponseStatus(value = HttpStatus.GATEWAY_TIMEOUT)
+	public @ResponseBody ExceptionResponse handleResourceNCannotCreateTransaction(final CannotCreateTransactionException exception,
+			final HttpServletRequest request) {
+		
+		logger.error("----------- CANNOT CREATE TRANSACTION EXCEPTION -----------");
+		logger.error(exception.getMessage());
+		
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage("Transaction echouée -> " + exception.getMessage());
+		error.callerURL(request.getRequestURI());
+		return error;
+	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -125,6 +156,7 @@ public class ExceptionHandlerControllerAdvice {
 
 		logger.error("----------- " + exception.getClass() + " -----------");
 		logger.error(exception.getMessage());
+		logger.error(exception.getLocalizedMessage());
 		
 		ExceptionResponse error = new ExceptionResponse();
 		error.setErrorMessage(exception.getMessage());

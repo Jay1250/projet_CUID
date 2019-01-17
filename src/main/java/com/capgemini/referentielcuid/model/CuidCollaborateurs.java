@@ -24,12 +24,6 @@ public class CuidCollaborateurs implements Serializable{
 	@JsonIgnore
 	private CuidCollaborateursId cuidcollaborateur;
 	
-	@Column(name = "dateaffectation")
-	private Date dateaffectation;
-	
-	@Column(name = "dateliberation")
-	private Date dateliberation;
-	
 	@ManyToOne
 	@MapsId("cuid")
 	private Cuid cuid;
@@ -38,33 +32,17 @@ public class CuidCollaborateurs implements Serializable{
 	@MapsId("trigrame")
 	private Collaborateurs collaborateurs;
 	
-
-	public Cuid getCuid() {
-		return cuid;
-	}
-
-	public void setCuid(Cuid cuid) {
-		this.cuid = cuid;
-	}
-
-	public Collaborateurs getCollaborateurs() {
-		return collaborateurs;
-	}
-
-	public void setCollaborateurs(Collaborateurs collaborateurs) {
-		this.collaborateurs = collaborateurs;
-	}
-
-	/*
-	public CuidCollaborateurs(String cuid, String collaborateur) {
-		this.cuidcollaborateur = new CuidCollaborateursId(cuid, collaborateur);
-	}
-*/
-	public CuidCollaborateursId getCuidcollaborateurId() {
+	@Column(name = "dateaffectation")
+	private Date dateaffectation;
+	
+	@Column(name = "dateliberation")
+	private Date dateliberation;
+	
+	public CuidCollaborateursId getCuidcollaborateur() {
 		return cuidcollaborateur;
 	}
 
-	public void setCuidcollaborateurId(CuidCollaborateursId cuidcollaborateur) {
+	public void setCuidcollaborateur(CuidCollaborateursId cuidcollaborateur) {
 		this.cuidcollaborateur = cuidcollaborateur;
 	}
 
@@ -82,6 +60,22 @@ public class CuidCollaborateurs implements Serializable{
 
 	public void setDateliberation(Date dateliberation) {
 		this.dateliberation = dateliberation;
+	}
+
+	public Cuid getCuid() {
+		return cuid;
+	}
+
+	public void setCuid(Cuid cuid) {
+		this.cuid = cuid;
+	}
+
+	public Collaborateurs getCollaborateurs() {
+		return collaborateurs;
+	}
+
+	public void setCollaborateurs(Collaborateurs collaborateurs) {
+		this.collaborateurs = collaborateurs;
 	}
 
 	@Override
