@@ -7,7 +7,19 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 
 // interfaces
-import {Collaborateur} from '../interfaces/collaborateur';
+import {CollaborateurInfo} from '../interfaces/collaborateur-info';
+
+
+export interface CollaborateurTab {
+
+  trigrame: String;
+  role: String;
+  nomprenom: String;
+  pays: String;
+  nbr_cuid: number;
+}
+
+
 
 @Component({
   selector: 'app-tab-collaborateur',
@@ -19,25 +31,51 @@ export class TabCollaborateurComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  CollaborateurInfos: Collaborateur[] = [];
-  displayedColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid'];
+  collaborateurTab: CollaborateurTab[] = [];
+  CollaborateurInfos: CollaborateurInfo[] = [];
+  displayedColumns: string[] = ['collaborateurs.trigrame','collaborateurs.role', 'collaborateurs.nom', 'collaborateurs.localisation.pays', 'nbr_cuid'];
   dataSource;
-  selection = new SelectionModel<Collaborateur>(true, []);
+  selection = new SelectionModel<CollaborateurInfo>(true, []);
 
   constructor(private collaborateurService: CollaborateurService) { }
 
   ngOnInit() {
     this.collaborateurService.getTabCollaborateur()
     .subscribe((data: any) => {
-        this.CollaborateurInfos = data;
-        console.log(data);
-        this.dataSource = new MatTableDataSource<Collaborateur>(this.CollaborateurInfos);
+/*
+
+
+      data.forEach(element => {
+        this.collaborateurTab.push(
+          trigrame: data.collaborat
+
+        )
+      });
+*/
+
+
+       this.CollaborateurInfos = data;
+        //console.log(data);
+        this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.CollaborateurInfos);
+
+        this.dataSource.sortingDataAccessor = (item, property) => {
+
+          switch(property){
+            case 'collaborateurs.trigrame': return item.collaborateurs.trigrame;
+            case 'collaborateurs.role': return item.collaborateurs.role;
+            case 'collaborateurs.nom': return item.collaborateurs.nom;
+            case 'collaborateur.localisation.pays': return item.collaborateurs.localisation.pays;
+            default: return item[property];
+          }
+        }
+
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
     });
   }
 
   applyFilter(filterValue: string) {
+    console.log(this.dataSource);
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();

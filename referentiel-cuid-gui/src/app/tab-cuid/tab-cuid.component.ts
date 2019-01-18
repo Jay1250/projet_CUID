@@ -7,7 +7,9 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { CuidService } from '../services/http/cuid/cuid.service';
 
 //interfaces
-import {CuidInfo} from '../interfaces/cuid-info';
+import {CuidTab} from '../interfaces/cuid-tab';
+
+
 
 @Component({
 	selector: 'app-tab-cuid',
@@ -17,13 +19,14 @@ import {CuidInfo} from '../interfaces/cuid-info';
 
 export class TabCuidComponent implements OnInit {
 
+  //CuidInfos: CuidInfo[] = [];
+  cuidTab: CuidTab[] = [];
+  displayedColumns: string[] = ['cuid','contrat', 'nomprenom', 'manager', 'nbapplis', 'nbcollab', 'status'];
+  dataSource: MatTableDataSource<CuidTab>;
+  selection = new SelectionModel<CuidTab>(true, []);
+  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-  CuidInfos: CuidInfo[] = [];
-  displayedColumns: string[] = ['cuid','contrat', 'nomprenom', 'manager', 'nbapplis', 'nbcollab', 'status'];
-  dataSource;
-  selection = new SelectionModel<CuidInfo>(true, []);
 
   constructor(  private cuidService: CuidService) {
    }
@@ -31,16 +34,29 @@ export class TabCuidComponent implements OnInit {
   ngOnInit() {
     this.cuidService.getTabCuid()
     .subscribe((data: any) => {
-        this.CuidInfos = data;
-        console.log(data);
-        this.dataSource = new MatTableDataSource<CuidInfo>(this.CuidInfos);
+      data.forEach(element => {
+        this.cuidTab.push(
+          {
+            cuid: element.cuid.cuid,
+            contrat: element.cuid.contrat.nom,
+            nomprenom: element.cuid.nom + " " + element.cuid.prenom,
+            manager: element.cuid.nomgir + " " +element.cuid.prenomgir,
+            nbapplis: element.nbapplis,
+            nbcollab: element.nbcollab,
+            status: element.cuid.status 
+          }
+        );
+      }, this);
+      this.dataSource = new MatTableDataSource<CuidTab>(this.cuidTab);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
     });
   }
 
   applyFilter(filterValue: string) {
+    console.log(filterValue.trim().toLowerCase())
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    console.log(this.dataSource);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

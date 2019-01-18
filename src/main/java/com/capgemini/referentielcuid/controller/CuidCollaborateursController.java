@@ -54,7 +54,7 @@ public class CuidCollaborateursController {
 		return cuidCollab;
 	}
 	
-	@GetMapping(value = "/CuidCollaborateur/cuid/{cuid}")
+	@GetMapping(value = "/CuidCollaborateur/cuid/{id}")
 	public List<CuidCollaborateurs> afficherUnCuidCollaborateurByCuid(@PathVariable String id) throws ServiceException{
 		List<CuidCollaborateurs> cuidCollab = null;
 		try {

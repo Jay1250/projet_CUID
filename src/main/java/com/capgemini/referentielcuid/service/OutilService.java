@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capgemini.referentielcuid.model.Collaborateurs;
 import com.capgemini.referentielcuid.model.Outil;
 import com.capgemini.referentielcuid.repository.OutilRepository;
 

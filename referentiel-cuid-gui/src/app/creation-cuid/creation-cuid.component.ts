@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
 
 //components
 import { OutilsModalComponent } from '../modals/outils/outils.component';
@@ -54,8 +55,8 @@ export class CreationCuidComponent implements OnInit{
   //creation Cuid
   newCuid: Cuid;
   collaborateursCuid: CuidCollaborateur[] = [];
-  outilsCuid: Outil[] = [];
-  applicationsCuid: Application[] = [];
+  //outilsCuid: Outil[] = [];
+  //applicationsCuid: Application[] = [];
   
 // form
   matcher = new FormStateMatcherService();
@@ -113,7 +114,8 @@ export class CreationCuidComponent implements OnInit{
               private affectationService: AffectationService,
               private outilService: OutilService,
               private applicationService: ApplicationService,
-              private contratService: ContratService
+              private contratService: ContratService,
+              private router: Router
               ) {}
 
   ngOnInit() {
@@ -122,12 +124,18 @@ export class CreationCuidComponent implements OnInit{
     this.outilService.getOutils()
     .subscribe((data: any) => {
         this.outils = data;
+        this.outils.forEach(function(outil){
+          outil.utiliser = false;
+        })
     });
 
     // recup applis
     this.applicationService.getApplications()
     .subscribe((data: any) => {
         this.applications = data;
+        this.applications.forEach(function(application){
+          application.utiliser = false;
+        })
     });
 
     //recup contrats
@@ -137,7 +145,7 @@ export class CreationCuidComponent implements OnInit{
     });
 
     //recup tab collaborateurs
-    this.cuidService.getTabCuid()
+    this.collaborateurService.getTabCollaborateur()
     .subscribe((data: any) => {
         this.infoCollaborateurs = data;
       // tab constructor 
@@ -174,14 +182,14 @@ export class CreationCuidComponent implements OnInit{
       swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
     else {
       this.infoCollaborateurs.forEach(function(element){
-        if(element.collaborateur.trigrame == trigrame){
+        if(element.collaborateurs.trigrame == trigrame){
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
           dialogRef.afterClosed().subscribe(result => {
             if(result.affectation != null){
               this.collaborateursCuid.push(
                 {
                   cuid: null,
-                  collaborateur: element.collaborateur,
+                  collaborateurs: element.collaborateurs,
                   dateaffectation: result.affectation,
                   dateliberation: result.liberation
                 }
@@ -192,9 +200,6 @@ export class CreationCuidComponent implements OnInit{
           });
         }
       }, this)
-
-
-
     }
   }
 
@@ -203,7 +208,7 @@ export class CreationCuidComponent implements OnInit{
     if (index >= 0) this.chipsCollaborateur.splice(index, 1);
     
     for(var i=0; i < this.collaborateursCuid.length; i++){
-      if(this.collaborateursCuid[i].collaborateur.trigrame == chip)
+      if(this.collaborateursCuid[i].collaborateurs.trigrame == chip)
         delete this.collaborateursCuid[i];
     }
   }
@@ -239,21 +244,42 @@ export class CreationCuidComponent implements OnInit{
         applications: this.applications.filter(element => element.utiliser == true),
         };
 
+        this.newCuid.outil.forEach(function(element){
+            delete element.utiliser;
+        })
+        this.newCuid.applications.forEach(function(element){
+            delete element.utiliser;
+        })
+
       // post cuid
       this.cuidService.addCuid(this.newCuid)
         .subscribe((data: any) => {
-          this.collaborateursCuid.forEach(function(element){
-            this.collaborateursCuid.cuid = this.newCuid;
-            // post affectations
-            this.affectationsService.addAffectations(this.collaborateursCuid)
-              .subscribe((data: any) => {
-              // swal('Succès', 'Le cuid a bien été crée', 'success');
-              }, (err) => {
-                swal('Erreur', 'Le cuid a été crée mais un problème est survenu lors de l\'affectation du collaborateur', 'error');
-              }); 
-              swal('Succès', 'Le cuid a bien été crée', 'success');
-              this.router.navigateByUrl('/tabCuid');
-            }, this);
+
+          if(this.collaborateursCuid.length > 0 ){
+
+            this.collaborateursCuid.forEach(function(element){
+              //ajout du cuid au collaborateurcuid
+              element.cuid = this.newCuid;
+  
+              console.log(element);
+  
+              // post affectations
+              this.affectationService.addAffectation(element)
+                .subscribe((data: any) => {
+                // swal('Succès', 'Le cuid a bien été crée', 'success');
+                }, (err) => {
+                  swal('Erreur', 'Le cuid a été crée mais un problème est survenu lors de l\'affectation du collaborateur', 'error');
+                }); 
+                swal('Succès', 'Le cuid a bien été crée', 'success');
+                this.router.navigateByUrl('/tabCuid');
+              }, this);
+          }
+
+          else{
+            swal('Succès', 'Le cuid a bien été crée', 'success');
+          //  this.router.navigateByUrl('/tabCuid');
+          }
+
           }, (err) => {
           switch(err.status){
             case 409:

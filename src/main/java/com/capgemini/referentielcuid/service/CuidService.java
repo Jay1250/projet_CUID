@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.referentielcuid.model.Cuid;
 import com.capgemini.referentielcuid.model.CuidInfos;
-import com.capgemini.referentielcuid.repository.CuidInfosRepository;
 import com.capgemini.referentielcuid.repository.CuidRepository;
 
 @Service
@@ -18,8 +17,8 @@ public class CuidService {
 	@Autowired
 	private CuidRepository cuidRepository;
 
-	@Autowired
-	private CuidInfosRepository cuidInfosRepository;
+	//@Autowired
+	//private CuidInfosRepository cuidInfosRepository;
 
 	public List<Cuid> findCuidsContrat(int contratId) throws ServiceException {
 		return cuidRepository.findByContratId(contratId);

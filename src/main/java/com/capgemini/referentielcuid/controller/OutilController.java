@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
-import com.capgemini.referentielcuid.model.Collaborateurs;
 import com.capgemini.referentielcuid.model.Outil;
 import com.capgemini.referentielcuid.service.OutilService;
 

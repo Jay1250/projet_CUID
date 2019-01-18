@@ -17,7 +17,7 @@
 
           <div class="col-md-5 m-1">
             <mat-form-field class="mr-3">
-              <mat-select placeholder="Contrat" (ngModelChange)="chgContrat()" [(ngModel)] = "name">
+              <mat-select placeholder="Contrat" [(ngModel)] = "name">
                 <mat-option value="tous" selected>Tous</mat-option>
                 <mat-option value="{{contrat.nom}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
               </mat-select>

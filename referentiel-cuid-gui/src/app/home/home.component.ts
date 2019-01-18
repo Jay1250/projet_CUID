@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   contrats: Contrat[] = [];
   cuids: CuidInfo[] = [];
 
-  name = 'tous';
+  name: String;
 
   cuidNonAffect: Number = 0;
   cuidUnCollab: Number = 0;
@@ -34,6 +34,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+
+    this.name = 'tous'
 
     this.contratService.getContrats()
     .subscribe((data: any) => {

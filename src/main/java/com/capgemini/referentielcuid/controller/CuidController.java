@@ -1,15 +1,10 @@
 package com.capgemini.referentielcuid.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.RollbackException;
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
-import com.capgemini.referentielcuid.model.Contrat;
 import com.capgemini.referentielcuid.model.Cuid;
 import com.capgemini.referentielcuid.model.CuidInfos;
 import com.capgemini.referentielcuid.service.CuidService;
@@ -34,7 +28,7 @@ import com.capgemini.referentielcuid.service.ServiceException;
 @CrossOrigin("*")
 public class CuidController {
 
-	private static final Logger logger = LogManager.getLogger(CuidController.class);
+	//private static final Logger logger = LogManager.getLogger(CuidController.class);
 	
 	@Autowired
 	private CuidService cuidService;

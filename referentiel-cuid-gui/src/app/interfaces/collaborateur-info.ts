@@ -2,6 +2,6 @@ import { Collaborateur } from "../fiche-collaborateur/fiche-collaborateur.compon
 
 export interface CollaborateurInfo {
 
-    collaborateur: Collaborateur;    
+    collaborateurs: Collaborateur;    
     nbr_cuid: number;
 }

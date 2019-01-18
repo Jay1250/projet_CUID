@@ -6,5 +6,5 @@ export interface Collaborateur {
 	mdp: String;
 	nom: String;
 	prenom: String;
-	localisations: Localisation;
+	localisation: Localisation;
 }

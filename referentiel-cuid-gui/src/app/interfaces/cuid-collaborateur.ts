@@ -3,7 +3,7 @@ import { Collaborateur } from "../interfaces/collaborateur";
 
 export interface CuidCollaborateur {
     cuid: Cuid;
-    collaborateur: Collaborateur
+    collaborateurs: Collaborateur
     dateaffectation: String;
     dateliberation: String;
 }

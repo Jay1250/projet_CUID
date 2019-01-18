@@ -3,7 +3,6 @@ package com.capgemini.referentielcuid.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,15 +30,15 @@ public class CollaborateurInfos {
 	private int localisationId;
 	
 	@Transient
-	private Collaborateurs collaborateur;
+	private Collaborateurs collaborateurs;
 	
 	@JsonIgnore
 	@Column(name = "localisationpays")
 	private String localisationPays;
 	
-	public CollaborateurInfos(Collaborateurs collaborateur, int nbr_cuid) {
+	public CollaborateurInfos(Collaborateurs collaborateurs, int nbr_cuid) {
 		super();
-		this.collaborateur = collaborateur;
+		this.collaborateurs = collaborateurs;
 		this.nbr_cuid = nbr_cuid;
 	}
 	private int nbr_cuid;
@@ -80,11 +79,11 @@ public class CollaborateurInfos {
 	public void setLocalisationPays(String localisationPays) {
 		this.localisationPays = localisationPays;
 	}
-	public Collaborateurs getCollaborateur() {
-		return collaborateur;
+	public Collaborateurs getCollaborateurs() {
+		return collaborateurs;
 	}
-	public void setCollaborateur(Collaborateurs collaborateur) {
-		this.collaborateur = collaborateur;
+	public void setCollaborateur(Collaborateurs collaborateurs) {
+		this.collaborateurs = collaborateurs;
 	}
 	public int getNbr_cuid() {
 		return nbr_cuid;

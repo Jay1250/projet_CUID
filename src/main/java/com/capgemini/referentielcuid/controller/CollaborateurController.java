@@ -21,7 +21,6 @@ import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.CollaborateurInfos;
 import com.capgemini.referentielcuid.model.Collaborateurs;
-import com.capgemini.referentielcuid.model.Localisation;
 import com.capgemini.referentielcuid.service.CollaborateursService;
 import com.capgemini.referentielcuid.service.ServiceException;
 

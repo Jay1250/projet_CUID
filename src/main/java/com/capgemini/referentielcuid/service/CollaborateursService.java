@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.referentielcuid.model.CollaborateurInfos;
 import com.capgemini.referentielcuid.model.Collaborateurs;
-import com.capgemini.referentielcuid.repository.CollaborateurInfosRepository;
 import com.capgemini.referentielcuid.repository.CollaborateursRepository;
 
 
@@ -20,8 +19,8 @@ public class CollaborateursService {
 	@Autowired
 	private CollaborateursRepository collaborateurRepository;
 	
-	@Autowired
-	private CollaborateurInfosRepository collaborateurInfosRepository;
+	//Autowired
+	//private CollaborateurInfosRepository collaborateurInfosRepository;
 	
 	public List<Collaborateurs> findAll() throws ServiceException {
 		return collaborateurRepository.findAll();

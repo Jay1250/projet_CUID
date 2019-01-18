@@ -6,12 +6,8 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "cuid_collaborateurs")
 public class CuidCollaborateurs implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@EmbeddedId
 	@JsonIgnore
 	private CuidCollaborateursId cuidcollaborateur;
