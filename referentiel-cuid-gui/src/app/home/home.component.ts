@@ -9,7 +9,6 @@ import { CuidService } from '../services/http/cuid/cuid.service';
 //interfaces
 import {Cuid} from '../interfaces/cuid';
 import {Contrat} from '../interfaces/contrat';
-import {CuidInfo} from '../interfaces/cuid-info';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +18,7 @@ import {CuidInfo} from '../interfaces/cuid-info';
 export class HomeComponent implements OnInit {
 
   contrats: Contrat[] = [];
-  cuids: CuidInfo[] = [];
+  //cuids: CuidInfo[] = [];
 
   name: String;
 
@@ -42,13 +41,13 @@ export class HomeComponent implements OnInit {
     .subscribe((data: any) => {
         this.contrats = data;
     });
-
+/*
     this.cuidService.getTabCuid()
     .subscribe((data: any) => {
         this.cuids = data;
 
         console.log(this.cuids);
-    });
+    });*/
   }
 
   chgContrat(){
@@ -62,7 +61,7 @@ export class HomeComponent implements OnInit {
     this.cuidNonAffect = 0;
     this.cuidUnCollab = 0;
     this.cuidPlusieursCollab = 0;
-    if(this.name == "tous")
+   /* if(this.name == "tous")
       nbr = this.cuids.length;
     else{
       this.cuids.forEach(function(element){
@@ -78,7 +77,7 @@ export class HomeComponent implements OnInit {
         } 
       }, this);
     //  this.cdRef.detectChanges();
-    }
+    }*/
     return nbr;
   }
 }

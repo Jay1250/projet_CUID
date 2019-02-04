@@ -63,7 +63,6 @@ public class Cuid {
 	private List<Outil> outil;
 
 	@OneToMany(mappedBy = "cuid")
-	@JsonIgnore
 	private List<CuidCollaborateurs> cuidCollaborateurs;
 
 	public Cuid() {

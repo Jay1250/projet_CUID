@@ -22,7 +22,6 @@ import {Cuid} from '../interfaces/cuid';
 import {Collaborateur} from '../interfaces/collaborateur';
 import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
-import {CollaborateursOfCuid} from '../interfaces/collaborateurs-of-cuid';
 
 //others
 import swal from 'sweetalert2';
@@ -43,12 +42,11 @@ export class FicheCuidComponent implements OnInit {
   dataSource;
 
   // data
-  tabCuidCollaborateur: CollaborateursOfCuid[] = [];
   outils: Outil[] = [];
   applications: Application[] = [];
   getCuid;
-  cuid: Cuid = {cuid: '', nom: '', prenom: '', mdp: '', status: null, commentaires: '', 
-  nomgir: '', prenomgir: '', contrat: {id: null, nom: ''}, outil: null, applications: null};
+  /*cuid: Cuid = {cuid: '', nom: '', prenom: '', mdp: '', status: null, commentaires: '', 
+  nomgir: '', prenomgir: '', contrat: {id: null, nom: ''}, outil: null, applications: null};*/
   chipsCollaborateur: string[] = [];
 
 
@@ -109,7 +107,7 @@ export class FicheCuidComponent implements OnInit {
 
     // recup param get cuid
     this.getCuid = this.route.snapshot.params['cuid'];
-
+/*
     this.cuidService.getCuid(this.getCuid)
     .subscribe((data: any) => {
 
@@ -132,7 +130,8 @@ export class FicheCuidComponent implements OnInit {
       this.cuidForm.get("prenomGir").setValue(data.prenomgir);
       this.cuidForm.get("commentaires").setValue(data.commentaires);
     });
-
+*/
+/*
     //recup Collaborateurs of Cuid
     this.affectationsService.getAffectationCuid(this.getCuid)
     .subscribe((data: any) => {
@@ -143,6 +142,7 @@ export class FicheCuidComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
     });
+    */
   }
 
   openDialogOutil(): void {
@@ -178,7 +178,7 @@ export class FicheCuidComponent implements OnInit {
   }
 
   hello(vaz){
-
+/*
     if(this.isValidForm()){
 
       this.cuid.cuid = this.cuidForm.get("ccuid").value;
@@ -215,7 +215,7 @@ export class FicheCuidComponent implements OnInit {
           }
         console.error(err);
       }); 
-    }
+    }*/
   }
 
   ajouterCollab(trigrame){

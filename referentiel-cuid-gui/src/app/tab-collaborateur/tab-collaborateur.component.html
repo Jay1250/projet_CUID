@@ -21,24 +21,24 @@
 				<div class="mat-elevation-z8 col-md-12">
 					<table mat-table [dataSource]="dataSource" matSort>
 						<!-- Cuid Column -->
-						<ng-container matColumnDef="collaborateurs.trigrame">
+						<ng-container matColumnDef="trigrame">
 							<th mat-header-cell *matHeaderCellDef mat-sort-header>trigrame</th>
-							<td mat-cell *matCellDef="let row" class="pr-5"> <a routerLink="../ficheCollaborateur/{{row.collaborateurs.trigrame}}">{{row.collaborateurs.trigrame}} </a></td>
+							<td mat-cell *matCellDef="let row" class="pr-5"> <a routerLink="../ficheCollaborateur/{{row.trigrame}}">{{row.trigrame}} </a></td>
             			</ng-container>
             			<!-- Nom Prénom Column -->
-						<ng-container matColumnDef="collaborateurs.nom">
+						<ng-container matColumnDef="nomprenom">
 							<th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
-							<td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbr_cuid)"> {{row.collaborateurs.nom}}</td>
+							<td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbr_cuid)"> {{row.nomprenom}}</td>
 						</ng-container>
 						<!-- Contrat Column -->
-						<ng-container matColumnDef="collaborateurs.role">
+						<ng-container matColumnDef="role">
 							<th mat-header-cell *matHeaderCellDef mat-sort-header>role</th>
-							<td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbr_cuid)"> {{row.collaborateurs.role}} </td>
+							<td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbr_cuid)"> {{row.role}} </td>
 						</ng-container>
 						<!-- Manager Column -->
-						<ng-container matColumnDef="collaborateurs.localisation.pays">
+						<ng-container matColumnDef="pays">
 							<th mat-header-cell *matHeaderCellDef mat-sort-header>pays</th>
-							<td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbr_cuid)"> {{row.collaborateurs.localisation.pays}} </td>
+							<td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbr_cuid)"> {{row.pays}} </td>
 						</ng-container>
 						<!-- Nbr Applis Column -->
 						<ng-container matColumnDef="nbr_cuid">

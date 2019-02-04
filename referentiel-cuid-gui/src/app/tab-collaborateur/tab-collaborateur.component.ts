@@ -7,19 +7,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
 
 // interfaces
-import {CollaborateurInfo} from '../interfaces/collaborateur-info';
-
-
-export interface CollaborateurTab {
-
-  trigrame: String;
-  role: String;
-  nomprenom: String;
-  pays: String;
-  nbr_cuid: number;
-}
-
-
+import {CollaborateurTab} from '../interfaces/collaborateur-tab';
 
 @Component({
   selector: 'app-tab-collaborateur',
@@ -32,45 +20,19 @@ export class TabCollaborateurComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   collaborateurTab: CollaborateurTab[] = [];
-  CollaborateurInfos: CollaborateurInfo[] = [];
-  displayedColumns: string[] = ['collaborateurs.trigrame','collaborateurs.role', 'collaborateurs.nom', 'collaborateurs.localisation.pays', 'nbr_cuid'];
+  displayedColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid'];
   dataSource;
-  selection = new SelectionModel<CollaborateurInfo>(true, []);
+  selection = new SelectionModel<CollaborateurTab>(true, []);
 
   constructor(private collaborateurService: CollaborateurService) { }
 
   ngOnInit() {
     this.collaborateurService.getTabCollaborateur()
     .subscribe((data: any) => {
-/*
-
-
-      data.forEach(element => {
-        this.collaborateurTab.push(
-          trigrame: data.collaborat
-
-        )
-      });
-*/
-
-
-       this.CollaborateurInfos = data;
-        //console.log(data);
-        this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.CollaborateurInfos);
-
-        this.dataSource.sortingDataAccessor = (item, property) => {
-
-          switch(property){
-            case 'collaborateurs.trigrame': return item.collaborateurs.trigrame;
-            case 'collaborateurs.role': return item.collaborateurs.role;
-            case 'collaborateurs.nom': return item.collaborateurs.nom;
-            case 'collaborateur.localisation.pays': return item.collaborateurs.localisation.pays;
-            default: return item[property];
-          }
-        }
-
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      this.collaborateurTab = data;
+      this.dataSource = new MatTableDataSource<CollaborateurTab>(this.collaborateurTab);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 

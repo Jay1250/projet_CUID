@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.capgemini.referentielcuid.model.Cuid;
-import com.capgemini.referentielcuid.trash.CuidOfCollaborateur;
 
 public interface CuidRepository extends JpaRepository<Cuid, String> {
 	

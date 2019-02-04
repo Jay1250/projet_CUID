@@ -1,53 +1,18 @@
 package com.capgemini.referentielcuid.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity
-@Table(name = "cuid_infos")
 public class CuidInfos {
 
-	@Id
-	@Column(name = "cuid")
-	@JsonIgnore
-	private String cuidId;
+	private String cuid;
 	
-	@JsonIgnore
-	private String nom;
+	private String nomprenom;
 	
-	@JsonIgnore
-	private String prenom;
+	private int status;
 	
-	@JsonIgnore
-	private String status;
-	
-	@JsonIgnore
 	private String commentaires;
 	
-	@JsonIgnore
-	@Column(name = "nomgir")
-	private String nomGir;
+	private String manager;
 	
-	@JsonIgnore
-	@Column(name = "prenomgir")
-	private String prenomGir;
-	
-	@JsonIgnore
-	private String contrat_id;
-	
-	@JsonIgnore
-	private String application_id;
-	
-	@JsonIgnore
-	private String outil_id;
-	
-	@Transient
-	private Cuid cuid;
+	private String contrat;
 	
 	private int nbcollab;
 
@@ -58,40 +23,37 @@ public class CuidInfos {
 	
 	public CuidInfos(Cuid cuid, int nbcollab, int nbapplis) {
 		super();
-		this.cuid = cuid;
+		this.cuid = cuid.getCuid();
+		this.nomprenom = cuid.getNom() + " " + cuid.getPrenom();
+		this.status = cuid.getStatus();
+		this.commentaires = cuid.getCommentaires();
+		this.manager = cuid.getNomgir() + " " + cuid.getPrenomgir();
+		this.contrat = cuid.getContrat().getNom();
 		this.nbcollab = nbcollab;
 		this.nbapplis = nbapplis;
 	}
 
-	public String getCuidId() {
-		return cuidId;
+	public String getCuid() {
+		return cuid;
 	}
 
-	public void setCuidId(String cuidId) {
-		this.cuidId = cuidId;
+	public void setCuidId(String cuid) {
+		this.cuid = cuid;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getNomprenom() {
+		return nomprenom;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setNomprenom(String nomprenom) {
+		this.nomprenom = nomprenom;
 	}
 
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -103,36 +65,20 @@ public class CuidInfos {
 		this.commentaires = commentaires;
 	}
 
-	public String getNomGir() {
-		return nomGir;
+	public String getManager() {
+		return manager;
 	}
 
-	public void setNomGir(String nomGir) {
-		this.nomGir = nomGir;
+	public void setManager(String manager) {
+		this.manager = manager;
 	}
 
-	public String getPrenomGir() {
-		return prenomGir;
-	}
-
-	public void setPrenomGir(String prenomGir) {
-		this.prenomGir = prenomGir;
-	}
-/*
 	public String getContrat() {
 		return contrat;
 	}
 
 	public void setContrat(String contrat) {
 		this.contrat = contrat;
-	}
-*/
-	public Cuid getCuid() {
-		return cuid;
-	}
-
-	public void setCuid(Cuid cuid) {
-		this.cuid = cuid;
 	}
 
 	public int getNbcollab() {

@@ -1,6 +1,7 @@
 import {Contrat} from '../interfaces/contrat';
 import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
+import {CuidCollaborateur} from '../interfaces/cuid-collaborateur';
 
 export interface Cuid {
     cuid: String;
@@ -14,4 +15,5 @@ export interface Cuid {
     contrat: Contrat;
     outil: Outil[];
     applications: Application[];
+    cuidCollaborateur: CuidCollaborateur[];
 }

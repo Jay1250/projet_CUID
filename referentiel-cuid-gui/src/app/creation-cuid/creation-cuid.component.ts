@@ -20,7 +20,6 @@ import { ContratService } from '../services/http/contrat/contrat.service';
 
 // interfaces
 import {Cuid} from '../interfaces/cuid';
-import {CollaborateurInfo} from '../interfaces/collaborateur-info';
 import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
 import {Contrat} from '../interfaces/contrat';
@@ -47,7 +46,7 @@ export class CreationCuidComponent implements OnInit{
   chipsCollaborateur: string[] = [];
 
   //data
-  infoCollaborateurs: CollaborateurInfo[] = [];
+  //infoCollaborateurs: CollaborateurInfo[] = [];
   outils: Outil[] = [];
   applications: Application[] = [];
   contrats: Contrat[] = [];
@@ -147,9 +146,9 @@ export class CreationCuidComponent implements OnInit{
     //recup tab collaborateurs
     this.collaborateurService.getTabCollaborateur()
     .subscribe((data: any) => {
-        this.infoCollaborateurs = data;
+      //  this.infoCollaborateurs = data;
       // tab constructor 
-      this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.infoCollaborateurs);
+    //  this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.infoCollaborateurs);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -180,7 +179,7 @@ export class CreationCuidComponent implements OnInit{
   ajouterCollab(trigrame){
     if(this.chipsCollaborateur.includes(trigrame))
       swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
-    else {
+    else {/*
       this.infoCollaborateurs.forEach(function(element){
         if(element.collaborateurs.trigrame == trigrame){
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
@@ -199,7 +198,7 @@ export class CreationCuidComponent implements OnInit{
             else swal('Erreur', 'La date d\'affectation est obligatoire', 'error');
           });
         }
-      }, this)
+      }, this)*/
     }
   }
 
@@ -230,7 +229,7 @@ export class CreationCuidComponent implements OnInit{
   validationCuid(){
     if(this.isValidForm()){
       // creation cuid
-      this.newCuid = {
+      /*this.newCuid = {
         cuid: this.cuidForm.get("ccuid").value, 
         nom:  this.cuidForm.get("nom").value, 
         prenom: this.cuidForm.get("prenom").value, 
@@ -242,7 +241,7 @@ export class CreationCuidComponent implements OnInit{
         contrat: this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value)[0],
         outil: this.outils.filter(element => element.utiliser == true),
         applications: this.applications.filter(element => element.utiliser == true),
-        };
+      };*/
 
         this.newCuid.outil.forEach(function(element){
             delete element.utiliser;
@@ -260,8 +259,6 @@ export class CreationCuidComponent implements OnInit{
             this.collaborateursCuid.forEach(function(element){
               //ajout du cuid au collaborateurcuid
               element.cuid = this.newCuid;
-  
-              console.log(element);
   
               // post affectations
               this.affectationService.addAffectation(element)
