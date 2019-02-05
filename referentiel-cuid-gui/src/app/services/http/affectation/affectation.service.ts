@@ -21,6 +21,10 @@ export class AffectationService {
       return this.http.get(`${environment.url}/CuidCollaborateur/cuid/${cuid}`);
   }
 
+  getAffectationTab = () => {
+    return this.http.get(`${environment.url}/TabAffectation`);
+}
+
   addAffectation = (collab: any) => {
       return this.http.post(`${environment.url}/CuidCollaborateur`, collab);
   }

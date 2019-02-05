@@ -60,6 +60,15 @@ import { FicheCollaborateurComponent } from './fiche-collaborateur/fiche-collabo
 import { LocalisationModalComponent } from './modals/localisation/localisation.component';
 import { DateCollabModalComponent } from './modals/date-collab/date-collab.component';
 import { GestionErreurComponent } from './gestion-erreur/gestion-erreur.component';
+import { ModalCreationApplicationComponent } from './modal-creation-application/modal-creation-application.component';
+import { ModalCreationOutilComponent } from './modal-creation-outil/modal-creation-outil.component';
+import { ModalCreationLocalisationComponent } from './modal-creation-localisation/modal-creation-localisation.component';
+import { ModalAjoutApplicationComponent } from './modal-ajout-application/modal-ajout-application.component';
+import { ModalAjoutOutilComponent } from './modal-ajout-outil/modal-ajout-outil.component';
+import { ModalAjoutLocalisationComponent } from './modal-ajout-localisation/modal-ajout-localisation.component';
+import { ModalSupprimerApplicationComponent } from './modal-supprimer-application/modal-supprimer-application.component';
+import { ModalSupprimerOutilComponent } from './modal-supprimer-outil/modal-supprimer-outil.component';
+import { ModalSupprimerLocalisationComponent } from './modal-supprimer-localisation/modal-supprimer-localisation.component';
 
 //Routage
 let routes: Routes = [{
@@ -119,7 +128,16 @@ let routes: Routes = [{
     FicheCollaborateurComponent,
     LocalisationModalComponent,
     DateCollabModalComponent,
-    GestionErreurComponent
+    GestionErreurComponent,
+    ModalCreationApplicationComponent,
+    ModalCreationOutilComponent,
+    ModalCreationLocalisationComponent,
+    ModalAjoutApplicationComponent,
+    ModalAjoutOutilComponent,
+    ModalAjoutLocalisationComponent,
+    ModalSupprimerApplicationComponent,
+    ModalSupprimerOutilComponent,
+    ModalSupprimerLocalisationComponent
   ],
   imports: [
     BrowserModule,

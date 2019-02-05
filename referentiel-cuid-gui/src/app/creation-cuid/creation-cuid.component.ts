@@ -24,6 +24,7 @@ import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
 import {Contrat} from '../interfaces/contrat';
 import {CuidCollaborateur} from '../interfaces/cuid-collaborateur';
+import {CollaborateurTab} from '../interfaces/collaborateur-tab';
 
 //others
 import swal from 'sweetalert2';
@@ -46,7 +47,7 @@ export class CreationCuidComponent implements OnInit{
   chipsCollaborateur: string[] = [];
 
   //data
-  //infoCollaborateurs: CollaborateurInfo[] = [];
+  tabCollaborateurs: CollaborateurTab[] = [];
   outils: Outil[] = [];
   applications: Application[] = [];
   contrats: Contrat[] = [];
@@ -54,10 +55,8 @@ export class CreationCuidComponent implements OnInit{
   //creation Cuid
   newCuid: Cuid;
   collaborateursCuid: CuidCollaborateur[] = [];
-  //outilsCuid: Outil[] = [];
-  //applicationsCuid: Application[] = [];
   
-// form
+  // form
   matcher = new FormStateMatcherService();
   cuidForm = new FormGroup({
     ccuid : new FormControl('', [
@@ -146,9 +145,9 @@ export class CreationCuidComponent implements OnInit{
     //recup tab collaborateurs
     this.collaborateurService.getTabCollaborateur()
     .subscribe((data: any) => {
-      //  this.infoCollaborateurs = data;
+      this.tabCollaborateurs = data;
       // tab constructor 
-    //  this.dataSource = new MatTableDataSource<CollaborateurInfo>(this.infoCollaborateurs);
+      this.dataSource = new MatTableDataSource<CollaborateurTab>(this.tabCollaborateurs);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -179,16 +178,16 @@ export class CreationCuidComponent implements OnInit{
   ajouterCollab(trigrame){
     if(this.chipsCollaborateur.includes(trigrame))
       swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
-    else {/*
-      this.infoCollaborateurs.forEach(function(element){
-        if(element.collaborateurs.trigrame == trigrame){
+    else {
+      this.tabCollaborateurs.forEach(function(element){
+        if(element.trigrame == trigrame){
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
           dialogRef.afterClosed().subscribe(result => {
             if(result.affectation != null){
               this.collaborateursCuid.push(
                 {
                   cuid: null,
-                  collaborateurs: element.collaborateurs,
+                  collaborateurs: {trigrame: element.trigrame},
                   dateaffectation: result.affectation,
                   dateliberation: result.liberation
                 }
@@ -198,7 +197,7 @@ export class CreationCuidComponent implements OnInit{
             else swal('Erreur', 'La date d\'affectation est obligatoire', 'error');
           });
         }
-      }, this)*/
+      }, this)
     }
   }
 
@@ -229,7 +228,7 @@ export class CreationCuidComponent implements OnInit{
   validationCuid(){
     if(this.isValidForm()){
       // creation cuid
-      /*this.newCuid = {
+      this.newCuid = {
         cuid: this.cuidForm.get("ccuid").value, 
         nom:  this.cuidForm.get("nom").value, 
         prenom: this.cuidForm.get("prenom").value, 
@@ -241,7 +240,8 @@ export class CreationCuidComponent implements OnInit{
         contrat: this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value)[0],
         outil: this.outils.filter(element => element.utiliser == true),
         applications: this.applications.filter(element => element.utiliser == true),
-      };*/
+        cuidCollaborateur: this.collaborateursCuid
+      };
 
         this.newCuid.outil.forEach(function(element){
             delete element.utiliser;
@@ -254,29 +254,8 @@ export class CreationCuidComponent implements OnInit{
       this.cuidService.addCuid(this.newCuid)
         .subscribe((data: any) => {
 
-          if(this.collaborateursCuid.length > 0 ){
-
-            this.collaborateursCuid.forEach(function(element){
-              //ajout du cuid au collaborateurcuid
-              element.cuid = this.newCuid;
-  
-              // post affectations
-              this.affectationService.addAffectation(element)
-                .subscribe((data: any) => {
-                // swal('Succès', 'Le cuid a bien été crée', 'success');
-                }, (err) => {
-                  swal('Erreur', 'Le cuid a été crée mais un problème est survenu lors de l\'affectation du collaborateur', 'error');
-                }); 
-                swal('Succès', 'Le cuid a bien été crée', 'success');
-                this.router.navigateByUrl('/tabCuid');
-              }, this);
-          }
-
-          else{
-            swal('Succès', 'Le cuid a bien été crée', 'success');
-          //  this.router.navigateByUrl('/tabCuid');
-          }
-
+          swal('Succès', 'Le cuid a bien été crée', 'success');
+          this.router.navigateByUrl('/tabCuid');
           }, (err) => {
           switch(err.status){
             case 409:

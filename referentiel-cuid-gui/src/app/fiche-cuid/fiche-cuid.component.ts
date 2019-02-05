@@ -25,6 +25,7 @@ import {Application} from '../interfaces/application';
 
 //others
 import swal from 'sweetalert2';
+import { CuidCollaborateur } from '../interfaces/cuid-collaborateur';
 
 @Component({
   selector: 'app-fiche-cuid',
@@ -45,10 +46,10 @@ export class FicheCuidComponent implements OnInit {
   outils: Outil[] = [];
   applications: Application[] = [];
   getCuid;
-  /*cuid: Cuid = {cuid: '', nom: '', prenom: '', mdp: '', status: null, commentaires: '', 
-  nomgir: '', prenomgir: '', contrat: {id: null, nom: ''}, outil: null, applications: null};*/
+  cuid: Cuid = {cuid: '', nom: '', prenom: '', mdp: '', status: null, commentaires: '', 
+  nomgir: '', prenomgir: '', contrat: {id: null, nom: ''}, outil: null, applications: null, cuidCollaborateur: null};
   chipsCollaborateur: string[] = [];
-
+  tabCuidCollaborateur: CuidCollaborateur;
 
   selection = new SelectionModel<Collaborateur>(true, []);
   dateNow  = new Date();
@@ -107,20 +108,25 @@ export class FicheCuidComponent implements OnInit {
 
     // recup param get cuid
     this.getCuid = this.route.snapshot.params['cuid'];
-/*
+
     this.cuidService.getCuid(this.getCuid)
     .subscribe((data: any) => {
 
-      this.cuid.cuid = data.cuid;
-      this.cuid.nom = data.nom;
-      this.cuid.prenom = data.prenom;
-      this.cuid.status = data.status;
-      this.cuid.commentaires = data.commentaires;
-      this.cuid.nomgir = data.nomgir;
-      this.cuid.prenomgir = data.prenomgir;
-      this.cuid.contrat = data.contrat;
-      this.cuid.outil = data.outil;
-      this.cuid.applications = data.applications;
+      this.cuid = {cuid: data.cuid, 
+                  nom: data.nom, 
+                  prenom: data.prenom, 
+                  mdp: null, 
+                  status: data.status, 
+                  commentaires: data.commentaires, 
+                  nomgir: data.nomgir, 
+                  prenomgir: data.prenomgir, 
+                  contrat: data.contrat, 
+                  outil: data.outil, 
+                  applications: data.applications,
+                  cuidCollaborateur: null
+                };
+
+      console.log(this.cuid);
 
       this.cuidForm.get("ccuid").setValue(data.cuid);
       this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
@@ -130,19 +136,18 @@ export class FicheCuidComponent implements OnInit {
       this.cuidForm.get("prenomGir").setValue(data.prenomgir);
       this.cuidForm.get("commentaires").setValue(data.commentaires);
     });
-*/
-/*
+
     //recup Collaborateurs of Cuid
     this.affectationsService.getAffectationCuid(this.getCuid)
     .subscribe((data: any) => {
       this.tabCuidCollaborateur = data;
       if(data != null && data != undefined){
-        this.dataSource = new MatTableDataSource<CollaborateursOfCuid>(data);
+        this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
     });
-    */
+    
   }
 
   openDialogOutil(): void {

@@ -188,32 +188,32 @@
               <!-- Cuid Column -->
               <ng-container matColumnDef="trigrame">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>trigrame</th>
-                <td mat-cell *matCellDef="let row" class="pr-5"> <a href="#">{{row.collaborateurs.trigrame}} </a></td>
+                <td mat-cell *matCellDef="let row" class="pr-5"> <a href="#">{{row.trigrame}}</a></td>
               </ng-container>
               <!-- Nom Prénom Column -->
               <ng-container matColumnDef="nomprenom">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.collaborateurs.nom}} {{row.collaborateurs.prenom}}</td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)">{{row.nomprenom}}</td>
               </ng-container>
               <!-- Contrat Column -->
               <ng-container matColumnDef="role">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>role</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.collaborateurs.role}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.role}}</td>
               </ng-container>
               <!-- Manager Column -->
               <ng-container matColumnDef="pays">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>pays</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.collaborateurs.localisation.pays}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.localisation}}</td>
               </ng-container>
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="nbr_cuid">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbr_cuid</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.nbr_cuid}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"> {{row.nbr_cuid}}</td>
               </ng-container>
               <!-- Ajouter Column -->
               <ng-container matColumnDef="ajouter">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ajouter</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"><button mat-stroked-button type="button" (click)="ajouterCollab(row.collaborateurs.trigrame)">Ajouter</button> </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "colorRow(row.nbr_cuid)"><button mat-stroked-button type="button" (click)="ajouterCollab(row.trigrame)">Ajouter</button> </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

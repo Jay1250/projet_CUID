@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
+import com.capgemini.referentielcuid.model.Affectation;
 import com.capgemini.referentielcuid.model.CuidCollaborateurs;
 import com.capgemini.referentielcuid.model.CuidCollaborateursId;
 import com.capgemini.referentielcuid.service.CuidCollaborateursService;
@@ -64,6 +65,30 @@ public class CuidCollaborateursController {
 			throw new ServiceException("Internal Server Exception");
 		}
 		return cuidCollab;
+	}
+	
+	@GetMapping(value = "/TabAffectation")
+	public List<Affectation> afficherTabAffectation() throws ServiceException{
+		List<Affectation> affectations = null;
+		try {
+			affectations = cuidCollaborateurService.findAllAffectations();
+			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return affectations;
+	}
+	
+	@GetMapping(value = "/TabAffectation/{id}")
+	public List<Affectation> afficherTabAffectationById(@PathVariable String id) throws ServiceException{
+		List<Affectation> affectations = null;
+		try {
+			affectations = cuidCollaborateurService.findAffectationsByCuid(id);
+			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return affectations;
 	}
 	
 	@PostMapping(value = "/CuidCollaborateur")
