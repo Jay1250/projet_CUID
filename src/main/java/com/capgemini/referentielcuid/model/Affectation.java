@@ -6,6 +6,10 @@ public class Affectation {
 
 	private String trigrame;
 	
+	private String cuid;
+	
+	private String contrat;
+	
 	private String nomprenom;
 	
 	private String pays;
@@ -17,6 +21,8 @@ public class Affectation {
 	public Affectation(CuidCollaborateurs cuidCollaborateur) {
 		super();
 		this.trigrame = cuidCollaborateur.getCollaborateurs().getTrigrame();
+		this.cuid = cuidCollaborateur.getCuid().getCuid();
+		this.contrat = cuidCollaborateur.getCuid().getContrat().getNom();
 		this.nomprenom = cuidCollaborateur.getCollaborateurs().getNom() + " " + cuidCollaborateur.getCollaborateurs().getPrenom();
 		this.pays = cuidCollaborateur.getCollaborateurs().getLocalisation().getPays();
 		this.dateaffectation = cuidCollaborateur.getDateaffectation();
@@ -29,6 +35,22 @@ public class Affectation {
 
 	public void setTrigrame(String trigrame) {
 		this.trigrame = trigrame;
+	}
+	
+	public String getCuid() {
+		return cuid;
+	}
+
+	public void setCuid(String cuid) {
+		this.cuid = cuid;
+	}
+	
+	public String getContrat() {
+		return contrat;
+	}
+
+	public void setContrat(String contrat) {
+		this.contrat = contrat;
 	}
 
 	public String getNomprenom() {

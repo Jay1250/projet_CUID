@@ -1,14 +1,16 @@
 //angular
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import {MatPaginator, MatSort, MatTableDataSource, MatDialog} from '@angular/material';
 
 //services
 import { ContratService } from '../services/http/contrat/contrat.service';
 import { CuidService } from '../services/http/cuid/cuid.service';
-
+import { AffectationService } from '../services/http/affectation/affectation.service';
+import {SharedService} from '../services/shared/shared.service';
 //interfaces
-import {Cuid} from '../interfaces/cuid';
 import {Contrat} from '../interfaces/contrat';
+import {CuidTab} from '../interfaces/cuid-tab';
+import {AffectationTab} from '../interfaces/affectation-tab'
 
 @Component({
   selector: 'app-home',
@@ -17,67 +19,97 @@ import {Contrat} from '../interfaces/contrat';
 })
 export class HomeComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @Input() test: any;
+  selectable = true;
+  removable = true;
   contrats: Contrat[] = [];
-  //cuids: CuidInfo[] = [];
+  cuids: CuidTab[] = [];
+  affectations: AffectationTab[] = [];
+  nomContrat: String;
 
-  name: String;
+  nbrCuid : number = 0; 
+  nbrCuidNonAffect: number = 0;
+  nbrCuidUnCollab: number = 0;
+  nbrCuidPlusieursCollab: number = 0;
 
-  cuidNonAffect: Number = 0;
-  cuidUnCollab: Number = 0;
-  cuidPlusieursCollab: Number = 0;
+  displayedColumns: string[] = ['cuid', 'trigrame','nomprenom', 'contrat', 'dateaffectation', 'dateliberation'];
+  dataSource;
+
+  hello: any;
 
   constructor(
     private contratService: ContratService,
     private cuidService: CuidService,
-    private cdRef: ChangeDetectorRef
+    private affectationService: AffectationService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
 
-
-    this.name = 'tous'
-
+    this.sharedService.notify$.subscribe((data) => {this.hello = data});
+    console.log(this.hello);
+    this.nomContrat = 'tous'
     this.contratService.getContrats()
     .subscribe((data: any) => {
         this.contrats = data;
     });
-/*
     this.cuidService.getTabCuid()
     .subscribe((data: any) => {
         this.cuids = data;
-
-        console.log(this.cuids);
-    });*/
+        this.calcNbrCuid();
+    });
+    this.affectationService.getAffectationTabEnCours()
+    .subscribe((data: any) => {
+        this.affectations = data;
+        this.dataSource = new MatTableDataSource<AffectationTab>(this.affectations);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+    });
   }
 
-  chgContrat(){
-
-   // console.log(this.panelColor.value);
-  // console.log(this.name);
+  filtreTabAffectations(){
+    if(this.nomContrat != "tous"){
+      this.dataSource = new MatTableDataSource<AffectationTab>(
+        this.affectations.filter(element => element.contrat == this.nomContrat)
+        );
+    }
+    else
+      this.dataSource = new MatTableDataSource<AffectationTab>(this.affectations);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
-  nbrCuid(): number{
-    let nbr: number = 0;
-    this.cuidNonAffect = 0;
-    this.cuidUnCollab = 0;
-    this.cuidPlusieursCollab = 0;
-   /* if(this.name == "tous")
-      nbr = this.cuids.length;
+  calcNbrCuid(){
+    this.nbrCuid = 0 ;
+    this.nbrCuidNonAffect = 0;
+    this.nbrCuidUnCollab = 0;
+    this.nbrCuidPlusieursCollab = 0;
+    if(this.nomContrat == "tous"){
+      this.nbrCuid = this.cuids.length;
+      this.cuids.forEach(element => {
+        if(element.nbcollab == 0) this.nbrCuidNonAffect++;
+        else if(element.nbcollab == 1) this.nbrCuidUnCollab++;
+        else if(element.nbcollab > 1) this.nbrCuidPlusieursCollab++;
+      });
+    }
     else{
       this.cuids.forEach(function(element){
-      //  console.log(element.contrat);
-        
-        if(element.cuid.contrat.nom == this.name){
-         // console.log(element.contrat);
-          if(element.nbcollab == 0) this.cuidNonAffect++;
-          else if(element.nbcollab == 1) this.cuidUnCollab++;
-          else if(element.nbcollab > 1) this.cuidPlusieursCollab++;
-          nbr++;
-        
+        if(element.contrat == this.nomContrat){
+          if(element.nbcollab == 0) this.nbrCuidNonAffect++;
+          else if(element.nbcollab == 1) this.nbrCuidUnCollab++;
+          else if(element.nbcollab > 1) this.nbrCuidPlusieursCollab++;
+          this.nbrCuid++;
         } 
       }, this);
-    //  this.cdRef.detectChanges();
-    }*/
-    return nbr;
+    }
+  }
+  
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

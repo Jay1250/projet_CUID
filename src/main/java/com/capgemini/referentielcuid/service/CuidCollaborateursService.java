@@ -1,5 +1,6 @@
 package com.capgemini.referentielcuid.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +46,35 @@ public class CuidCollaborateursService {
 		List<Affectation> affectations = new ArrayList<Affectation>();
 		for(CuidCollaborateurs cu: cuidCollaborateur)
 			affectations.add(new Affectation(cu));
+		return affectations;
+	}
+	
+	public List<Affectation> findAffectationsEnCours() throws ServiceException {
+		List<CuidCollaborateurs> cuidCollaborateur = cuidCollaborateursRepository.findAll();
+		List<Affectation> affectations = new ArrayList<Affectation>();
+		Long millis = System.currentTimeMillis();
+		Date today = new Date(millis);
+		for(CuidCollaborateurs cu: cuidCollaborateur) {
+			if(cu.getDateliberation() != null) {
+				if(cu.getDateliberation().compareTo(today) == 1 || cu.getDateliberation().compareTo(today) == 0)
+					affectations.add(new Affectation(cu));
+			}
+			else
+				affectations.add(new Affectation(cu));
+		}
+		return affectations;
+	}
+	
+	public List<Affectation> findAffectationsExpirees() throws ServiceException {
+		List<CuidCollaborateurs> cuidCollaborateur = cuidCollaborateursRepository.findAll();
+		List<Affectation> affectations = new ArrayList<Affectation>();
+		Long millis = System.currentTimeMillis();
+		Date today = new Date(millis);
+		for(CuidCollaborateurs cu: cuidCollaborateur) {
+			if(cu.getDateliberation() != null)
+				if(cu.getDateliberation().compareTo(today) == -1)
+					affectations.add(new Affectation(cu));
+		}
 		return affectations;
 	}
 	

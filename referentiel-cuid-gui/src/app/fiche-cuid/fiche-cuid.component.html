@@ -137,9 +137,9 @@
                 <td mat-cell *matCellDef="let row" class="pr-5" [ngClass] = "(estDateExpiree(row.dateliberation ) && row.dateliberation != null)?'text-danger':''"> <a href="#">{{row.trigrame}} </a></td>
               </ng-container>
               <!-- Contrat Column -->
-              <ng-container matColumnDef="prenom">
+              <ng-container matColumnDef="nomprenom">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</th>
-                <td mat-cell *matCellDef="let row" [ngClass] = "(estDateExpiree(row.dateliberation ) && row.dateliberation != null)?'text-danger':''"> {{row.nom}} {{row.prenom}} </td>
+                <td mat-cell *matCellDef="let row" [ngClass] = "(estDateExpiree(row.dateliberation ) && row.dateliberation != null)?'text-danger':''">{{row.nomprenom}}</td>
               </ng-container>
               <!-- Manager Column -->
               <ng-container matColumnDef="pays">

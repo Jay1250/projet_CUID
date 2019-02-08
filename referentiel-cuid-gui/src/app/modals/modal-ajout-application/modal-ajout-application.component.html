@@ -1,3 +1,15 @@
-<p>
-  modal-ajout-application works!
-</p>
+<h1 mat-dialog-title>Nouvelle Application</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="Application"  [formControl]="application">
+      <mat-option value="{{application.id}}" *ngFor="let application of tabApplication">{{application.nomApplication}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="application.hasError('required') ">
+      Le champ Nom est <strong>requis</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="onClick()" cdkFocusInitial>Ajouter</button>
+</div>

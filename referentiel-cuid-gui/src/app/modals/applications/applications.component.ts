@@ -1,9 +1,15 @@
+// angular
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material';
+import {FormControl, Validators} from '@angular/forms';
+
+//services
 import { ApplicationService } from '../../services/http/application/application.service';
 import { ContratService } from '../../services/http/contrat/contrat.service';
+
+//others
 import swal from 'sweetalert2';
-import {FormControl, Validators} from '@angular/forms';
+
 
 
 // POST

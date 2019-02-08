@@ -39,7 +39,7 @@ export class FicheCuidComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   selectable = true;
   removable = false;
-  displayedColumns: string[] = ['trigrame', 'prenom', 'pays', 'dateaffectation', 'dateliberation','action'];
+  displayedColumns: string[] = ['trigrame', 'nomprenom', 'pays', 'dateaffectation', 'dateliberation','action'];
   dataSource;
 
   // data

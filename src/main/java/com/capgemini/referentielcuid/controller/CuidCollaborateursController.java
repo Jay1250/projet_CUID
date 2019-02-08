@@ -79,6 +79,30 @@ public class CuidCollaborateursController {
 		return affectations;
 	}
 	
+	@GetMapping(value = "/TabAffectationEnCours")
+	public List<Affectation> afficherTabAffectationEnCours() throws ServiceException{
+		List<Affectation> affectations = null;
+		try {
+			affectations = cuidCollaborateurService.findAffectationsEnCours();
+			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return affectations;
+	}
+	
+	@GetMapping(value = "/TabAffectationExpiree")
+	public List<Affectation> afficherTabAffectationExpiree() throws ServiceException{
+		List<Affectation> affectations = null;
+		try {
+			affectations = cuidCollaborateurService.findAffectationsExpirees();
+			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return affectations;
+	}
+	
 	@GetMapping(value = "/TabAffectation/{id}")
 	public List<Affectation> afficherTabAffectationById(@PathVariable String id) throws ServiceException{
 		List<Affectation> affectations = null;
