@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 //services
 import { ContratService } from '../services/http/contrat/contrat.service';
+import {NavbarService} from '../services/navbar/navbar.service';
 
 //others
 import { Subject } from 'rxjs';
@@ -19,9 +20,15 @@ export class MenuComponent implements OnInit {
   champContrat=null;
   contrats = [];
 
-  constructor(private contratService: ContratService, private router: Router) { }
+  faCoffee = "faCoffee";
+
+  constructor(private contratService: ContratService, 
+              private router: Router,
+              private nav: NavbarService              
+              ) { }
 
   ngOnInit() {
+  
     this.getAllContrats();
   }
 

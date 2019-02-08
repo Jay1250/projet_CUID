@@ -19,16 +19,11 @@
         <li class="nav-item" [routerLinkActive]="['active']">
             <a class="nav-link" routerLink="/gestion">Gestion</a>
         </li>
-        <li class="nav-item" [routerLinkActive]="['active']">
-            <a class="nav-link" routerLink="/test">Historique</a>
-        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/tabCuid"> <fa name="user"></fa> Déconnexion</a>
+            </li>
       </ul>
   </div>
-
-  <form class="form-inline">
-      <select class="form-control mr-2" name="champContrat" [(ngModel)] = "champContrat" >
-          <option *ngFor="let contrat of contrats" >{{contrat.nom}}</option>
-        </select>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="onValider()" routerLink="/collaborateur">Filtrer</button>
-    </form>
 </nav>

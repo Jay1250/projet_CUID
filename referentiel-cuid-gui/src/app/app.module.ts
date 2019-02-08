@@ -69,6 +69,7 @@ import { ModalAjoutLocalisationComponent } from './modals/modal-ajout-localisati
 import { ModalSupprimerApplicationComponent } from './modals/modal-supprimer-application/modal-supprimer-application.component';
 import { ModalSupprimerOutilComponent } from './modals/modal-supprimer-outil/modal-supprimer-outil.component';
 import { ModalSupprimerLocalisationComponent } from './modals/modal-supprimer-localisation/modal-supprimer-localisation.component';
+import { NavbarService } from './services/navbar/navbar.service';
 
 //Routage
 let routes: Routes = [{
@@ -179,7 +180,9 @@ let routes: Routes = [{
   ],
   providers: [
               {provide: ErrorHandler,
-              useClass: GestionErreurComponent}
+              useClass: GestionErreurComponent,
+              },
+              NavbarService
   ], 
   
   bootstrap: [AppComponent],

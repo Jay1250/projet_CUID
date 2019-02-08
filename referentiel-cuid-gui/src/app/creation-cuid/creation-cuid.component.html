@@ -165,22 +165,24 @@
           <mat-divider class="mt-2"></mat-divider>
 
           <h3 class="p-2">Collaborateurs</h3>
-          <div class="col-md-12">
-            <mat-chip-list #chipList>
-              <mat-chip color="accent" *ngFor="let chip of chipsCollaborateur" class="col-md-1"
-                [selectable]="selectable"
-                [removable]="removable"
-                (removed)="removeChip(chip)" color = "primary" selected>
-                {{chip}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-          </div>
+          <div class="row">
+            <div class="col-md-8">
 
-          <div class="col-md-3 offset-9">
-            <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
-            </mat-form-field>
+                <mat-chip-list #chipList>
+                    <mat-chip color="accent" *ngFor="let chip of chipsCollaborateur" class="col-md-1"
+                      [selectable]="selectable"
+                      [removable]="removable"
+                      (removed)="removeChip(chip)" color = "primary" selected>
+                      {{chip}}
+                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+            </div>
+            <div class="col-md-3 offset-1">
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
+                </mat-form-field>
+              </div>
           </div>
 
           <div class="mat-elevation-z8 col-md-12">
