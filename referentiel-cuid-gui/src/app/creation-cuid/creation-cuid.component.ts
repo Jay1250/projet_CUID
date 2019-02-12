@@ -17,6 +17,7 @@ import {FormStateMatcherService} from '../services/form-state-matcher/form-state
 import { OutilService } from '../services/http/outil/outil.service';
 import { ApplicationService } from '../services/http/application/application.service';
 import { ContratService } from '../services/http/contrat/contrat.service';
+import { CookieService } from 'ngx-cookie-service';
 
 // interfaces
 import {Cuid} from '../interfaces/cuid';
@@ -113,11 +114,16 @@ export class CreationCuidComponent implements OnInit{
               private outilService: OutilService,
               private applicationService: ApplicationService,
               private contratService: ContratService,
-              private router: Router
+              private router: Router,
+              private cookieService: CookieService
               ) {}
 
   ngOnInit() {
 
+    if(this.cookieService.get('Contrat') != 'tous'){
+      console.log("bonjour");
+      this.cuidForm.get("ccontrat").setValue(this.cookieService.get('Contrat'));
+    }
     //recup outils
     this.outilService.getOutils()
     .subscribe((data: any) => {

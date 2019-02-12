@@ -39,6 +39,17 @@ public class CuidService {
 			cuidInfo.add(new CuidInfos(cu , cu.getCuidCollaborateurs().size(), cu.getApplications().size()));
 		return cuidInfo;
 	}
+	
+	public List<CuidInfos> findCuidInfosByContrat(String nom) throws ServiceException {
+		List<CuidInfos> cuidInfo = new ArrayList<CuidInfos>();
+		List<Cuid> cuid = findAll();
+		for (Cuid cu: cuid) {
+			if(cu.getContrat().getNom().equals(nom))
+			cuidInfo.add(new CuidInfos(cu , cu.getCuidCollaborateurs().size(), cu.getApplications().size()));
+		}
+
+		return cuidInfo;
+	}
 
 	public Cuid addOne(Cuid cuid) throws ServiceException {
 		Optional<Cuid> old = cuidRepository.findById(cuid.getCuid());

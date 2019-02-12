@@ -80,6 +80,18 @@ public class CuidController {
 		}
 		return cuidInfo;
 	}
+	
+	@GetMapping(value = "/TabCuids/{contratNom}")
+	public List<CuidInfos> afficherTabCuidByContrat(@PathVariable String contratNom) throws ServiceException {
+		List<CuidInfos> cuidInfo = null;
+		try {
+			cuidInfo = cuidService.findCuidInfosByContrat(contratNom);
+			if (cuidInfo.isEmpty()) throw new NotFoundException("Aucun cuid n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return cuidInfo;
+	}
 
 	@PostMapping(value = "/Cuid")
 	public ResponseEntity<Cuid> addOne(@Valid @RequestBody Cuid cuid) throws ServiceException {

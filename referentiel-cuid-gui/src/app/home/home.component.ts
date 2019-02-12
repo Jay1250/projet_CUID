@@ -7,6 +7,8 @@ import { ContratService } from '../services/http/contrat/contrat.service';
 import { CuidService } from '../services/http/cuid/cuid.service';
 import { AffectationService } from '../services/http/affectation/affectation.service';
 import {SharedService} from '../services/shared/shared.service';
+import { CookieService } from 'ngx-cookie-service';
+
 //interfaces
 import {Contrat} from '../interfaces/contrat';
 import {CuidTab} from '../interfaces/cuid-tab';
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit {
   contrats: Contrat[] = [];
   cuids: CuidTab[] = [];
   affectations: AffectationTab[] = [];
-  nomContrat: String;
+  nomContrat: string;
 
   nbrCuid : number = 0; 
   nbrCuidNonAffect: number = 0;
@@ -37,20 +39,16 @@ export class HomeComponent implements OnInit {
   displayedColumns: string[] = ['cuid', 'trigrame','nomprenom', 'contrat', 'dateaffectation', 'dateliberation'];
   dataSource;
 
-  hello: any;
-
   constructor(
     private contratService: ContratService,
     private cuidService: CuidService,
     private affectationService: AffectationService,
-    private sharedService: SharedService
+    private cookieService: CookieService
   ) { }
 
   ngOnInit() {
 
-    this.sharedService.notify$.subscribe((data) => {this.hello = data});
-    console.log(this.hello);
-    this.nomContrat = 'tous'
+    this.nomContrat = this.cookieService.get('Contrat');
     this.contratService.getContrats()
     .subscribe((data: any) => {
         this.contrats = data;
@@ -111,5 +109,9 @@ export class HomeComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  modifContrat(){
+    this.cookieService.set( 'Contrat', this.nomContrat);
   }
 }

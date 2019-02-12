@@ -5,6 +5,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 
 //services
 import { CuidService } from '../services/http/cuid/cuid.service';
+import { CookieService } from 'ngx-cookie-service';
 
 //interfaces
 import {CuidTab} from '../interfaces/cuid-tab';
@@ -26,19 +27,32 @@ export class TabCuidComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(  private cuidService: CuidService) {
+  constructor(  private cuidService: CuidService,
+                private cookieService: CookieService
+            ) {
    }
 
   ngOnInit() {
-    this.cuidService.getTabCuid()
-    .subscribe((data: any) => {
-      data.forEach(element => {
-        this.cuidTab.push(element);
-      }, this);
-      this.dataSource = new MatTableDataSource<CuidTab>(this.cuidTab);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.cuidTab = [];
+    if(this.cookieService.get('Contrat') == 'tous'){
+      this.cuidService.getTabCuid()
+      .subscribe((data: any) => {
+        this.cuidTab = data;
+        this.dataSource = new MatTableDataSource<CuidTab>(this.cuidTab);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    }
+    else{
+      this.cuidService.getTabCuidByContrat(this.cookieService.get('Contrat'))
+      .subscribe((data: any) => {
+        this.cuidTab = data;
+        this.dataSource = new MatTableDataSource<CuidTab>(this.cuidTab);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+
+    }
   }
 
   applyFilter(filterValue: string) {

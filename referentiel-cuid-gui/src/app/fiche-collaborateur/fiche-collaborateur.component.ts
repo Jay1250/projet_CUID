@@ -5,28 +5,10 @@ import{ActivatedRoute} from '@angular/router'
 
 //services
 import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
-import { LocalisationService } from '../services/http/localisation/localisation.service';
 
-CollaborateurService
-export interface Collaborateur {
-	trigrame: String;
-  role: String;
-  mdp: String;
-  nom: String;
-  prenom: String;
-  localisation:{
-    id: Number;
-    pays: String;
-  },
-  statusCollaborateur: Number;
-}
-
-export interface Localisation {
-
-  id: Number;
-  pays: String
-}
-
+//interfaces 
+import { Collaborateur } from '../interfaces/collaborateur';
+import { Localisation } from '../interfaces/localisation';
 
 @Component({
   selector: 'app-fiche-collaborateur',
@@ -39,7 +21,6 @@ export class FicheCollaborateurComponent implements OnInit {
   collaborateur: Collaborateur[] = [];
   localisations: Localisation[] = [];
 
-  hello: boolean = false;
 
   collabForm = new FormGroup({
 
@@ -72,8 +53,7 @@ export class FicheCollaborateurComponent implements OnInit {
   });
 
   constructor(private collaborateurService: CollaborateurService,
-              private route: ActivatedRoute,
-              private localisationService: LocalisationService) { }
+              private route: ActivatedRoute,) { }
 
   ngOnInit() {
 
@@ -81,30 +61,21 @@ export class FicheCollaborateurComponent implements OnInit {
 
     this.collaborateurService.getCollaborateur(this.trigramCollab)
     .subscribe((data: any) => {
+      console.log(data);
         this.collaborateur = data;
-        console.log(this.collaborateur);
-
         this.collabForm.get("nom").setValue(data.nom);
         this.collabForm.get("prenom").setValue(data.prenom);
         this.collabForm.get("localisation").setValue(data.localisation.pays);
         this.collabForm.get("role").setValue(data.role); 
     });
 
-    this.localisationService.getLocalisations()
-    .subscribe((data: any) => {
-        this.localisations = data;
-        console.log(this.localisations);
-    });
-/*
-    this.collaborateurService.getCuids(this.trigramCollab)
-    .subscribe((data: any) => {
-        this.localisations = data;
-        console.log(this.localisations);
-    });*/
+
+    
+
   }
 
   saveCollab(){
 
-    this.hello = true;
+    
   }
 }

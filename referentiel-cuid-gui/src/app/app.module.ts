@@ -21,7 +21,7 @@ import { TabCuidComponent } from './tab-cuid/tab-cuid.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-
+import {CookieService} from 'ngx-cookie-service';
 
 import {
   MatButtonModule,
@@ -182,7 +182,8 @@ let routes: Routes = [{
               {provide: ErrorHandler,
               useClass: GestionErreurComponent,
               },
-              NavbarService
+              NavbarService,
+              CookieService
   ], 
   
   bootstrap: [AppComponent],

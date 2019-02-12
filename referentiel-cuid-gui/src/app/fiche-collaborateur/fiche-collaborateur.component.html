@@ -11,7 +11,7 @@
           <!-- champ nom-->
           <mat-form-field class="col-md-5">
             <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('nom').value && hello" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
+            <button mat-button type="button" *ngIf="collabForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('nom').hasError('required')">

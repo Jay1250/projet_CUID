@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
+//angular
+import { Component, OnInit } from '@angular/core';
 
-import {SharedService} from './services/shared/shared.service';
+//services
+import {CookieService} from 'ngx-cookie-service';
+
+//interfaces
+import { Contrat } from './interfaces/contrat';
+import { ContratService } from './services/http/contrat/contrat.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor(private sharedService: SharedService){
+  constructor(private cookieService: CookieService){}
 
-    this.sharedService.notify({name: 'John'})
-  }
+ngOnInit(): void {
 
-message = "hello world";
-
+  this.cookieService.set( 'Contrat', 'tous' );
+}
 }
