@@ -23,6 +23,10 @@ public class ContratService {
 		return contratRepository.findById(id);
 	}
 	
+	public Optional<Contrat> findByNom(String nom) throws ServiceException {
+		return contratRepository.findByNom(nom);
+	}
+	
 	public Contrat addOne(Contrat contrat) throws ServiceException {	    
 		Optional<Contrat> old = contratRepository.findById(contrat.getId());
 		if(old.isPresent())

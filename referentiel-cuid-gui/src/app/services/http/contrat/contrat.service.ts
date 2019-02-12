@@ -16,6 +16,10 @@ export class ContratService {
         return this.http.get(`${environment.url}/Contrat/${contrat}`);
     }
 
+    getContratByName = (nom: any) => {
+        return this.http.get(`${environment.url}/ContratByName/${nom}`);
+    }
+
     addContrat = (contrat: any) => {
         return this.http.post(`${environment.url}/Contrat`, contrat);
     }

@@ -54,6 +54,18 @@ public class ContratController {
 		return contrat;
 	}
 	
+	@GetMapping(value = "/ContratByName/{nom}")
+	public Optional<Contrat> afficherUnContratWithName(@PathVariable String nom) throws ServiceException{
+		Optional<Contrat> contrat = null;
+		try {
+			contrat = contratService.findByNom(nom);
+			if (!contrat.isPresent()) throw new NotFoundException("Le contrat " + nom + " est introuvable");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return contrat;
+	}
+	
 	@PostMapping(value = "/Contrat")
 	public ResponseEntity<Contrat> addOne(@Valid @RequestBody Contrat contrat) throws ServiceException{
 		Contrat newContrat = null;

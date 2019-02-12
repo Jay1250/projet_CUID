@@ -26,7 +26,7 @@
           </mat-form-field>
 
           <mat-form-field class="col-md-5 offset-1">
-            <mat-select placeholder="Contrat*"  formControlName="ccontrat" [errorStateMatcher]="matcher">
+            <mat-select placeholder="Contrat*"  [(value)] = "ccontrat" formControlName="ccontrat" [errorStateMatcher]="matcher">
               <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
             </mat-select>
             <mat-error *ngIf="cuidForm.get('ccontrat').hasError('required') ">

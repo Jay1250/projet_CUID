@@ -121,9 +121,12 @@ export class CreationCuidComponent implements OnInit{
   ngOnInit() {
 
     if(this.cookieService.get('Contrat') != 'tous'){
-      console.log("bonjour");
-      this.cuidForm.get("ccontrat").setValue(this.cookieService.get('Contrat'));
+      this.contratService.getContratByName(this.cookieService.get('Contrat'))
+      .subscribe((data: any) => {
+          this.cuidForm.get("ccontrat").setValue(data.id.toString());
+      });
     }
+
     //recup outils
     this.outilService.getOutils()
     .subscribe((data: any) => {
@@ -311,6 +314,10 @@ export class CreationCuidComponent implements OnInit{
     else
       return true;
     return false;
+  }
+
+  isContratSelect(): boolean{
+    return this.cookieService.check('Contrat');
   }
   // ***** 
 }

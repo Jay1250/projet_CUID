@@ -15,6 +15,15 @@ import { OutilsModalComponent } from '../modals/outils/outils.component';
 import { ApplicationsModalComponent } from '../modals/applications/applications.component';
 import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
 
+import { ModalCreationApplicationComponent } from '../modals/modal-creation-application/modal-creation-application.component';
+import { ModalCreationLocalisationComponent } from '../modals/modal-creation-localisation/modal-creation-localisation.component';
+import { ModalCreationOutilComponent } from '../modals/modal-creation-outil/modal-creation-outil.component';
+
+import { ModalSupprimerApplicationComponent } from '../modals/modal-supprimer-application/modal-supprimer-application.component';
+import { ModalSupprimerLocalisationComponent } from '../modals/modal-supprimer-localisation/modal-supprimer-localisation.component';
+import { ModalSupprimerOutilComponent } from '../modals/modal-supprimer-outil/modal-supprimer-outil.component';
+
+
 //interfaces
 import {Contrat} from '../interfaces/contrat';
 import {Application} from '../interfaces/application';
@@ -91,6 +100,9 @@ export class GestionComponent implements OnInit {
 
   }
 
+  //***** modal
+
+  //outil
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
@@ -99,7 +111,7 @@ export class GestionComponent implements OnInit {
         this.outils = result;
     });
   }
-
+  //app
   openDialogApp(): void {
     const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
@@ -109,6 +121,15 @@ export class GestionComponent implements OnInit {
     });
   }
 
+  openDialogSupprimerApp(): void {
+    const dialogRef = this.dialog.open(ModalSupprimerApplicationComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+    if(result !== null && result !== undefined)
+      this.applications = result;
+    });
+  }
+
+  // localisation
   openDialogLocalisation(): void {
     const dialogRef = this.dialog.open(LocalisationModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
