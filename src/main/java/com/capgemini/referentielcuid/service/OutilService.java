@@ -37,12 +37,10 @@ public class OutilService {
 		return outilRepository.save(outil);
 	}
 	
-	public boolean deleteById(int id) {
+	public boolean deleteById(int id) throws ServiceException {
 		Optional<Outil> outil = outilRepository.findById(id);
-		if (outil.isPresent()) {
-			outilRepository.deleteById(id);
-			return true;
-		}
-		return false;
+		//if (outil.isPresent()) throw new ServiceException("Outil introuvable");
+		outilRepository.deleteById(id);
+		return true;
 	}
 }

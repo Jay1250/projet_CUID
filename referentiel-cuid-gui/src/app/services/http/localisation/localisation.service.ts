@@ -27,7 +27,7 @@ export class LocalisationService {
         return this.http.put(`${environment.url}/Localisation`, local);
     }
 
-    deleteLocalisation = (local: any) => {
-        return this.http.delete(`${environment.url}/Localisation`, local);
+    deleteLocalisation = (id: any) => {
+        return this.http.delete(`${environment.url}/Localisation/${id}`, id);
     }
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import com.capgemini.referentielcuid.service.ServiceException;
 
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice {
@@ -145,6 +148,34 @@ public class ExceptionHandlerControllerAdvice {
 		
 		ExceptionResponse error = new ExceptionResponse();
 		error.setErrorMessage("Transaction echouée -> " + exception.getMessage());
+		error.callerURL(request.getRequestURI());
+		return error;
+	}
+	
+	@ExceptionHandler(ServiceException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ExceptionResponse handleService(final CannotCreateTransactionException exception,
+			final HttpServletRequest request) {
+		
+		logger.error("----------- SERVICE EXCEPTION -----------");
+		logger.error(exception.getMessage());
+		
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage("problème  -> " + exception.getMessage());
+		error.callerURL(request.getRequestURI());
+		return error;
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ExceptionResponse handleDataIntegrityViolation(final CannotCreateTransactionException exception,
+			final HttpServletRequest request) {
+		
+		logger.error("----------- DATA INTEGRITY VIOLATION EXCEPTION -----------");
+		logger.error(exception.getMessage());
+		
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage("Violation de contrainte d'intégrité  -> " + exception.getMessage());
 		error.callerURL(request.getRequestURI());
 		return error;
 	}

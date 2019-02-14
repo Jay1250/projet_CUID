@@ -62,7 +62,8 @@ export class ModalCreationApplicationComponent implements OnInit {
                             id: null,
                             nomApplication: this.nomApp.value,
                             utiliser: null,
-                            contrat_id: this.contrat.value
+                            // à voir
+                            contrat: this.contrat.value
                             }; 
 
         this.applicationService.addApplication(this.application)

@@ -28,8 +28,8 @@ export class OutilService {
         return this.http.put(`${environment.url}/Outil`, outil);
 	}
 	
-	deleteOutil = (outil: any) => {
-        return this.http.delete(`${environment.url}/Outil`, outil);
+	deleteOutil = (id: any) => {
+        return this.http.delete(`${environment.url}/Outil/${id}`);
     }
 
 }

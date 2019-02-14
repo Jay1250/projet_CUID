@@ -37,25 +37,11 @@ import {Localisation} from '../interfaces/localisation';
 })
 export class GestionComponent implements OnInit {
 
+  // data
   contrats: Contrat[] = [];
   applications: Application[] = [];
   outils: Outil[] = [];
   localisations: Localisation[] = [];
-  matcher = new FormStateMatcherService();
-
-  displayedColumnsOutils: string[] = ['id', 'nomOutil'];
-  dataSourceOutils;
-
-  appliForm = new FormGroup({
-
-    appli : new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    contrat : new FormControl('', [
-      Validators.required,
-    ]),
-  });
 
   constructor(
     private contratService: ContratService,
@@ -75,7 +61,6 @@ export class GestionComponent implements OnInit {
     this.outilService.getOutils()
     .subscribe((data: any) => {
         this.outils = data;
-        this.dataSourceOutils = data;
     });
 
     this.localisationService.getLocalisations()
@@ -86,17 +71,11 @@ export class GestionComponent implements OnInit {
     this.applicationService.getApplications()
     .subscribe((data: any) => {
         this.applications = data;
-        this.applications.forEach(function(application){
-          application.utiliser = false;
-       })
-       console.log(this.applications)
     });
   }
 
   appliSubmit(){
 
-    console.log(this.appliForm.get('appli').value);
-    console.log(this.appliForm.get('contrat').value);
 
   }
 
@@ -106,16 +85,23 @@ export class GestionComponent implements OnInit {
   openDialogOutil(): void {
     const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
       if(result !== null && result !== undefined)
         this.outils = result;
     });
   }
+
+  openDialogSupprimerOutil(): void {
+    const dialogRef = this.dialog.open(ModalSupprimerOutilComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+    if(result !== null && result !== undefined)
+      this.applications = result;
+    });
+  }
+
   //app
   openDialogApp(): void {
     const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
     if(result !== null && result !== undefined)
       this.applications = result;
     });
@@ -133,10 +119,16 @@ export class GestionComponent implements OnInit {
   openDialogLocalisation(): void {
     const dialogRef = this.dialog.open(LocalisationModalComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-     
       if(result !== null && result !== undefined)
         this.localisations = result;
     });
   }
 
+  openDialogSupprimerLocalisation(): void {
+    const dialogRef = this.dialog.open(ModalSupprimerLocalisationComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+    if(result !== null && result !== undefined)
+      this.applications = result;
+    });
+  }
 }

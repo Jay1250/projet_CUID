@@ -77,9 +77,9 @@ public class ApplicationController {
 	}
 	
 	@DeleteMapping(value = "/Application/{id}")
-	public ResponseEntity<Boolean> supprimerApplication(@PathVariable Application application) throws ServiceException {
-		if (!applicationService.deleteById(application)) {
-			throw new NotFoundException("Erreur lors du DELETE de l'application : " + application);
+	public ResponseEntity<Boolean> supprimerApplication(@PathVariable int id) throws ServiceException {
+		if (!applicationService.deleteById(id)) {
+			throw new NotFoundException("Erreur lors du DELETE de l'application : " + id);
 		}
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}

@@ -35,10 +35,10 @@ public class LocalisationService {
 		return localisationRepository.save(localisation);
 	}
 	
-	public boolean deleteById(Localisation localisation) throws ServiceException {
-		Optional<Localisation> app = localisationRepository.findById(localisation.getId());
+	public boolean deleteById(int id) throws ServiceException {
+		Optional<Localisation> app = localisationRepository.findById(id);
 		if (app.isPresent()) throw new ServiceException("Localisation introuvable");
-		localisationRepository.deleteById(localisation.getId());
+		localisationRepository.deleteById(id);
 		return true;
 	}
 }

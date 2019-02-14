@@ -35,10 +35,10 @@ public class ApplicationService {
 		return applicationRepository.save(application);
 	}
 	
-	public boolean deleteById(Application application) throws ServiceException {
-		Optional<Application> collab = applicationRepository.findById(application.getId());
-		if (collab.isPresent()) throw new ServiceException("Application introuvable");
-		applicationRepository.deleteById(application.getId());
+	public boolean deleteById(int id) throws ServiceException {
+		Optional<Application> collab = applicationRepository.findById(id);
+		if (!collab.isPresent()) throw new ServiceException("Application introuvable");
+		applicationRepository.deleteById(id);
 		return true;
 	}
 }

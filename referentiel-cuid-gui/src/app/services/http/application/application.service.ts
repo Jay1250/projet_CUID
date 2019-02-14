@@ -27,7 +27,7 @@ export class ApplicationService {
         return this.http.put(`${environment.url}/Application`, app);
 	}
 	
-	deleteApplication = (app: any) => {
-        return this.http.delete(`${environment.url}/Application`, app);
+	deleteApplication = (id: any) => {
+        return this.http.delete(`${environment.url}/Application/${id}`, id);
     }
 }

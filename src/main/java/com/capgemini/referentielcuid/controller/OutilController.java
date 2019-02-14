@@ -21,6 +21,7 @@ import com.capgemini.referentielcuid.exception.ConflictException;
 import com.capgemini.referentielcuid.exception.NotFoundException;
 import com.capgemini.referentielcuid.model.Outil;
 import com.capgemini.referentielcuid.service.OutilService;
+import com.capgemini.referentielcuid.service.ServiceException;
 
 @RestController
 @CrossOrigin("*")
@@ -62,7 +63,7 @@ public class OutilController {
 	}
 	
 	@DeleteMapping(value = "/Outil/{id}")
-	public ResponseEntity<Boolean> supprimerOutil(@PathVariable int id) {
+	public ResponseEntity<Boolean> supprimerOutil(@PathVariable int id) throws ServiceException {
 		if (!outilService.deleteById(id)) {
 			throw new NotFoundException("Erreur lors du DELETE de l'outil : " + id);
 		}

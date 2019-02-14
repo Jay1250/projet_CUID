@@ -1,3 +1,15 @@
-<p>
-  modal-supprimer-localisation works!
-</p>
+<h1 mat-dialog-title>Supprimer Localisation</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="Localisation"  [formControl]="localisation">
+      <mat-option value="{{localisation.id}}" *ngFor="let localisation of tabLocalisation">{{localisation.pays}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="localisation.hasError('required') ">
+      Le champ Nom est <strong>requis</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="onClick()" cdkFocusInitial>Supprimer</button>
+</div>

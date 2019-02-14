@@ -18,8 +18,8 @@ export class AppComponent implements OnInit {
 
   constructor(private cookieService: CookieService){}
 
-ngOnInit(): void {
-
-  this.cookieService.set( 'Contrat', 'tous' );
-}
+  ngOnInit(): void {
+    if(!this.cookieService.check('Contrat'))
+      this.cookieService.set( 'Contrat', 'tous' );
+  }
 }

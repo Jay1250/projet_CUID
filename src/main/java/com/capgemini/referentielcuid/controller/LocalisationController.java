@@ -75,9 +75,9 @@ public class LocalisationController {
 	}
 	
 	@DeleteMapping(value = "/Localisation/{id}")
-	public ResponseEntity<Boolean> supprimerLocalisation(@PathVariable Localisation localisation) throws ServiceException {
-		if (!localisationService.deleteById(localisation)) {
-			throw new NotFoundException("Erreur lors du DELETE de l'application : " + localisation);
+	public ResponseEntity<Boolean> supprimerLocalisation(@PathVariable int id) throws ServiceException {
+		if (!localisationService.deleteById(id)) {
+			throw new NotFoundException("Erreur lors du DELETE de l'application : " + id);
 		}
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}

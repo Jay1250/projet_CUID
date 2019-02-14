@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 //services
 import { ApplicationService } from '../../services/http/application/application.service';
 import { ContratService } from '../../services/http/contrat/contrat.service';
+import { CookieService } from 'ngx-cookie-service';
 
 //interfaces 
 import {Application} from '../../interfaces/Application';
@@ -13,6 +14,7 @@ import {Contrat} from '../../interfaces/Contrat'
 
 //others
 import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-supprimer-application',
@@ -21,7 +23,7 @@ import swal from 'sweetalert2';
 })
 export class ModalSupprimerApplicationComponent implements OnInit {
 
-  applications: Application[] = [];
+  //application: Application;
   tabApplication: Application[] = [];
   tabContrat: Contrat[] = [];
 
@@ -37,6 +39,7 @@ export class ModalSupprimerApplicationComponent implements OnInit {
     public dialogRef: MatDialogRef<ModalSupprimerApplicationComponent>,
     private applicationService: ApplicationService,
     private contratService: ContratService,
+    private cookieService: CookieService
     ) {}
 
     onNoClick(): void {
@@ -44,45 +47,48 @@ export class ModalSupprimerApplicationComponent implements OnInit {
     }
   
     onClick(): void {
-
       if (this.contrat.value === '')
         swal('Erreur', 'Veuillez saisir un nom de contrat', 'error');
-
       else if (this.application.value === '')
         swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
-
       else {
-        
-        this.applications.forEach(element => {
-          if(element.id == this.application.value)
-            this.applications.push(element);
-        });
-
-        this.applicationService.addApplication(this.application)
+        this.applicationService.deleteApplication(this.application.value)
         .subscribe((data: any) => {
-  
-        this.dialogRef.close(this.applications);
-        
+          this.tabApplication = this.tabApplication.filter(item => item.nomApplication != this.application.value);
+          swal('Erreur', ' Appplication supprimée', 'success');
+          this.dialogRef.close(this.tabApplication);
         }, (err) => {
-            swal('Erreur', ' Appplication non ajoutée ', 'error');
+            swal('Erreur', ' Appplication non supprimée ', 'error');
         });   
       }
     }
 
   ngOnInit() {
-
+    if(this.cookieService.get('Contrat') != 'tous'){
+      this.contratService.getContratByName(this.cookieService.get('Contrat'))
+      .subscribe((data: any) => {
+          this.contrat.setValue(data.id.toString());
+              });
+    }
     this.applicationService.getApplications()
     .subscribe((data: any) => {
-
-      
         this.tabApplication = data;
+        if(this.cookieService.get('Contrat') != 'tous')
+          this.tabApplication = this.tabApplication.filter(element => element.contrat.nom == this.cookieService.get('Contrat'));
     });
-
     this.contratService.getContrats()
     .subscribe((data: any) => {
         this.tabContrat = data;
     });
   }
+
+  changeContrat(){
+    this.tabApplication = [];
+    this.applicationService.getApplications()
+    .subscribe((data: any) => {
+        this.tabApplication = data;
+        if(this.contrat)
+          this.tabApplication = this.tabApplication.filter(element => element.contrat.id == this.contrat.value);
+    });
+  }
 }
-
-

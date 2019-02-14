@@ -14,17 +14,21 @@
 											<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
 												<mat-icon aria-label="Example icon-button with a heart icon">create</mat-icon>
 											</button>
-											<button mat-mini-fab color="basic" (click)="openDialogApp()" [hidden] = "disable">
-													<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
-												</button>						
+											<button mat-mini-fab color="basic" (click)="openDialogSupprimerApp()" [hidden] = "disable">
+												<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+											</button>						
 										</h3>				
 										
-				
-										<mat-chip-list class="mat-chip-list-stacked" class="offset-1">
-												<mat-chip *ngFor="let application of applications"  [color]="primary" selected>
-													{{application.nomApplication}}
-												</mat-chip>
+										<div *ngFor="let contrat of contrats">
+											<h5 class="">{{contrat.nom}}</h5>
+											<mat-chip-list class="mat-chip-list-stacked" class="offset-1">
+												<div *ngFor="let application of applications">
+														<mat-chip *ngIf="application.contrat.id == contrat.id" [color]="primary" selected>
+															{{application.nomApplication}}
+														</mat-chip>
+												</div>
 											</mat-chip-list>
+										</div>
 							</div>
 						</div>
 			
@@ -36,7 +40,7 @@
 													<button mat-mini-fab color="basic" (click)="openDialogOutil()" [hidden] = "disable">
 														<mat-icon aria-label="Example icon-button with a heart icon">create</mat-icon>
 													</button>
-													<button mat-mini-fab color="basic" (click)="openDialogOutil()" [hidden] = "disable">
+													<button mat-mini-fab color="basic" (click)="openDialogSupprimerOutil()" [hidden] = "disable">
 															<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
 														</button>						
 												</h3>				
@@ -57,7 +61,7 @@
 													<button mat-mini-fab color="basic" (click)="openDialogLocalisation()" [hidden] = "disable">
 														<mat-icon aria-label="Example icon-button with a heart icon">create</mat-icon>
 													</button>
-													<button mat-mini-fab color="basic" (click)="openDialogLocalisation()" [hidden] = "disable">
+													<button mat-mini-fab color="basic" (click)="openDialogSupprimerLocalisation()" [hidden] = "disable">
 															<mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
 														</button>						
 												</h3>				

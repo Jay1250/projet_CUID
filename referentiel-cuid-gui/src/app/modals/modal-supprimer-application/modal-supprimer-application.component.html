@@ -1,7 +1,7 @@
-<h1 mat-dialog-title>Nouvelle Application</h1>
+<h1 mat-dialog-title>Supprimer Application</h1>
 <div mat-dialog-content>
   <mat-form-field>
-    <mat-select placeholder="Contrat"  [formControl]="contrat">
+    <mat-select placeholder="Contrat"  [formControl]="contrat" (ngModelChange)="changeContrat()">
       <mat-option value="{{contrat.id}}" *ngFor="let contrat of tabContrat">{{contrat.nom}}</mat-option>
     </mat-select>
     <mat-error *ngIf="contrat.hasError('required') ">
@@ -19,5 +19,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Annuler</button>
-  <button mat-button (click)="onClick()" cdkFocusInitial>Ajouter</button>
+  <button mat-button (click)="onClick()" cdkFocusInitial>Supprimer</button>
 </div>

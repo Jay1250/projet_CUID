@@ -1,3 +1,16 @@
-<p>
-  modal-supprimer-outil works!
-</p>
+<h1 mat-dialog-title>Supprimer Outil</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="Outil"  [formControl]="outil">
+      <mat-option value="{{outil.id}}" *ngFor="let outil of tabOutil">{{outil.nomOutil}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="outil.hasError('required') ">
+      Le champ Nom est <strong>requis</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="onClick()" cdkFocusInitial>Supprimer</button>
+</div>
+
