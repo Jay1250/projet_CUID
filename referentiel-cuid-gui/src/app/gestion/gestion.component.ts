@@ -23,7 +23,6 @@ import { ModalSupprimerApplicationComponent } from '../modals/modal-supprimer-ap
 import { ModalSupprimerLocalisationComponent } from '../modals/modal-supprimer-localisation/modal-supprimer-localisation.component';
 import { ModalSupprimerOutilComponent } from '../modals/modal-supprimer-outil/modal-supprimer-outil.component';
 
-
 //interfaces
 import {Contrat} from '../interfaces/contrat';
 import {Application} from '../interfaces/application';
@@ -35,6 +34,7 @@ import {Localisation} from '../interfaces/localisation';
   templateUrl: './gestion.component.html',
   styleUrls: ['./gestion.component.scss']
 })
+
 export class GestionComponent implements OnInit {
 
   // data
@@ -74,16 +74,10 @@ export class GestionComponent implements OnInit {
     });
   }
 
-  appliSubmit(){
-
-
-  }
-
   //***** modal
-
   //outil
-  openDialogOutil(): void {
-    const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
+  openDialogCreationOutil(): void {
+    const dialogRef = this.dialog.open(ModalCreationOutilComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== null && result !== undefined)
         this.outils = result;
@@ -93,14 +87,16 @@ export class GestionComponent implements OnInit {
   openDialogSupprimerOutil(): void {
     const dialogRef = this.dialog.open(ModalSupprimerOutilComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-    if(result !== null && result !== undefined)
-      this.applications = result;
+      this.outilService.getOutils()
+      .subscribe((data: any) => {
+          this.outils = data;
+      });
     });
   }
 
   //app
-  openDialogApp(): void {
-    const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
+  openDialogCreationApp(): void {
+    const dialogRef = this.dialog.open(ModalCreationApplicationComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
     if(result !== null && result !== undefined)
       this.applications = result;
@@ -110,14 +106,16 @@ export class GestionComponent implements OnInit {
   openDialogSupprimerApp(): void {
     const dialogRef = this.dialog.open(ModalSupprimerApplicationComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-    if(result !== null && result !== undefined)
-      this.applications = result;
+      this.applicationService.getApplications()
+      .subscribe((data: any) => {
+          this.applications = data;
+      });
     });
   }
 
   // localisation
-  openDialogLocalisation(): void {
-    const dialogRef = this.dialog.open(LocalisationModalComponent, {width: '250px'});
+  openDialogCreationLocalisation(): void {
+    const dialogRef = this.dialog.open(ModalCreationLocalisationComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== null && result !== undefined)
         this.localisations = result;
@@ -127,8 +125,8 @@ export class GestionComponent implements OnInit {
   openDialogSupprimerLocalisation(): void {
     const dialogRef = this.dialog.open(ModalSupprimerLocalisationComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
-    if(result !== null && result !== undefined)
-      this.applications = result;
+      if(result !== null && result !== undefined)
+        this.applications = result;
     });
   }
 }

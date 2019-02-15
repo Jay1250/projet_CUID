@@ -16,7 +16,7 @@ public class OutilService {
 	private OutilRepository outilRepository;
 	
 	public List<Outil> findAll() {
-		return outilRepository.findAll();
+		return outilRepository.findAllByOrderByNomOutilAsc();
 	}
 	
 	public Optional<Outil> findById(int id){
@@ -39,7 +39,7 @@ public class OutilService {
 	
 	public boolean deleteById(int id) throws ServiceException {
 		Optional<Outil> outil = outilRepository.findById(id);
-		//if (outil.isPresent()) throw new ServiceException("Outil introuvable");
+		if (!outil.isPresent()) throw new ServiceException("Outil introuvable");
 		outilRepository.deleteById(id);
 		return true;
 	}

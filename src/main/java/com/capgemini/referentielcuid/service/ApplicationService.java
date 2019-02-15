@@ -16,7 +16,7 @@ public class ApplicationService {
 	private ApplicationRepository applicationRepository;
 	
 	public List<Application> findAll() throws ServiceException {
-		return applicationRepository.findAll();
+		return applicationRepository.findAllByOrderByNomApplicationAsc();
 	}
 	
 	public Optional<Application> findById(int id) throws ServiceException {

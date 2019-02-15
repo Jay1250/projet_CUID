@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -172,6 +173,19 @@ public class ExceptionHandlerControllerAdvice {
 			final HttpServletRequest request) {
 		
 		logger.error("----------- DATA INTEGRITY VIOLATION EXCEPTION -----------");
+		logger.error(exception.getMessage());
+		
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage("Violation de contrainte d'intégrité  -> " + exception.getMessage());
+		error.callerURL(request.getRequestURI());
+		return error;
+	}
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ExceptionResponse handleHttpMessageNotReadableException(final CannotCreateTransactionException exception,
+			final HttpServletRequest request) {
+		logger.error("----------- HTTP MESSAGE NOT READABLE EXCEPTION -----------");
 		logger.error(exception.getMessage());
 		
 		ExceptionResponse error = new ExceptionResponse();

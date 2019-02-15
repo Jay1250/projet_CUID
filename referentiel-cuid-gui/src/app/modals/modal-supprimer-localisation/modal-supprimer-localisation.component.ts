@@ -17,11 +17,10 @@ import swal from 'sweetalert2';
   templateUrl: './modal-supprimer-localisation.component.html',
   styleUrls: ['./modal-supprimer-localisation.component.scss']
 })
+
 export class ModalSupprimerLocalisationComponent implements OnInit {
 
-  //application: Application;
   tabLocalisation: Localisation[] = [];
-
   localisation = new FormControl('', [
     Validators.required
   ]);
@@ -31,29 +30,29 @@ export class ModalSupprimerLocalisationComponent implements OnInit {
     private localisationService: LocalisationService,
     ) {}
 
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
   
-    onClick(): void {
-      if (this.localisation.value === '')
-        swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
-      else {
-        this.localisationService.deleteLocalisation(this.localisation.value)
-        .subscribe((data: any) => {
-          this.tabLocalisation = this.tabLocalisation.filter(item => item.pays != this.localisation.value);
-          swal('Erreur', ' Localisation supprimée', 'success');
-          this.dialogRef.close(this.tabLocalisation);
-        }, (err) => {
-            swal('Erreur', ' Localisation non supprimée ', 'error');
-        });   
-      }
+  onClick(): void {
+    if (this.localisation.value === '')
+      swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
+    else {
+      this.localisationService.deleteLocalisation(this.localisation.value)
+      .subscribe((data: any) => {
+        this.tabLocalisation = this.tabLocalisation.filter(item => item.pays != this.localisation.value);
+        swal('Erreur', ' Localisation supprimée', 'success');
+        this.dialogRef.close(this.tabLocalisation);
+      }, (err) => {
+        swal('Erreur', ' Localisation non supprimée ', 'error');
+      });   
     }
+  }
 
   ngOnInit() {
     this.localisationService.getLocalisations()
     .subscribe((data: any) => {
-        this.tabLocalisation = data;
+      this.tabLocalisation = data;
     });
   }
 }

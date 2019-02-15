@@ -4,10 +4,11 @@
     <form [formGroup]="cuidForm" (ngSubmit)="validationCuid()">
       <div class="card p-2">
         <div class="col-md-12">
+          <!-- title-->
           <div class="card-header" id="titre">
             <h3>Nouveau CUID</h3>
           </div>
-
+          <!-- cuid field -->
           <mat-form-field class="col-md-5">
             <input matInput #cuid placeholder="Cuid*"  formControlName="ccuid" [errorStateMatcher]="matcher" >
             <button mat-button type="button" *ngIf="cuidForm.get('ccuid').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({ccuid: ''})">
@@ -24,7 +25,7 @@
             </mat-error>
             <mat-hint align="end"> {{cuid.value.length}} / 9</mat-hint>
           </mat-form-field>
-
+          <!-- contrat field -->
           <mat-form-field class="col-md-5 offset-1">
             <mat-select placeholder="Contrat*"  [(value)] = "ccontrat" formControlName="ccontrat" [errorStateMatcher]="matcher">
               <mat-option value="{{contrat.id}}" *ngFor="let contrat of contrats">{{contrat.nom}}</mat-option>
@@ -33,7 +34,7 @@
               Le champ Contrat est <strong>requis</strong>
             </mat-error>
           </mat-form-field>
-
+          <!-- nom field -->
           <mat-form-field class="col-md-5">
             <input matInput #nom placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher" >
             <button mat-button type="button" *ngIf="cuidForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({nom: ''})">
@@ -50,7 +51,7 @@
             </mat-error>
             <mat-hint align="end"> {{nom.value.length}} / 25</mat-hint>
           </mat-form-field>
-
+          <!-- prenom field -->
           <mat-form-field class="col-md-5 offset-1">
             <input matInput #prenom placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('prenom').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({prenom: ''})">
@@ -67,7 +68,7 @@
             </mat-error>
             <mat-hint align="end"> {{prenom.value.length}} / 25</mat-hint>
           </mat-form-field>
-
+          <!-- nomgir field -->
           <mat-form-field class="col-md-5">
             <input matInput #nomgir placeholder="NomGir*"  formControlName="nomGir" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('nomGir').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({nomGir: ''})">
@@ -84,7 +85,7 @@
             </mat-error>
             <mat-hint align="end"> {{nomgir.value.length}} / 25</mat-hint>
           </mat-form-field>
-
+          <!-- prenomgir field -->
           <mat-form-field class="col-md-5 offset-1">
             <input matInput #prenomgir placeholder="Prenomgir*"  formControlName="prenomGir" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('prenomGir').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({prenomGir: ''})">
@@ -101,7 +102,7 @@
             </mat-error>
             <mat-hint align="end"> {{prenomgir.value.length}} / 25</mat-hint>
           </mat-form-field>
-        
+          <!-- password field -->
           <mat-form-field class="col-md-5">
             <input type="password" matInput #password placeholder="Password*"  formControlName="password" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('password').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({password: ''})">
@@ -118,7 +119,7 @@
             </mat-error>
             <mat-hint align="end"> {{password.value.length}} / 10</mat-hint>
           </mat-form-field>
-
+          <!-- password verif field -->
           <mat-form-field class="col-md-5 offset-1">
             <input type="password" matInput #passwordverif placeholder="Confirmer password*"  formControlName="passwordVerif" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="cuidForm.get('passwordVerif').value" matSuffix mat-icon-button aria-label="Clear" (click)="cuidForm.patchValue({passwordVerif: ''})">
@@ -135,7 +136,7 @@
             </mat-error>
             <mat-hint align="end"> {{passwordverif.value.length}} / 10</mat-hint>
           </mat-form-field>
-
+          <!-- commentaires field -->
           <mat-form-field class="col-md-10 ">
             <input matInput #commentaire placeholder="Commentaires" formControlName="commentaires" [errorStateMatcher]="matcher">      
             <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">

@@ -14,23 +14,21 @@ import {Contrat} from '../../interfaces/Contrat'
 
 //others
 import swal from 'sweetalert2';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-supprimer-application',
   templateUrl: './modal-supprimer-application.component.html',
   styleUrls: ['./modal-supprimer-application.component.scss']
 })
+
 export class ModalSupprimerApplicationComponent implements OnInit {
 
   //application: Application;
   tabApplication: Application[] = [];
   tabContrat: Contrat[] = [];
-
   application = new FormControl('', [
     Validators.required
   ]);
-
   contrat = new FormControl('', [
     Validators.required,
   ]);
@@ -55,10 +53,10 @@ export class ModalSupprimerApplicationComponent implements OnInit {
         this.applicationService.deleteApplication(this.application.value)
         .subscribe((data: any) => {
           this.tabApplication = this.tabApplication.filter(item => item.nomApplication != this.application.value);
-          swal('Erreur', ' Appplication supprimée', 'success');
-          this.dialogRef.close(this.tabApplication);
+          swal('Succès', ' Appplication supprimée', 'success');
+          this.dialogRef.close(this.application.value);
         }, (err) => {
-            swal('Erreur', ' Appplication non supprimée ', 'error');
+          swal('Erreur', ' Appplication non supprimée ', 'error');
         });   
       }
     }
@@ -67,18 +65,18 @@ export class ModalSupprimerApplicationComponent implements OnInit {
     if(this.cookieService.get('Contrat') != 'tous'){
       this.contratService.getContratByName(this.cookieService.get('Contrat'))
       .subscribe((data: any) => {
-          this.contrat.setValue(data.id.toString());
-              });
+        this.contrat.setValue(data.id.toString());
+      });
     }
     this.applicationService.getApplications()
     .subscribe((data: any) => {
-        this.tabApplication = data;
-        if(this.cookieService.get('Contrat') != 'tous')
-          this.tabApplication = this.tabApplication.filter(element => element.contrat.nom == this.cookieService.get('Contrat'));
+      this.tabApplication = data;
+      if(this.cookieService.get('Contrat') != 'tous')
+        this.tabApplication = this.tabApplication.filter(element => element.contrat.nom == this.cookieService.get('Contrat'));
     });
     this.contratService.getContrats()
     .subscribe((data: any) => {
-        this.tabContrat = data;
+      this.tabContrat = data;
     });
   }
 
@@ -86,9 +84,9 @@ export class ModalSupprimerApplicationComponent implements OnInit {
     this.tabApplication = [];
     this.applicationService.getApplications()
     .subscribe((data: any) => {
-        this.tabApplication = data;
-        if(this.contrat)
-          this.tabApplication = this.tabApplication.filter(element => element.contrat.id == this.contrat.value);
+      this.tabApplication = data;
+      if(this.contrat)
+        this.tabApplication = this.tabApplication.filter(element => element.contrat.id == this.contrat.value);
     });
   }
 }

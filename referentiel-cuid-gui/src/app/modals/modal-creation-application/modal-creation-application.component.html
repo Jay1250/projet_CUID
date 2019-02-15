@@ -17,10 +17,11 @@
       Le champ est <strong>trop court</strong>
     </mat-error>
     <mat-error *ngIf="nomApp.hasError('maxlength')">
-        Le champ est <strong>trop long</strong>
+      Le champ est <strong>trop long</strong>
     </mat-error>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Annuler</button>
-  <button mat-button 
+  <button mat-button (click)="onClick()" cdkFocusInitial>Créer</button> 
+</div>

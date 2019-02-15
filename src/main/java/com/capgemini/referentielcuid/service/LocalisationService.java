@@ -16,7 +16,7 @@ public class LocalisationService {
 	private LocalisationRepository localisationRepository;
 	
 	public List<Localisation> findAll() throws ServiceException {
-		return localisationRepository.findAll();
+		return localisationRepository.findAllByOrderByPaysAsc();
 	}
 	
 	public Optional<Localisation> findById(int id) throws ServiceException {
