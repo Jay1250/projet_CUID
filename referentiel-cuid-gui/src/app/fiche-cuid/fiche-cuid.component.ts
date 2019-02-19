@@ -11,7 +11,7 @@ import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@a
 import { AffectationService } from '../services/http/affectation/affectation.service';
 import { CuidService } from '../services/http/cuid/cuid.service';
 import { CollaborateurService } from '../services/http/collaborateurs/collaborateur.service';
-import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
+import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service';
 
 //components
 import { ModalAjoutOutilComponent } from '../modals/modal-ajout-outil/modal-ajout-outil.component';

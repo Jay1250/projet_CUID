@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 //services
 import { ApplicationService } from '../../services/http/application/application.service';
 import { ContratService } from '../../services/http/contrat/contrat.service';
+import {CuidService} from '../../services/http/cuid/cuid.service';
 import { CookieService } from 'ngx-cookie-service';
 
 //interfaces 
@@ -37,7 +38,8 @@ export class ModalSupprimerApplicationComponent implements OnInit {
     public dialogRef: MatDialogRef<ModalSupprimerApplicationComponent>,
     private applicationService: ApplicationService,
     private contratService: ContratService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private cuidService: CuidService
     ) {}
 
     onNoClick(): void {
@@ -58,6 +60,14 @@ export class ModalSupprimerApplicationComponent implements OnInit {
           'error'
         )
       else {
+        this.cuidService.getApplicationCuids(this.application.value)
+        .subscribe((data: any) => {
+
+        }, (err) => {
+
+        });
+
+
         this.applicationService.deleteApplication(this.application.value)
         .subscribe((data: any) => {
           this.tabApplication = this.tabApplication.filter(item => item.nomApplication != this.application.value);
@@ -73,7 +83,8 @@ export class ModalSupprimerApplicationComponent implements OnInit {
             'Appplication non supprimée',
             'error'
           )
-        });   
+        }); 
+  
       }
     }
 

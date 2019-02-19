@@ -2,6 +2,6 @@
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "src/colorTheme.scss";
 
-button {
-    outline: none;
+button:focus {
+	outline: none;
   }

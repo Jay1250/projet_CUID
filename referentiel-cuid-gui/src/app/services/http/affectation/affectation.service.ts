@@ -23,15 +23,23 @@ export class AffectationService {
 
   getAffectationTab = () => {
     return this.http.get(`${environment.url}/TabAffectation`);
-}
+  }
 
-getAffectationTabEnCours = () => {
+  getAffectationTabEnCours = () => {
     return this.http.get(`${environment.url}/TabAffectationEnCours`);
-}
+  }
 
-getAffectationTabExpiree = () => {
+  getAffectationTabExpiree = () => {
     return this.http.get(`${environment.url}/TabAffectationExpiree`);
-}
+  }
+
+  getAffectationTabByCuid = (cuid: any) => {
+  return this.http.get(`${environment.url}/TabAffectationByCuid/${cuid}`);
+  }
+
+  getAffectationTabByCollab = (trigrame: any) => {
+  return this.http.get(`${environment.url}/TabAffectationByCollab/${trigrame}`);
+  }
 
   addAffectation = (collab: any) => {
       return this.http.post(`${environment.url}/CuidCollaborateur`, collab);

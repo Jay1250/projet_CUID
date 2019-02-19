@@ -78,6 +78,14 @@ public class CuidCollaborateursService {
 		return affectations;
 	}
 	
+	public List<Affectation> findAffectationsByCollab(String trigrame) throws ServiceException {
+		List<CuidCollaborateurs> cuidCollaborateur = findByCollaborateurs(trigrame);
+		List<Affectation> affectations = new ArrayList<Affectation>();
+		for(CuidCollaborateurs cu: cuidCollaborateur)
+			affectations.add(new Affectation(cu));
+		return affectations;
+	}
+	
 	public List<Affectation> findAffectationsByCuid(String id) throws ServiceException {
 		List<CuidCollaborateurs> cuidCollaborateur = findByCuid(id);
 		List<Affectation> affectations = new ArrayList<Affectation>();

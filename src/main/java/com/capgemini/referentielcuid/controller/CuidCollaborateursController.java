@@ -103,11 +103,23 @@ public class CuidCollaborateursController {
 		return affectations;
 	}
 	
-	@GetMapping(value = "/TabAffectation/{id}")
-	public List<Affectation> afficherTabAffectationById(@PathVariable String id) throws ServiceException{
+	@GetMapping(value = "/TabAffectationByCuid/{cuid}")
+	public List<Affectation> afficherTabAffectationByCuid(@PathVariable String id) throws ServiceException{
 		List<Affectation> affectations = null;
 		try {
 			affectations = cuidCollaborateurService.findAffectationsByCuid(id);
+			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return affectations;
+	}
+	
+	@GetMapping(value = "/TabAffectationByCollab/{trigrame}")
+	public List<Affectation> afficherTabAffectationByCollab(@PathVariable String trigrame) throws ServiceException{
+		List<Affectation> affectations = null;
+		try {
+			affectations = cuidCollaborateurService.findAffectationsByCollab(trigrame);
 			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");

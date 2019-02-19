@@ -45,7 +45,7 @@
           <!-- champ localisation-->
           <ng-container>
             <mat-form-field class="col-md-5" >
-              <mat-select placeholder="Localisation" formControlName="localisation" [errorStateMatcher]="matcher">
+              <mat-select placeholder="Localisation" [(value)] = "localisation" formControlName="localisation" [errorStateMatcher]="matcher">
                 <mat-option value="{{local.id}}" *ngFor="let local of localisations">{{local.pays}}</mat-option>
               </mat-select>
               <mat-error *ngIf="collabForm.get('localisation').hasError('required')">
@@ -122,28 +122,26 @@
               </ng-container>
 
               <!-- Contrat Column -->
-              <ng-container matColumnDef="manager">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>nomPrenomGir</th>
-                <td mat-cell *matCellDef="let row"> {{row.manager}} </td>
+              <ng-container matColumnDef="dateaffectation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Affectation</th>
+                <td mat-cell *matCellDef="let row"> {{row.dateaffectation}} </td>
               </ng-container>
 
               <!-- Manager Column -->
-              <ng-container matColumnDef="nbcollab">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>nbcollab</th>
+              <ng-container matColumnDef="dateliberation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Liberation</th>
                 <td mat-cell *matCellDef="let row"> {{row.nbcollab}} </td>
               </ng-container>
 
-              <!-- Nbr Applis Column -->
-              <ng-container matColumnDef="nbapplis">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>nbapplis</th>
-                <td mat-cell *matCellDef="let row"> {{row.nbapplis}} </td>
-              </ng-container>
-
-              <!-- Ajouter Column -->
-              <ng-container matColumnDef="ajouter">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>attribuer</th>
-                <td mat-cell *matCellDef="let row"><button mat-stroked-button type="button" color="accent" (click)="ajouterCuid(row.cuid)">Attribuer</button> </td>
-              </ng-container>
+              <!-- Nom Prénom Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                <td mat-cell *matCellDef="let row">
+                  <button class="text-danger" mat-stroked-button *ngIf="estDateExpiree(row.dateliberation ) && row.dateliberation != null" type="button" (click)="ajouterCollab(row.trigrame)">Reaffecter</button>
+                  <button mat-stroked-button *ngIf="row.dateliberation == null" type="button" (click)="ajouterCollab(row.trigrame)">Libérer</button>
+                  <button mat-stroked-button *ngIf="!estDateExpiree(row.dateliberation ) && row.dateliberation != null" type="button" (click)="ajouterCollab(row.trigrame)">Modifier</button>
+                </td>
+            </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -152,7 +150,11 @@
           </div>
         
           <div class="offset-10">
-            <button mat-raised-button color="accent" class="m-2" (click)="saveCollab()">Valider</button>
+            <div class="row">
+                <button mat-raised-button color="accent" class="m-2" (click)="modifierCuid(false)" [hidden] = "disable">Annuler</button>
+                <button mat-raised-button color="accent" class="m-2" (click)="hello()" [hidden] = "disable">Valider</button>
+            </div>
+            <button mat-raised-button color="accent" class="m-2" (click)="modifierCuid(true)" [hidden] = "!disable">Modifier</button>
           </div>
         </div>
       </div>

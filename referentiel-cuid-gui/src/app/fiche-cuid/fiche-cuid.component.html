@@ -17,7 +17,7 @@
 
           <mat-form-field class="col-md-5">
             <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
-            <button mat-button *ngIf="value5" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <button mat-button *ngIf="!disable" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.get('nom').hasError('required')">
@@ -30,7 +30,7 @@
 
           <mat-form-field class="col-md-5 offset-1">
             <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
-            <button mat-button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <button mat-button *ngIf="!disable" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.controls.prenom.invalid">
@@ -40,7 +40,7 @@
 
           <mat-form-field class="col-md-5">
             <input matInput placeholder="NomGir*"  formControlName="nomGir" [errorStateMatcher]="matcher">
-            <button mat-button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <button mat-button *ngIf="!disable" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.controls.nomGir.required">
@@ -50,7 +50,7 @@
 
           <mat-form-field class="col-md-5 offset-1" >
             <input matInput placeholder="Prenomgir*"  formControlName="prenomGir" [errorStateMatcher]="matcher">
-            <button mat-button *ngIf="value4" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <button mat-button *ngIf="!disable" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="cuidForm.controls.prenomGir.required">
@@ -60,7 +60,7 @@
         
           <mat-form-field class="col-md-10 ">
             <input matInput placeholder="Commentaires" formControlName="commentaires">      
-            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <button mat-button *ngIf="!disable" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>

@@ -9,8 +9,7 @@
           </div>
 
           <!-- champ trigrame-->
-          <div class="row">
-            <mat-form-field class="col-md-4 offset-4">
+            <mat-form-field class="col-md-5">
               <input matInput #trigr placeholder="Trigrame*" formControlName="trigrame" [errorStateMatcher]="matcher">
               <button mat-button type="button" *ngIf="collabForm.get('trigrame').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({trigrame: ''})">
                   <mat-icon>close</mat-icon>
@@ -26,7 +25,25 @@
               </mat-error>
               <mat-hint align="end"> {{trigr.value.length}} / 9</mat-hint>
             </mat-form-field>
-          </div>
+     
+
+          <!-- champ role-->
+          <mat-form-field class="col-md-5 offset-1" >
+            <input matInput #role placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
+            <button mat-button type="button" *ngIf="collabForm.get('role').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="collabForm.get('role').hasError('required')">
+              Le champ Rôle <strong>est requis</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('role').hasError('minlength')">
+              Le champ est <strong>trop court</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('role').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{role.value.length}} / 9</mat-hint>
+          </mat-form-field>
 
           <!-- champ nom-->
           <mat-form-field class="col-md-5">
@@ -70,38 +87,8 @@
             <mat-hint align="end"> {{prenom.value.length}} / 9</mat-hint>
           </mat-form-field>
 
-          <!-- champ localisation-->
-          
-            <mat-form-field class="col-md-5">
-              <mat-select placeholder="Localisation" formControlName="localisation" [errorStateMatcher]="matcher">
-                <mat-option value="{{local.id}}" *ngFor="let local of localisations">{{local.pays}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="collabForm.get('localisation').hasError('required')">
-                Le champ Localisation <strong>est requis</strong>
-              </mat-error>
-            </mat-form-field>
-              <button mat-mini-fab type="button" color="basic" (click)="openDialogLocalisation()">
-                <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-              </button>
+     
 
-          <!-- champ role-->
-          <mat-form-field class="col-md-5 offset-1" >
-            <input matInput #role placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('role').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-error *ngIf="collabForm.get('role').hasError('required')">
-              Le champ Rôle <strong>est requis</strong>
-            </mat-error>
-            <mat-error *ngIf="collabForm.get('role').hasError('minlength')">
-              Le champ est <strong>trop court</strong>
-            </mat-error>
-            <mat-error *ngIf="collabForm.get('role').hasError('maxlength')">
-              Le champ est <strong>trop long</strong>
-            </mat-error>
-            <mat-hint align="end"> {{role.value.length}} / 9</mat-hint>
-          </mat-form-field>
-        
           <!-- champ password-->
           <mat-form-field class="col-md-5">
             <input #password type="password" matInput placeholder="Password" formControlName="password">      
@@ -137,6 +124,21 @@
             </mat-error>
             <mat-hint align="end"> {{passwordverif.value.length}} / 9</mat-hint>
           </mat-form-field>
+
+
+          <!-- champ localisation-->
+       
+          <mat-form-field class="col-md-4">
+            <mat-select placeholder="Localisation" formControlName="localisation" [errorStateMatcher]="matcher">
+              <mat-option value="{{local.id}}" *ngFor="let local of localisations">{{local.pays}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="collabForm.get('localisation').hasError('required')">
+              Le champ Localisation <strong>est requis</strong>
+            </mat-error>
+          </mat-form-field>
+            <button mat-mini-fab type="button" color="basic" (click)="openDialogLocalisation()">
+              <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+            </button>
 
           <mat-divider class="mt-2"></mat-divider>
 
