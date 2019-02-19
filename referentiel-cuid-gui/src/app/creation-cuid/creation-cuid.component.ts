@@ -5,8 +5,8 @@ import {FormControl, Validators, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
 //components
-import { OutilsModalComponent } from '../modals/outils/outils.component';
-import { ApplicationsModalComponent } from '../modals/applications/applications.component';
+import { ModalCreationOutilComponent } from '../modals/modal-creation-outil/modal-creation-outil.component';
+import { ModalCreationApplicationComponent } from '../modals/modal-creation-application/modal-creation-application.component';
 import { DateCollabModalComponent } from '../modals/date-collab/date-collab.component';
 
 //services
@@ -28,7 +28,7 @@ import {CuidCollaborateur} from '../interfaces/cuid-collaborateur';
 import {CollaborateurTab} from '../interfaces/collaborateur-tab';
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-creation-cuid',
@@ -130,25 +130,25 @@ export class CreationCuidComponent implements OnInit{
     //recup outils
     this.outilService.getOutils()
     .subscribe((data: any) => {
-        this.outils = data;
-        this.outils.forEach(function(outil){
-          outil.utiliser = false;
-        })
+      this.outils = data;
+      this.outils.forEach(function(outil){
+        outil.utiliser = false;
+      })
     });
 
     // recup applis
     this.applicationService.getApplications()
     .subscribe((data: any) => {
-        this.applications = data;
-        this.applications.forEach(function(application){
-          application.utiliser = false;
-        })
+      this.applications = data;
+      this.applications.forEach(function(application){
+        application.utiliser = false;
+      })
     });
 
     //recup contrats
     this.contratService.getContrats()
     .subscribe((data: any) => {
-        this.contrats = data;
+      this.contrats = data;
     });
 
     //recup tab collaborateurs
@@ -164,13 +164,13 @@ export class CreationCuidComponent implements OnInit{
 
   // ***** modal windows
   openDialogOutil(): void {
-    const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
+    const dialogRef = this.dialog.open(ModalCreationOutilComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== null && result !== undefined) this.outils = result;
     });
   }
   openDialogApp(): void {
-    const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
+    const dialogRef = this.dialog.open(ModalCreationApplicationComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
     if(result !== null && result !== undefined) this.applications = result;
     });
@@ -186,7 +186,11 @@ export class CreationCuidComponent implements OnInit{
   // ***** tab collaborateurs 
   ajouterCollab(trigrame){
     if(this.chipsCollaborateur.includes(trigrame))
-      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
+      Swal.fire(
+        'Erreur',
+        'Ce collaborateur est déjà ajouté',
+        'error'
+      )
     else {
       this.tabCollaborateurs.forEach(function(element){
         if(element.trigrame == trigrame){
@@ -203,7 +207,11 @@ export class CreationCuidComponent implements OnInit{
               );
               this.chipsCollaborateur.push(trigrame);
             }
-            else swal('Erreur', 'La date d\'affectation est obligatoire', 'error');
+              Swal.fire(
+                'Erreur',
+                'La date d\'affectation est obligatoire',
+                'error'
+              )
           });
         }
       }, this)
@@ -213,7 +221,6 @@ export class CreationCuidComponent implements OnInit{
   removeChip(chip: string): void {
     const index = this.chipsCollaborateur.indexOf(chip);
     if (index >= 0) this.chipsCollaborateur.splice(index, 1);
-    
     for(var i=0; i < this.collaborateursCuid.length; i++){
       if(this.collaborateursCuid[i].collaborateurs.trigrame == chip)
         delete this.collaborateursCuid[i];
@@ -251,38 +258,59 @@ export class CreationCuidComponent implements OnInit{
         applications: this.applications.filter(element => element.utiliser == true),
         cuidCollaborateur: this.collaborateursCuid
       };
-
-        this.newCuid.outil.forEach(function(element){
-            delete element.utiliser;
-        })
-        this.newCuid.applications.forEach(function(element){
-            delete element.utiliser;
-        })
+      this.newCuid.outil.forEach(function(element){
+        delete element.utiliser;
+      })
+      this.newCuid.applications.forEach(function(element){
+        delete element.utiliser;
+      })
 
       // post cuid
       this.cuidService.addCuid(this.newCuid)
-        .subscribe((data: any) => {
-
-          swal('Succès', 'Le cuid a bien été crée', 'success');
-          this.router.navigateByUrl('/tabCuid');
-          }, (err) => {
-          switch(err.status){
-            case 409:
-              swal('Erreur', 'Ce cuid existe déjà', 'error');
-              break;
-            case 500:
-              swal('Erreur', 'Une erreur serveur s\'est produite' , 'error');
-              break;
-            case 400:
-              swal('Erreur', 'Les données du cuid sont incorrects', 'error');
-              break;
-            case 0:
-              swal('Erreur', 'Impossible de se connecter au serveur', 'error');
-              break;
-            default:
-              swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
-          }
-        console.error(err);
+      .subscribe((data: any) => {
+        Swal.fire(
+          'Succès',
+          'Le cuid a bien été crée',
+          'success'
+        )
+        this.router.navigateByUrl('/tabCuid');
+      }, (err) => {
+        switch(err.status){
+          case 409:
+          Swal.fire(
+            'Erreur',
+            'Ce cuid existe déjà',
+            'error'
+          )
+            break;
+          case 500:
+          Swal.fire(
+            'Erreur',
+            'Une erreur serveur s\'est produite',
+            'error'
+          )
+            break;
+          case 400:
+          Swal.fire(
+            'Erreur',
+            'Les données du cuid sont incorrects',
+            'error'
+          )
+            break;
+          case 0:
+          Swal.fire(
+            'Erreur',
+            'Impossible de se connecter au serveur',
+            'error'
+          )
+            break;
+          default:
+          Swal.fire(
+            'Erreur',
+            'Une erreur inconnue s\est produite lors de la création du Cuid',
+            'error'
+          )
+         }
       }); 
     }
   }
@@ -297,20 +325,35 @@ export class CreationCuidComponent implements OnInit{
     this.cuidForm.get("password").markAsTouched();
     this.cuidForm.get("passwordVerif").markAsTouched();
     this.cuidForm.get("commentaires").markAsTouched();
-
     if(this.cuidForm.get("ccuid").hasError("required") || this.cuidForm.get("ccontrat").hasError("required") || this.cuidForm.get("nom").hasError("required")
       || this.cuidForm.get("prenom").hasError("required") || this.cuidForm.get("nomGir").hasError("required") || this.cuidForm.get("prenomGir").hasError("required")
       || this.cuidForm.get("password").hasError("required") || this.cuidForm.get("passwordVerif").hasError("required"))
-      swal('Erreur', 'Les champs (*) sont obligatoires !', 'error');
+      Swal.fire(
+        'Erreur',
+        'Les champs (*) sont obligatoires !',
+        'error'
+      )
     else if(this.cuidForm.get("ccuid").hasError("minlength") || this.cuidForm.get("nom").hasError("minlength")
     || this.cuidForm.get("prenom").hasError("minlength") || this.cuidForm.get("nomGir").hasError("minlength") || this.cuidForm.get("prenomGir").hasError("minlength")
     || this.cuidForm.get("password").hasError("minlength") || this.cuidForm.get("passwordVerif").hasError("minlength"))
-        swal('Erreur', 'Les champs ont une taille min de 3 charactères', 'error');
+    Swal.fire(
+      'Erreur',
+      'Les champs ont une taille min de 3 charactères',
+      'error'
+    )
     else if(this.cuidForm.get("nom").hasError("pattern")
     || this.cuidForm.get("prenom").hasError("pattern") || this.cuidForm.get("nomGir").hasError("pattern") || this.cuidForm.get("prenomGir").hasError("pattern"))
-        swal('Erreur', 'Les champs nom/prénom ne doivent être composés que de lettres', 'error');
+    Swal.fire(
+      'Erreur',
+      'Les champs nom/prénom ne doivent être composés que de lettres',
+      'error'
+    )
     else if(this.cuidForm.get("password").value !== this.cuidForm.get("passwordVerif").value)
-      swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
+    Swal.fire(
+      'Erreur',
+      'Les deux champs de mot de passe ne correspondent pas',
+      'error'
+    )
     else
       return true;
     return false;

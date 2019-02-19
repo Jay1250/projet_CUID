@@ -68,7 +68,31 @@ public class CuidController {
 		}
 		return cu;
 	}
-
+	
+	@GetMapping(value = "/CuidFromApplication/{nomApplication}")
+	public List<Cuid> afficherUnCuidAvecApplication(@PathVariable String nomApplication) throws ServiceException {
+		List<Cuid> cu = null;
+		try {
+			cu = cuidService.findByApplication(nomApplication);
+			if (cu.isEmpty()) throw new NotFoundException("Les cuids de l'application " + nomApplication + " sont introuvables");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return cu;
+	}
+	
+	@GetMapping(value = "/CuidFromOutil/{nomOutil}")
+	public List<Cuid> afficherUnCuidAvecOutil(@PathVariable String nomOutil) throws ServiceException {
+		List<Cuid> cu = null;
+		try {
+			cu = cuidService.findByApplication(nomOutil);
+			if (cu.isEmpty()) throw new NotFoundException("Les cuids de l'outil " + nomOutil + " sont introuvables");
+		} catch (ServiceException e) {
+			throw new ServiceException("Internal Server Exception");
+		}
+		return cu;
+	}
+	
 	@GetMapping(value = "/TabCuids")
 	public List<CuidInfos> afficherLeTabCuid() throws ServiceException {
 		List<CuidInfos> cuidInfo = null;

@@ -25,6 +25,14 @@ export class CuidService {
         return this.http.get(`${environment.url}/TabCuids/${contratNom}`, contratNom);
     }
 
+    getApplicationCuids = (nomApplication: any) => {
+        return this.http.get(`${environment.url}/CuidFromApplication/${nomApplication}`, nomApplication);
+    }
+
+    getOutilCuids = (nomOuti: any) => {
+        return this.http.get(`${environment.url}/CuidFromOutil/${nomOuti}`, nomOuti);
+    }
+
     addCuid = (cuid: any) => {
         return this.http.post(`${environment.url}/Cuid`, cuid);
     }

@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { ErrorHandler} from '@angular/core';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
-import { AccueilComponent } from './accueil/accueil.component';
 import { CollaborateurService } from './services/http/collaborateurs/collaborateur.service';
 import { CuidService } from './services/http/cuid/cuid.service';
 import { HttpClientModule } from '@angular/common/http'; 
@@ -48,16 +47,13 @@ import {
   
 } from '@angular/material';
 import { CreationCuidComponent } from './creation-cuid/creation-cuid.component';
-import { OutilsModalComponent } from './modals/outils/outils.component';
 import { TabCollaborateurComponent } from './tab-collaborateur/tab-collaborateur.component';
-import { ApplicationsModalComponent } from './modals/applications/applications.component';
 import { FicheCuidComponent } from './fiche-cuid/fiche-cuid.component';
 import { CreationCollaborateurComponent } from './creation-collaborateur/creation-collaborateur.component';
 import { LoginComponent } from './login/login.component';
 import { GestionComponent } from './gestion/gestion.component';
 import { HomeComponent } from './home/home.component';
 import { FicheCollaborateurComponent } from './fiche-collaborateur/fiche-collaborateur.component';
-import { LocalisationModalComponent } from './modals/localisation/localisation.component';
 import { DateCollabModalComponent } from './modals/date-collab/date-collab.component';
 import { GestionErreurComponent } from './gestion-erreur/gestion-erreur.component';
 import { ModalCreationApplicationComponent } from './modals/modal-creation-application/modal-creation-application.component';
@@ -73,12 +69,6 @@ import { NavbarService } from './services/navbar/navbar.service';
 
 //Routage
 let routes: Routes = [{
-  path: 'accueil/:contrat',
-  component: AccueilComponent
-},{
-  path: 'accueil',
-  component: AccueilComponent
-},{
   path: 'tabCuid',
   component: TabCuidComponent
 },{
@@ -114,20 +104,16 @@ let routes: Routes = [{
   declarations: [
     AppComponent,
     MenuComponent,
-    AccueilComponent,
     FiltreContratsPipe,
     TabCuidComponent,
     CreationCuidComponent,
-    OutilsModalComponent,
     TabCollaborateurComponent,
-    ApplicationsModalComponent,
     FicheCuidComponent,
     CreationCollaborateurComponent,
     LoginComponent,
     GestionComponent,
     HomeComponent,
     FicheCollaborateurComponent,
-    LocalisationModalComponent,
     DateCollabModalComponent,
     GestionErreurComponent,
     ModalCreationApplicationComponent,
@@ -188,10 +174,7 @@ let routes: Routes = [{
   
   bootstrap: [AppComponent],
 
-  entryComponents: [
-    OutilsModalComponent, 
-    ApplicationsModalComponent, 
-    LocalisationModalComponent, 
+  entryComponents: [ 
     DateCollabModalComponent,    
     ModalCreationApplicationComponent,
     ModalCreationOutilComponent,

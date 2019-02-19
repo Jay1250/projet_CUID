@@ -10,7 +10,7 @@ import { LocalisationService } from '../../services/http/localisation/localisati
 import {Localisation} from '../../interfaces/Localisation';
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-supprimer-localisation',
@@ -36,15 +36,27 @@ export class ModalSupprimerLocalisationComponent implements OnInit {
   
   onClick(): void {
     if (this.localisation.value === '')
-      swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
+    Swal.fire(
+      'Erreur',
+      'Veuillez saisir un nom d\'application',
+      'error'
+    )
     else {
       this.localisationService.deleteLocalisation(this.localisation.value)
       .subscribe((data: any) => {
         this.tabLocalisation = this.tabLocalisation.filter(item => item.pays != this.localisation.value);
-        swal('Erreur', ' Localisation supprimée', 'success');
+        Swal.fire(
+          'Erreur',
+          'Localisation supprimée',
+          'success'
+        )
         this.dialogRef.close(this.tabLocalisation);
       }, (err) => {
-        swal('Erreur', ' Localisation non supprimée ', 'error');
+        Swal.fire(
+          'Erreur',
+          'Localisation non supprimée',
+          'error'
+        )
       });   
     }
   }

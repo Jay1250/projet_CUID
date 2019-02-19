@@ -14,8 +14,8 @@ import { CollaborateurService } from '../services/http/collaborateurs/collaborat
 import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
 
 //components
-import { OutilsModalComponent } from '../modals/outils/outils.component';
-import { ApplicationsModalComponent } from '../modals/applications/applications.component';
+import { ModalAjoutOutilComponent } from '../modals/modal-ajout-outil/modal-ajout-outil.component';
+import { ModalAjoutApplicationComponent } from '../modals/modal-ajout-application/modal-ajout-application.component';
 
 //interfaces
 import {Cuid} from '../interfaces/cuid';
@@ -24,7 +24,7 @@ import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { CuidCollaborateur } from '../interfaces/cuid-collaborateur';
 
 @Component({
@@ -126,8 +126,6 @@ export class FicheCuidComponent implements OnInit {
                   cuidCollaborateur: null
                 };
 
-      console.log(this.cuid);
-
       this.cuidForm.get("ccuid").setValue(data.cuid);
       this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
       this.cuidForm.get("nom").setValue(data.nom);
@@ -135,7 +133,13 @@ export class FicheCuidComponent implements OnInit {
       this.cuidForm.get("nomGir").setValue(data.nomgir);
       this.cuidForm.get("prenomGir").setValue(data.prenomgir);
       this.cuidForm.get("commentaires").setValue(data.commentaires);
+    }, (err) => {
+ 
+    
     });
+
+
+
 
     //recup Collaborateurs of Cuid
     this.affectationsService.getAffectationCuid(this.getCuid)
@@ -151,7 +155,7 @@ export class FicheCuidComponent implements OnInit {
   }
 
   openDialogOutil(): void {
-    const dialogRef = this.dialog.open(OutilsModalComponent, {width: '250px'});
+    const dialogRef = this.dialog.open(ModalAjoutOutilComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== null && result !== undefined)
         this.outils = result;
@@ -159,7 +163,7 @@ export class FicheCuidComponent implements OnInit {
   }
 
   openDialogApp(): void {
-    const dialogRef = this.dialog.open(ApplicationsModalComponent, {width: '250px'});
+    const dialogRef = this.dialog.open(ModalAjoutApplicationComponent, {width: '250px'});
     dialogRef.afterClosed().subscribe(result => {
     if(result !== null && result !== undefined)
       this.applications = result;
@@ -225,7 +229,11 @@ export class FicheCuidComponent implements OnInit {
 
   ajouterCollab(trigrame){
     if(this.chipsCollaborateur.includes(trigrame))
-      swal('Erreur', 'Ce collaborateur est déjà ajouté', 'error');
+      Swal.fire(
+        'Erreur',
+        'Ce collaborateur est déjà ajouté',
+        'error'
+      )
     else 
       this.chipsCollaborateur.push(trigrame);
   }
@@ -268,7 +276,6 @@ else{
   }
 
   isValidForm(): boolean{
-
     this.cuidForm.get("ccuid").markAsTouched();
     this.cuidForm.get("ccontrat").markAsTouched();
     this.cuidForm.get("nom").markAsTouched();
@@ -278,27 +285,37 @@ else{
     this.cuidForm.get("password").markAsTouched();
     this.cuidForm.get("passwordVerif").markAsTouched();
     this.cuidForm.get("commentaires").markAsTouched();
-
     if(this.cuidForm.get("ccuid").hasError("required") || this.cuidForm.get("ccontrat").hasError("required") || this.cuidForm.get("nom").hasError("required")
-      || this.cuidForm.get("prenom").hasError("required") || this.cuidForm.get("nomGir").hasError("required") || this.cuidForm.get("prenomGir").hasError("required")
-      || this.cuidForm.get("password").hasError("required") || this.cuidForm.get("passwordVerif").hasError("required"))
-      swal('Erreur', 'Les champs (*) sont obligatoires !', 'error');
-
+    || this.cuidForm.get("prenom").hasError("required") || this.cuidForm.get("nomGir").hasError("required") || this.cuidForm.get("prenomGir").hasError("required")
+    || this.cuidForm.get("password").hasError("required") || this.cuidForm.get("passwordVerif").hasError("required"))
+      Swal.fire(
+        'Erreur',
+        'Les champs (*) sont obligatoires !',
+        'error'
+      )
     else if(this.cuidForm.get("ccuid").hasError("minlength") || this.cuidForm.get("nom").hasError("minlength")
     || this.cuidForm.get("prenom").hasError("minlength") || this.cuidForm.get("nomGir").hasError("minlength") || this.cuidForm.get("prenomGir").hasError("minlength")
     || this.cuidForm.get("password").hasError("minlength") || this.cuidForm.get("passwordVerif").hasError("minlength"))
-        swal('Erreur', 'Les champs ont une taille min de 3 charactères', 'error');
-
+      Swal.fire(
+        'Erreur',
+        'Les champs ont une taille min de 3 charactères',
+        'error'
+      )
     else if(this.cuidForm.get("nom").hasError("pattern")
     || this.cuidForm.get("prenom").hasError("pattern") || this.cuidForm.get("nomGir").hasError("pattern") || this.cuidForm.get("prenomGir").hasError("pattern"))
-        swal('Erreur', 'Les champs nom/prénom ne doivent être composés que de lettres', 'error');
-
+      Swal.fire(
+        'Erreur',
+        'Les champs nom/prénom ne doivent être composés que de lettres',
+        'error'
+      )
     else if(this.cuidForm.get("password").value !== this.cuidForm.get("passwordVerif").value)
-      swal('Erreur', 'Les deux champs de mot de passe ne correspondent pas', 'error');
-
+      Swal.fire(
+        'Erreur',
+        'Les deux champs de mot de passe ne correspondent pas',
+        'error'
+      )
     else
       return true;
-
     return false;
   }
 }

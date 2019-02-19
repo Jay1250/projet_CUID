@@ -13,7 +13,7 @@ import {Application} from '../../interfaces/Application';
 import {Contrat} from '../../interfaces/Contrat'
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-supprimer-application',
@@ -46,17 +46,33 @@ export class ModalSupprimerApplicationComponent implements OnInit {
   
     onClick(): void {
       if (this.contrat.value === '')
-        swal('Erreur', 'Veuillez saisir un nom de contrat', 'error');
+        Swal.fire(
+          'Erreur',
+          'Veuillez saisir un nom de contrat',
+          'error'
+        )
       else if (this.application.value === '')
-        swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
+        Swal.fire(
+          'Erreur',
+          'Veuillez saisir un nom d\'application',
+          'error'
+        )
       else {
         this.applicationService.deleteApplication(this.application.value)
         .subscribe((data: any) => {
           this.tabApplication = this.tabApplication.filter(item => item.nomApplication != this.application.value);
-          swal('Succès', ' Appplication supprimée', 'success');
+            Swal.fire(
+              'Succès',
+              'Appplication supprimée',
+              'success'
+            )
           this.dialogRef.close(this.application.value);
         }, (err) => {
-          swal('Erreur', ' Appplication non supprimée ', 'error');
+          Swal.fire(
+            'Erreur',
+            'Appplication non supprimée',
+            'error'
+          )
         });   
       }
     }

@@ -13,7 +13,7 @@ import {Application} from '../../interfaces/Application';
 import {Contrat} from '../../interfaces/Contrat'
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-creation-application',
@@ -48,11 +48,23 @@ export class ModalCreationApplicationComponent implements OnInit {
   
     onClick(): void {
       if(!this.estNewApp(this.nomApp.value))
-        swal('Erreur', ' Cette Application existe déjà ', 'error');
+        Swal.fire(
+          'Erreur',
+          'Cette Application existe déjà',
+          'error'
+        )
       else if (this.contrat.value === '')
-        swal('Erreur', 'Veuillez saisir un nom de contrat', 'error');
+        Swal.fire(
+          'Erreur',
+          'Veuillez saisir un nom de contrat',
+          'error'
+        )
       else if (this.nomApp.value === '')
-        swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
+        Swal.fire(
+          'Erreur',
+          'Veuillez saisir un nom d\'application',
+          'error'
+        )
       else {
         this.application = {
           id: null,
@@ -62,14 +74,22 @@ export class ModalCreationApplicationComponent implements OnInit {
         }; 
         this.applicationService.addApplication(this.application)
         .subscribe((data: any) => {
-          swal('Application bien ajoutée', '', 'success');
+          Swal.fire(
+            'Succès',
+            'Application bien ajoutée',
+            'success'
+          )
           this.applicationService.getApplications()
           .subscribe((data: any) => {
             this.tabApplication = data;
             this.dialogRef.close(this.tabApplication);
           });
         }, (err) => {
-          swal('Erreur', ' Appplication non ajoutée ', 'error');
+          Swal.fire(
+            'Erreur',
+            'Appplication non ajoutée',
+            'error'
+          )
         });   
       }
     }

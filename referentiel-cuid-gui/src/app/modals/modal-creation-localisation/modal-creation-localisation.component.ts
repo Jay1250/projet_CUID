@@ -10,7 +10,7 @@ import { LocalisationService } from '../../services/http/localisation/localisati
 import { Localisation } from '../../interfaces/localisation';
 
 // others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-creation-localisation',
@@ -39,7 +39,11 @@ export class ModalCreationLocalisationComponent implements OnInit {
 
   onClick(): void {
     if(!this.estNewLocalisation(this.nomLocalisation))
-      swal('Erreur', ' Cet Outil existe déjà ', 'error');
+      Swal.fire(
+        'Erreur',
+        'Cet Outil existe déjà',
+        'error'
+      )
     else if(this.nomLocalisation !== null && this.nomLocalisation !== undefined && this.nomLocalisation.value !== ''){
       this.localisation = {
         id: null,
@@ -47,18 +51,30 @@ export class ModalCreationLocalisationComponent implements OnInit {
       };
       this.localisationService.addLocalisation(this.localisation)
       .subscribe((data: any) => {
-          swal('La nouvelle localisation a bien été ajouté', '', 'success');
-          this.localisationService.getLocalisations()
-          .subscribe((data: any) => {
-            this.localisations = data;
-            this.dialogRef.close(this.localisations);
-          });
+        Swal.fire(
+          'Succès',
+          'La nouvelle localisation a bien été ajouté',
+          'success'
+        )
+        this.localisationService.getLocalisations()
+        .subscribe((data: any) => {
+          this.localisations = data;
+          this.dialogRef.close(this.localisations);
+        });
       }, (err) => {
-        swal('Erreur', ' localisation non ajoutée ', 'error');
+        Swal.fire(
+          'Erreur',
+          'localisation non ajoutée',
+          'error'
+        )
       });   
     }
     else
-      swal('Erreur', 'Veuillez saisir un nom de localisation', 'error');
+      Swal.fire(
+        'Erreur',
+        'Veuillez saisir un nom de localisation',
+        'error'
+      )
   }
 
   ngOnInit() {

@@ -11,7 +11,7 @@ import {Application} from '../../interfaces/Application';
 import {Contrat} from '../../interfaces/Contrat'
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-ajout-application',
@@ -38,23 +38,26 @@ export class ModalAjoutApplicationComponent implements OnInit {
     }
   
     onClick(): void {
-
       if (this.application.value === '')
-        swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
-
+      Swal.fire(
+        'Erreur',
+        'Veuillez saisir un nom d\'application',
+        'error'
+      )
       else {
         this.applications.forEach(element => {
           if(element.id == this.application.value)
             this.applications.push(element);
         });
-
         this.applicationService.addApplication(this.application)
         .subscribe((data: any) => {
-  
         this.dialogRef.close(this.applications);
-        
         }, (err) => {
-            swal('Erreur', ' Appplication non ajoutée ', 'error');
+          Swal.fire(
+            'Erreur',
+            'Appplication non ajoutée',
+            'error'
+          )
         });   
       }
     }

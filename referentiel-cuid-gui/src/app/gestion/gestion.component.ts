@@ -11,9 +11,6 @@ import { LocalisationService } from '../services/http/localisation/localisation.
 import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
 
 //components
-import { OutilsModalComponent } from '../modals/outils/outils.component';
-import { ApplicationsModalComponent } from '../modals/applications/applications.component';
-import { LocalisationModalComponent } from '../modals/localisation/localisation.component';
 
 import { ModalCreationApplicationComponent } from '../modals/modal-creation-application/modal-creation-application.component';
 import { ModalCreationLocalisationComponent } from '../modals/modal-creation-localisation/modal-creation-localisation.component';

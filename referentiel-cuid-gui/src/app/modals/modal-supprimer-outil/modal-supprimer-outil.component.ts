@@ -10,7 +10,7 @@ import { OutilService } from '../../services/http/outil/outil.service';
 import {Outil} from '../../interfaces/Outil';
 
 //others
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-supprimer-outil',
@@ -36,15 +36,27 @@ export class ModalSupprimerOutilComponent implements OnInit {
   
   onClick(): void {
     if (this.outil.value === '')
-      swal('Erreur', 'Veuillez saisir un nom d\'application', 'error');
+      Swal.fire(
+        'Erreur',
+        'Veuillez saisir un nom d\'application',
+        'error'
+      )
     else {
       this.outilService.deleteOutil(this.outil.value)
       .subscribe((data: any) => {
         this.tabOutil = this.tabOutil.filter(item => item.nomOutil != this.outil.value);
-        swal('Succès', ' Outil supprimée', 'success');
+        Swal.fire(
+          'Succès',
+          'Outil supprimée',
+          'success'
+        )
         this.dialogRef.close(this.tabOutil);
       }, (err) => {
-        swal('Erreur', ' outil non supprimée ', 'error');
+        Swal.fire(
+          'Erreur',
+          'Outil non supprimée',
+          'error'
+        )
       });   
     }
   }
