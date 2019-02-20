@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ErrorStateMatcher} from '@angular/material/core';
-import{ActivatedRoute} from '@angular/router'
+import{ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup} from '@angular/forms';
 
 //services
@@ -22,6 +22,7 @@ import {Cuid} from '../interfaces/cuid';
 import {Collaborateur} from '../interfaces/collaborateur';
 import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
+import {AffectationTab} from '../interfaces/affectation-tab';
 
 //others
 import Swal from 'sweetalert2';
@@ -49,7 +50,7 @@ export class FicheCuidComponent implements OnInit {
   cuid: Cuid = {cuid: '', nom: '', prenom: '', mdp: '', status: null, commentaires: '', 
   nomgir: '', prenomgir: '', contrat: {id: null, nom: ''}, outil: null, applications: null, cuidCollaborateur: null};
   chipsCollaborateur: string[] = [];
-  tabCuidCollaborateur: CuidCollaborateur;
+  affectations: AffectationTab;
 
   selection = new SelectionModel<Collaborateur>(true, []);
   dateNow  = new Date();
@@ -102,16 +103,14 @@ export class FicheCuidComponent implements OnInit {
               public dialog: MatDialog,
               private affectationsService: AffectationService,
               private cuidService: CuidService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
-
     // recup param get cuid
     this.getCuid = this.route.snapshot.params['cuid'];
-
     this.cuidService.getCuid(this.getCuid)
     .subscribe((data: any) => {
-
       this.cuid = {cuid: data.cuid, 
                   nom: data.nom, 
                   prenom: data.prenom, 
@@ -134,17 +133,20 @@ export class FicheCuidComponent implements OnInit {
       this.cuidForm.get("prenomGir").setValue(data.prenomgir);
       this.cuidForm.get("commentaires").setValue(data.commentaires);
     }, (err) => {
- 
-    
+      if(err.status == "404"){
+        Swal.fire(
+          'Erreur',
+          'Ce cuid est introuvable',
+          'error'
+        )
+        this.router.navigateByUrl('/tabCollaborateur');
+      }
     });
-
-
-
 
     //recup Collaborateurs of Cuid
     this.affectationsService.getAffectationCuid(this.getCuid)
     .subscribe((data: any) => {
-      this.tabCuidCollaborateur = data;
+      this.affectations = data;
       if(data != null && data != undefined){
         this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
           this.dataSource.paginator = this.paginator;
@@ -245,30 +247,42 @@ export class FicheCuidComponent implements OnInit {
 
   modifierCuid(estModifiable: boolean) {
 
-if(estModifiable){
-  this.removable = true;
-  this.cuidForm.get('ccuid').enable();
-  this.cuidForm.get('ccontrat').enable();
-  this.cuidForm.get('nom').enable();
-  this.cuidForm.get('prenom').enable();
-  this.cuidForm.get('nomGir').enable();
-  this.cuidForm.get('prenomGir').enable();
-  this.cuidForm.get('commentaires').enable();
-  this.disable = false;
-}
-else{
-  this.removable = false;
-  this.cuidForm.get('ccuid').disable();
-  this.cuidForm.get('ccontrat').disable();
-  this.cuidForm.get('nom').disable();
-  this.cuidForm.get('prenom').disable();
-  this.cuidForm.get('nomGir').disable();
-  this.cuidForm.get('prenomGir').disable();
-  this.cuidForm.get('commentaires').disable();
-  this.disable = true;;
-}
-
-
+    if(estModifiable){
+      this.removable = true;
+      this.cuidForm.get('ccuid').enable();
+      this.cuidForm.get('ccontrat').enable();
+      this.cuidForm.get('nom').enable();
+      this.cuidForm.get('prenom').enable();
+      this.cuidForm.get('nomGir').enable();
+      this.cuidForm.get('prenomGir').enable();
+      this.cuidForm.get('commentaires').enable();
+      this.disable = false;
+      this.cuidForm.get("ccuid").setValue(this.cuidForm.get('ccuid').value);
+      this.cuidForm.get("ccontrat").setValue(this.cuidForm.get('ccontrat').value);
+      this.cuidForm.get("nom").setValue(this.cuidForm.get('nom').value);
+      this.cuidForm.get("prenom").setValue(this.cuidForm.get('prenom').value); 
+      this.cuidForm.get("nomGir").setValue(this.cuidForm.get('nomGir').value);
+      this.cuidForm.get("prenomGir").setValue(this.cuidForm.get('prenomGir').value);
+      this.cuidForm.get("commentaires").setValue(this.cuidForm.get('commentaires').value);
+    }
+    else{
+      this.removable = false;
+      this.cuidForm.get('ccuid').disable();
+      this.cuidForm.get('ccontrat').disable();
+      this.cuidForm.get('nom').disable();
+      this.cuidForm.get('prenom').disable();
+      this.cuidForm.get('nomGir').disable();
+      this.cuidForm.get('prenomGir').disable();
+      this.cuidForm.get('commentaires').disable();
+      this.disable = true;
+      this.cuidForm.get("ccuid").setValue(this.cuid.cuid);
+      this.cuidForm.get("ccontrat").setValue(this.cuid.contrat.nom);
+      this.cuidForm.get("nom").setValue(this.cuid.nom);
+      this.cuidForm.get("prenom").setValue(this.cuid.prenom); 
+      this.cuidForm.get("nomGir").setValue(this.cuid.nomgir);
+      this.cuidForm.get("prenomGir").setValue(this.cuid.prenomgir);
+      this.cuidForm.get("commentaires").setValue(this.cuid.commentaires);
+    }
   }
 
   estDateExpiree(date: Date){

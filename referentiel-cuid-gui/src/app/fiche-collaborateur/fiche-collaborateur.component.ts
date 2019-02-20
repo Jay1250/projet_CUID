@@ -1,8 +1,7 @@
 //angular
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, AbstractControl, ValidatorFn} from '@angular/forms';
-import{ActivatedRoute} from '@angular/router';
-import {Router} from '@angular/router';
+import{ActivatedRoute, Router} from '@angular/router';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 //services
@@ -14,7 +13,7 @@ import {FormStateMatcherService} from '../services/form-state-matcher/form-state
 //interfaces 
 import { Collaborateur } from '../interfaces/collaborateur';
 import { Localisation } from '../interfaces/localisation';
-import {AffectationTab} from '../interfaces/affectation-tab'
+import {AffectationTab} from '../interfaces/affectation-tab';
 
 //others 
 import Swal from 'sweetalert2';
@@ -29,7 +28,6 @@ export class FicheCollaborateurComponent implements OnInit {
   // tab cuids
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @Input() test: any;
   selectable = true;
   removable = true;
   displayedColumns: string[] = ['cuid','nomprenom', 'contrat', 'dateaffectation', 'dateliberation', 'action'];
@@ -41,6 +39,8 @@ export class FicheCollaborateurComponent implements OnInit {
   collaborateur: Collaborateur[] = [];
   localisations: Localisation[] = [];
   localisation: string;
+
+  dateNow  = new Date();
 
   //form
   matcher = new FormStateMatcherService();
@@ -78,7 +78,7 @@ export class FicheCollaborateurComponent implements OnInit {
               private localisationService: LocalisationService,
               private route: ActivatedRoute,
               private affectationService: AffectationService,
-              private router: Router,) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.trigramCollab = this.route.snapshot.params['trigrame'];
@@ -87,6 +87,7 @@ export class FicheCollaborateurComponent implements OnInit {
       this.collaborateur = data;
       this.collabForm.get("nom").setValue(data.nom);
       this.collabForm.get("prenom").setValue(data.prenom);
+      this.collabForm.get("localisation").setValue(data.localisation.pays);
       this.localisation = data.localisation.pays;
       this.collabForm.get("role").setValue(data.role); 
     }, (err) => {
@@ -111,6 +112,35 @@ export class FicheCollaborateurComponent implements OnInit {
         this.localisations = data;
     });
   }
+
+  modifierCuid(estModifiable: boolean) {
+    if(estModifiable){
+      this.removable = true;
+      this.collabForm.get('nom').enable();
+      this.collabForm.get('prenom').enable();
+      this.collabForm.get('localisation').enable();
+      this.collabForm.get('role').enable();
+      this.collabForm.get('nomGir').enable();
+      this.collabForm.get('prenomGir').enable();
+      this.collabForm.get('commentaires').enable();
+      this.disable = false;
+    }
+    else{
+      this.removable = false;
+      this.collabForm.get('ccuid').disable();
+      this.collabForm.get('ccontrat').disable();
+      this.collabForm.get('nom').disable();
+      this.collabForm.get('prenom').disable();
+      this.collabForm.get('nomGir').disable();
+      this.collabForm.get('prenomGir').disable();
+      this.collabForm.get('commentaires').disable();
+      this.disable = true;;
+    }
+      }
+
+      estDateExpiree(date: Date){
+        return new Date(date).getTime() <  this.dateNow.getTime();
+      }
 
   saveCollab(){  
   }

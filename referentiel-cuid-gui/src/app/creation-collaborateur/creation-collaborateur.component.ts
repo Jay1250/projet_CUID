@@ -190,15 +190,22 @@ export class CreationCollaborateurComponent implements OnInit {
   // ***** form
   validationCollaborateur(){
     if(this.isValidForm()){
+      
       // creation cuid
       this.newCollaborateur = {
-        trigrame: this.collabForm.get("ccuid").value, 
-        role:  this.collabForm.get("nom").value,  
-        mdp: this.collabForm.get("password").value, 
-        nom:  this.collabForm.get("commentaires").value,           
-        prenom: this.collabForm.get("prenomGir").value, 
-        localisation: this.collabForm.get("prenomGir").value
+        trigrame: this.collabForm.get("trigrame").value, 
+        role:  this.collabForm.get("role").value,  
+        mdp: this.collabForm.get("nom").value, 
+        nom:  this.collabForm.get("prenom").value,           
+        prenom: this.collabForm.get("password").value, 
+        localisation: {
+          id:  this.collabForm.get("localisation").value,
+          pays: null
+        } 
       };
+
+      console.log(this.newCollaborateur);
+      
       // post cuid
       this.collaborateurService.addCollaborateur(this.newCollaborateur)
       .subscribe((data: any) => {
@@ -207,7 +214,7 @@ export class CreationCollaborateurComponent implements OnInit {
           'Le collaborateur a bien été crée',
           'success'
         )
-        this.router.navigateByUrl('/tabCuid');
+        this.router.navigateByUrl('/tabCollaborateur');
             }, (err) => {
             switch(err.status){
               case 409:

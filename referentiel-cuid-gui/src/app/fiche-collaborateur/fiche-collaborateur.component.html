@@ -11,7 +11,7 @@
           <!-- champ nom-->
           <mat-form-field class="col-md-5">
             <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('nom').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
+            <button mat-button type="button" *ngIf="collabForm.get('nom').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('nom').hasError('required')">
@@ -28,7 +28,7 @@
           <!-- champ prenom-->
           <mat-form-field class="col-md-5 offset-1">
             <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('prenom').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({prenom: ''})">
+            <button mat-button type="button" *ngIf="collabForm.get('prenom').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({prenom: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('prenom').hasError('required')">
@@ -54,11 +54,11 @@
             </mat-form-field>
           </ng-container>
 
-          <ng-container>
+    
           <!-- champ role-->
-          <mat-form-field class="col-md-5" >
+          <mat-form-field class="col-md-5 offset-1" >
             <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('role').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
+            <button mat-button type="button" *ngIf="collabForm.get('role').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('role').hasError('required')">
@@ -66,12 +66,12 @@
             </mat-error>
           </mat-form-field>
 
-          </ng-container>
+    
 
           <!-- champ role-->
           <mat-form-field class="col-md-5 offset-1" >
             <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('role').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
+            <button mat-button type="button" *ngIf="collabForm.get('role').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="collabForm.get('role').hasError('required')">
