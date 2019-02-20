@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 //services
 import { ApplicationService } from '../../services/http/application/application.service';
 import { ContratService } from '../../services/http/contrat/contrat.service';
+import {CuidService} from '../../services/http/cuid/cuid.service';
 import { CookieService } from 'ngx-cookie-service';
 
 //interfaces 
@@ -39,7 +40,8 @@ export class ModalCreationApplicationComponent implements OnInit {
     public dialogRef: MatDialogRef<ModalCreationApplicationComponent>,
     private applicationService: ApplicationService,
     private contratService: ContratService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private cuidService: CuidService
     ) {}
 
     onNoClick(): void {
@@ -90,7 +92,7 @@ export class ModalCreationApplicationComponent implements OnInit {
             'Appplication non ajoutée',
             'error'
           )
-        });   
+        });
       }
     }
 

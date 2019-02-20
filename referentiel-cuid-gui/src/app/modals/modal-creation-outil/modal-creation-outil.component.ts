@@ -37,7 +37,7 @@ export class ModalCreationOutilComponent implements OnInit {
   }
 
   onClick(): void {
-    if(!this.estNewOutil(this.nomOutil))
+    if(!this.estNewOutil(this.nomOutil.value))
       Swal.fire(
         'Erreur',
         'Cet Outil existe déjà',

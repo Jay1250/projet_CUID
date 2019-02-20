@@ -60,31 +60,34 @@ export class ModalSupprimerApplicationComponent implements OnInit {
           'error'
         )
       else {
-        this.cuidService.getApplicationCuids(this.application.value)
-        .subscribe((data: any) => {
-
-        }, (err) => {
-
-        });
-
-
-        this.applicationService.deleteApplication(this.application.value)
-        .subscribe((data: any) => {
-          this.tabApplication = this.tabApplication.filter(item => item.nomApplication != this.application.value);
-            Swal.fire(
-              'Succès',
-              'Appplication supprimée',
-              'success'
-            )
-          this.dialogRef.close(this.application.value);
-        }, (err) => {
-          Swal.fire(
-            'Erreur',
-            'Appplication non supprimée',
-            'error'
-          )
-        }); 
-  
+        Swal.fire({
+          title: 'Attention',
+          text: "Etes-vous sûr de vouloir supprimer cette application ? (cette application sera supprimée des cuids qui l'utilisent)",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Supprimer'
+        }).then((result) => {
+          if (result.value) {
+            this.applicationService.deleteApplication(this.application.value)
+            .subscribe((data: any) => {
+              this.tabApplication = this.tabApplication.filter(item => item.nomApplication != this.application.value);
+                Swal.fire(
+                  'Succès',
+                  'Appplication supprimée',
+                  'success'
+                )
+              this.dialogRef.close(this.application.value);
+            }, (err) => {
+              Swal.fire(
+                'Erreur',
+                'Appplication non supprimée',
+                'error'
+              )
+            }); 
+          }
+        })
       }
     }
 

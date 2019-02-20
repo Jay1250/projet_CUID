@@ -42,22 +42,34 @@ export class ModalSupprimerOutilComponent implements OnInit {
         'error'
       )
     else {
-      this.outilService.deleteOutil(this.outil.value)
-      .subscribe((data: any) => {
-        this.tabOutil = this.tabOutil.filter(item => item.nomOutil != this.outil.value);
-        Swal.fire(
-          'Succès',
-          'Outil supprimée',
-          'success'
-        )
-        this.dialogRef.close(this.tabOutil);
-      }, (err) => {
-        Swal.fire(
-          'Erreur',
-          'Outil non supprimée',
-          'error'
-        )
-      });   
+      Swal.fire({
+        title: 'Attention',
+        text: "Etes-vous sûr de vouloir supprimer cet outil ? (cet outil sera supprimée des cuids qui l'utilisent)",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          this.outilService.deleteOutil(this.outil.value)
+          .subscribe((data: any) => {
+            this.tabOutil = this.tabOutil.filter(item => item.nomOutil != this.outil.value);
+            Swal.fire(
+              'Succès',
+              'Outil supprimée',
+              'success'
+            )
+            this.dialogRef.close(this.tabOutil);
+          }, (err) => {
+            Swal.fire(
+              'Erreur',
+              'Outil non supprimée',
+              'error'
+            )
+          }); 
+        }
+      })
     }
   }
 

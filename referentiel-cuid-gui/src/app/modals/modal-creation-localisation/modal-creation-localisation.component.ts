@@ -38,7 +38,7 @@ export class ModalCreationLocalisationComponent implements OnInit {
   }
 
   onClick(): void {
-    if(!this.estNewLocalisation(this.nomLocalisation))
+    if(!this.estNewLocalisation(this.nomLocalisation.value))
       Swal.fire(
         'Erreur',
         'Cet Outil existe déjà',
