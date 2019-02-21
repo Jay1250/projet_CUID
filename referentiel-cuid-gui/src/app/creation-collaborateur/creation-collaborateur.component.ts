@@ -115,8 +115,8 @@ export class CreationCollaborateurComponent implements OnInit {
     });
     this.cuidService.getTabCuid()
     .subscribe((data: any) => {
-      this.cuids = data;
-      this.dataSource = new MatTableDataSource<Cuid>(this.cuids);
+      this.tabCuids = data;
+      this.dataSource = new MatTableDataSource<CuidTab>(this.tabCuids);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -129,6 +129,13 @@ export class CreationCollaborateurComponent implements OnInit {
       if(result !== null && result !== undefined)
         this.localisations = result;
     });
+  }
+
+  openDialogDateCollab(index): void{
+    const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
+    dialogRef.afterClosed().subscribe(result => {
+    //if(result !== null && result !== undefined) this.infoCollaborateurs[0].dateaffectation;
+      });
   }
 
   // ***** tab Cuids
@@ -144,24 +151,34 @@ export class CreationCollaborateurComponent implements OnInit {
         if(element.cuid == cuid){
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
           dialogRef.afterClosed().subscribe(result => {
-            if(result.affectation != null){
-              this.collaborateursCuid.push({
-                cuid: {cuid: element.cuid},
-                collaborateurs: null,
-                dateaffectation: result.affectation,
-                dateliberation: result.liberation
-              });
-            //  this.chipsCuid.push(trigrame);
+            if(result != undefined){
+              if(result.affectation != '' && result.affectation.length == 10 && result.liberation.length < 10){
+                this.collaborateursCuid.push({
+                  cuid: {cuid: element.cuid},
+                  collaborateurs: null,
+                  dateaffectation: result.affectation,
+                  dateliberation: result.liberation
+                });
+                this.chipsCuid.push(cuid);
+              }
+              else if(result.affectation.length > 10 || result.affectation.length > 10){
+                Swal.fire(
+                  'Erreur',
+                  'Le format date est incorrect',
+                  'error'
+                )
+              }
+              else{
+                Swal.fire(
+                  'Erreur',
+                  'La date d\'affectation est obligatoire',
+                  'error'
+                )
+              }
             }
-            else
-              Swal.fire(
-                'Erreur',
-                'La date d\'affectation est obligatoire',
-                'error'
-              ) 
           });
         }
-      });
+      }, this);
     }
   }
 

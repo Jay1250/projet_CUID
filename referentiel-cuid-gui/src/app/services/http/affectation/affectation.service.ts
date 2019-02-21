@@ -41,15 +41,15 @@ export class AffectationService {
   return this.http.get(`${environment.url}/TabAffectationByCollab/${trigrame}`);
   }
 
-  addAffectation = (collab: any) => {
-      return this.http.post(`${environment.url}/CuidCollaborateur`, collab);
+  addAffectation = (affectation: any) => {
+      return this.http.post(`${environment.url}/CuidCollaborateur`, affectation);
   }
 
-  updateAffectation = (collab: any) => {
-      return this.http.put(`${environment.url}/CuidCollaborateur`, collab);
+  updateAffectation = (affectation: any) => {
+      return this.http.put(`${environment.url}/CuidCollaborateur`, affectation);
   }
 
-  deleteAffectation = (collab: any) => {
-      return this.http.delete(`${environment.url}/CuidCollaborateur`, collab)
+  deleteAffectation = (affectation: any) => {
+      return this.http.delete(`${environment.url}/CuidCollaborateur`, affectation)
   }
 }

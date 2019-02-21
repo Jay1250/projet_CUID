@@ -196,22 +196,38 @@ export class CreationCuidComponent implements OnInit{
         if(element.trigrame == trigrame){
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
           dialogRef.afterClosed().subscribe(result => {
-            if(result.affectation != null){
-              this.collaborateursCuid.push(
-                {
-                  cuid: null,
-                  collaborateurs: {trigrame: element.trigrame},
-                  dateaffectation: result.affectation,
-                  dateliberation: result.liberation
-                }
-              );
-              this.chipsCollaborateur.push(trigrame);
+            if(result != undefined){
+              if(result.affectation != '' && this.cuidForm.get("ccuid").value != ''){
+                console.log("affect");
+                console.log("cuid: "+ this.cuidForm.get("ccuid").value);
+                console.log("collab" + element.trigrame);
+                console.log(result.affectation);
+                console.log(result.liberation);
+                this.collaborateursCuid.push(
+                  {
+                    cuid: {cuid: this.cuidForm.get("ccuid").value},
+                    collaborateurs: {trigrame: element.trigrame},
+                    dateaffectation: result.affectation,
+                    dateliberation: result.liberation
+                  }
+                );
+                this.chipsCollaborateur.push(trigrame);
+              }
+              else if(this.cuidForm.get("ccuid").value == '' && result.affectation != '' ) {
+                Swal.fire(
+                  'Attention',
+                  'Veuillez renseigner le cuid avant d\'affecter un collaborateur',
+                  'warning'
+                )
+              }
+              else{
+                Swal.fire(
+                  'Erreur',
+                  'La date d\'affectation est obligatoire',
+                  'error'
+                )
+              }
             }
-              Swal.fire(
-                'Erreur',
-                'La date d\'affectation est obligatoire',
-                'error'
-              )
           });
         }
       }, this)
@@ -256,7 +272,7 @@ export class CreationCuidComponent implements OnInit{
         contrat: this.contrats.filter(element => element.id == this.cuidForm.get("ccontrat").value)[0],
         outil: this.outils.filter(element => element.utiliser == true),
         applications: this.applications.filter(element => element.utiliser == true),
-        cuidCollaborateur: this.collaborateursCuid
+        cuidCollaborateur: null
       };
       this.newCuid.outil.forEach(function(element){
         delete element.utiliser;
@@ -264,52 +280,70 @@ export class CreationCuidComponent implements OnInit{
       this.newCuid.applications.forEach(function(element){
         delete element.utiliser;
       })
-
+      this.collaborateursCuid.forEach(element => {
+        console.log(element.cuid);
+        console.log(element.collaborateurs);
+      });
       // post cuid
       this.cuidService.addCuid(this.newCuid)
       .subscribe((data: any) => {
-        Swal.fire(
-          'Succès',
-          'Le cuid a bien été crée',
-          'success'
-        )
+        this.collaborateursCuid.forEach(element => {
+            element.cuid = this.newCuid;
+        });
+
+       
+        console.log(this.collaborateursCuid.values);
+        this.affectationService.addAffectation(this.collaborateursCuid)
+        .subscribe((data: any) => {
+          Swal.fire(
+            'Succès',
+            'Le cuid a bien été crée',
+            'success'
+          )
+        }, (err) => {
+          Swal.fire(
+            'Attention',
+            'Le cuid a bien été crée mais un problème est survenu lors de l\'affectation du collaborateur',
+            'warning'
+          )
+        });
         this.router.navigateByUrl('/tabCuid');
       }, (err) => {
         switch(err.status){
           case 409:
-          Swal.fire(
-            'Erreur',
-            'Ce cuid existe déjà',
-            'error'
-          )
+            Swal.fire(
+              'Erreur',
+              'Ce cuid existe déjà',
+              'error'
+            )
             break;
           case 500:
-          Swal.fire(
-            'Erreur',
-            'Une erreur serveur s\'est produite',
-            'error'
-          )
+            Swal.fire(
+              'Erreur',
+              'Une erreur serveur s\'est produite',
+              'error'
+            )
             break;
           case 400:
-          Swal.fire(
-            'Erreur',
-            'Les données du cuid sont incorrects',
-            'error'
-          )
+            Swal.fire(
+              'Erreur',
+              'Les données du cuid sont incorrects',
+              'error'
+            )
             break;
           case 0:
-          Swal.fire(
-            'Erreur',
-            'Impossible de se connecter au serveur',
-            'error'
-          )
+            Swal.fire(
+              'Erreur',
+              'Impossible de se connecter au serveur',
+              'error'
+            )
             break;
           default:
-          Swal.fire(
-            'Erreur',
-            'Une erreur inconnue s\est produite lors de la création du Cuid',
-            'error'
-          )
+            Swal.fire(
+              'Erreur',
+              'Une erreur inconnue s\est produite lors de la création du Cuid',
+              'error'
+            )
          }
       }); 
     }

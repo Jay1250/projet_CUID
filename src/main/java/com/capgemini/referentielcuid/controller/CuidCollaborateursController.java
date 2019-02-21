@@ -104,10 +104,10 @@ public class CuidCollaborateursController {
 	}
 	
 	@GetMapping(value = "/TabAffectationByCuid/{cuid}")
-	public List<Affectation> afficherTabAffectationByCuid(@PathVariable String id) throws ServiceException{
+	public List<Affectation> afficherTabAffectationByCuid(@PathVariable String cuid) throws ServiceException{
 		List<Affectation> affectations = null;
 		try {
-			affectations = cuidCollaborateurService.findAffectationsByCuid(id);
+			affectations = cuidCollaborateurService.findAffectationsByCuid(cuid);
 			if (affectations.isEmpty()) throw new NotFoundException("Aucun cuidCollaborateur n'a été trouvé");
 		} catch (ServiceException e) {
 			throw new ServiceException("Internal Server Exception");

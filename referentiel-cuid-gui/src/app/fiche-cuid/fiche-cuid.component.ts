@@ -144,11 +144,11 @@ export class FicheCuidComponent implements OnInit {
     });
 
     //recup Collaborateurs of Cuid
-    this.affectationsService.getAffectationCuid(this.getCuid)
+    this.affectationsService.getAffectationTabByCuid(this.getCuid)
     .subscribe((data: any) => {
       this.affectations = data;
       if(data != null && data != undefined){
-        this.dataSource = new MatTableDataSource<CuidCollaborateur>(data);
+        this.dataSource = new MatTableDataSource<AffectationTab>(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
