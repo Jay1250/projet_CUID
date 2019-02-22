@@ -13,7 +13,8 @@ import { CollaborateurService } from '../services/http/collaborateurs/collaborat
 import { LocalisationService } from '../services/http/localisation/localisation.service';
 import { CuidService } from '../services/http/cuid/cuid.service';
 import { AffectationService } from '../services/http/affectation/affectation.service';
-import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service'
+import {FormStateMatcherService} from '../services/form-state-matcher/form-state-matcher.service';
+import { CookieService } from 'ngx-cookie-service';
 
 //components
 import { ModalCreationLocalisationComponent } from '../modals/modal-creation-localisation/modal-creation-localisation.component';
@@ -105,7 +106,8 @@ export class CreationCollaborateurComponent implements OnInit {
     private cuidService: CuidService,
     private affectationService: AffectationService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) { }
 
   ngOnInit() {
@@ -113,7 +115,7 @@ export class CreationCollaborateurComponent implements OnInit {
     .subscribe((data: any) => {
         this.localisations = data;
     });
-    this.cuidService.getTabCuid()
+    this.cuidService.getTabCuidByContrat(this.cookieService.get('Contrat'))
     .subscribe((data: any) => {
       this.tabCuids = data;
       this.dataSource = new MatTableDataSource<CuidTab>(this.tabCuids);
@@ -148,6 +150,7 @@ export class CreationCollaborateurComponent implements OnInit {
       )
     else {
       this.tabCuids.forEach(function(element){
+        console.log("bonjour");
         if(element.cuid == cuid){
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
           dialogRef.afterClosed().subscribe(result => {
@@ -155,13 +158,19 @@ export class CreationCollaborateurComponent implements OnInit {
               if(result.affectation != '' && result.affectation.length == 10 && result.liberation.length < 10){
                 this.collaborateursCuid.push({
                   cuid: {cuid: element.cuid},
-                  collaborateurs: null,
+                  collaborateurs: {trigrame: this.collabForm.get("trigrame").value},
                   dateaffectation: result.affectation,
                   dateliberation: result.liberation
                 });
                 this.chipsCuid.push(cuid);
               }
-              else if(result.affectation.length > 10 || result.affectation.length > 10){
+              else if(this.collabForm.get("trigrame").value == '' && result.affectation != '')
+                Swal.fire(
+                  'Attention',
+                  'Veuillez renseigner le cuid avant d\'affecter un collaborateur',
+                  'warning'
+                )
+              else if((result.affectation.length > 10 || result.affectation.length > 10) && result.affectation != ''){
                 Swal.fire(
                   'Erreur',
                   'Le format date est incorrect',
@@ -226,18 +235,34 @@ export class CreationCollaborateurComponent implements OnInit {
       // post cuid
       this.collaborateurService.addCollaborateur(this.newCollaborateur)
       .subscribe((data: any) => {
-        Swal.fire(
-          'Succès',
-          'Le collaborateur a bien été crée',
-          'success'
-        )
+        let affectationOk = true;
+        console.log(this.collaborateursCuid);
+        this.collaborateursCuid.forEach(element => {
+          console.log("bouillliiiiiis ");
+          this.affectationService.addAffectation(element)
+          .subscribe((data: any) => {}, (err) => {
+            affectationOk = false;
+          });
+        });
+        if(affectationOk)
+          Swal.fire(
+            'Succès',
+            'Le collaborateur a bien été crée',
+            'success'
+          )
+        else
+          Swal.fire(
+            'Attention',
+            'Le cuid a bien été crée mais un problème est survenu lors de l\'affectation des collaborateurs',
+            'warning'
+          )
         this.router.navigateByUrl('/tabCollaborateur');
             }, (err) => {
             switch(err.status){
               case 409:
                 Swal.fire(
                   'Erreur',
-                  'Ce cuid existe déjà',
+                  'Ce collaborateur existe déjà',
                   'error'
                 )
                 break;
@@ -251,7 +276,7 @@ export class CreationCollaborateurComponent implements OnInit {
               case 400:
                 Swal.fire(
                   'Erreur',
-                  'Les données du cuid sont incorrects',
+                  'Les données du collaborateur sont incorrects',
                   'error'
                 )
                 break;
@@ -265,7 +290,7 @@ export class CreationCollaborateurComponent implements OnInit {
               default:
                 Swal.fire(
                   'Erreur',
-                  'Une erreur inconnue s\est produite lors de la création du Cuid',
+                  'Une erreur inconnue s\est produite lors de la création du collaborateur',
                   'error'
                 )
             }

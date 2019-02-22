@@ -167,7 +167,7 @@
               <!-- Cuid Column -->
               <ng-container matColumnDef="cuid">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>cuid</th>
-                <td mat-cell *matCellDef="let row" class="pr-5"> <a href="#">{{row.cuid}} </a></td>
+                <td mat-cell *matCellDef="let row" class="pr-5"> <a routerLink="/ficheCuid/{{row.cuid}}">{{row.cuid}} </a></td>
               </ng-container>
 
               <!-- Nbr Applis Column -->

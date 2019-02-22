@@ -78,8 +78,9 @@ public class CuidCollaborateurs implements Serializable{
 
 	@Override
 	public String toString() {
-		return "CuidCollaborateur [cuidcollaborateur=" + cuidcollaborateur + ", dateaffectation=" + dateaffectation
-				+ ", dateliberation=" + dateliberation + "]";
+		return "CuidCollaborateurs [cuidcollaborateur=" + cuidcollaborateur + ", cuid=" + cuid + ", collaborateurs="
+				+ collaborateurs + ", dateaffectation=" + dateaffectation + ", dateliberation=" + dateliberation + "]";
 	}
+
 }
 

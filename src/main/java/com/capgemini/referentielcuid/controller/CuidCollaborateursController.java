@@ -132,6 +132,7 @@ public class CuidCollaborateursController {
 		CuidCollaborateurs newApp = null;
 		try {
 			cuidCollaborateurs.setCuidcollaborateur(new CuidCollaborateursId(cuidCollaborateurs.getCuid().getCuid(), cuidCollaborateurs.getCollaborateurs().getTrigrame()));
+			System.out.println(cuidCollaborateurs.toString());
 			newApp = cuidCollaborateurService.addOne(cuidCollaborateurs);
 		} catch(ServiceException e) {
 			throw new ConflictException("Erreur lors du POST de l'application : " + cuidCollaborateurs.getCuidcollaborateur() + " -> " + e.getMessage());

@@ -56,9 +56,7 @@ export class TabCuidComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    console.log(filterValue.trim().toLowerCase())
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log(this.dataSource);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

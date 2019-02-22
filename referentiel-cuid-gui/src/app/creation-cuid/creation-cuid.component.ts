@@ -197,16 +197,15 @@ export class CreationCuidComponent implements OnInit{
           const dialogRef = this.dialog.open(DateCollabModalComponent, {width: '250px'});
           dialogRef.afterClosed().subscribe(result => {
             if(result != undefined){
-              if(result.affectation != '' && this.cuidForm.get("ccuid").value != ''){
-                console.log("affect");
-                console.log("cuid: "+ this.cuidForm.get("ccuid").value);
-                console.log("collab" + element.trigrame);
-                console.log(result.affectation);
-                console.log(result.liberation);
+              if(result.affectation != '' && result.affectations.length == 10 && result.liberation.length < 10){
                 this.collaborateursCuid.push(
                   {
-                    cuid: {cuid: this.cuidForm.get("ccuid").value},
-                    collaborateurs: {trigrame: element.trigrame},
+                    cuid: {
+                      cuid: this.cuidForm.get("ccuid").value,
+                    },
+                    collaborateurs: {
+                      trigrame: element.trigrame,
+                    },
                     dateaffectation: result.affectation,
                     dateliberation: result.liberation
                   }
@@ -218,6 +217,13 @@ export class CreationCuidComponent implements OnInit{
                   'Attention',
                   'Veuillez renseigner le cuid avant d\'affecter un collaborateur',
                   'warning'
+                )
+              }
+              else if((result.affectation.length > 10 || result.affectation.length > 10) && result.affectation != ''){
+                Swal.fire(
+                  'Erreur',
+                  'Le format date est incorrect',
+                  'error'
                 )
               }
               else{
@@ -280,33 +286,30 @@ export class CreationCuidComponent implements OnInit{
       this.newCuid.applications.forEach(function(element){
         delete element.utiliser;
       })
-      this.collaborateursCuid.forEach(element => {
-        console.log(element.cuid);
-        console.log(element.collaborateurs);
-      });
+
       // post cuid
       this.cuidService.addCuid(this.newCuid)
       .subscribe((data: any) => {
+        let affectationOk = true;
         this.collaborateursCuid.forEach(element => {
-            element.cuid = this.newCuid;
+          console.log("bonjour");
+          this.affectationService.addAffectation(element)
+          .subscribe((data: any) => {}, (err) => {
+            affectationOk = false;
+          });
         });
-
-       
-        console.log(this.collaborateursCuid.values);
-        this.affectationService.addAffectation(this.collaborateursCuid)
-        .subscribe((data: any) => {
+        if(affectationOk)
           Swal.fire(
             'Succès',
             'Le cuid a bien été crée',
             'success'
           )
-        }, (err) => {
+        else
           Swal.fire(
             'Attention',
-            'Le cuid a bien été crée mais un problème est survenu lors de l\'affectation du collaborateur',
+            'Le cuid a bien été crée mais un problème est survenu lors de l\'affectation des collaborateurs',
             'warning'
           )
-        });
         this.router.navigateByUrl('/tabCuid');
       }, (err) => {
         switch(err.status){
