@@ -1,32 +1,29 @@
 <!-- Page de création d'un nouveau collaborateur -->
 <div class="container" style="text-align:center;">
 	<div class="row">
-    <form [formGroup]="collabForm" (ngSubmit)="validationCollaborateur()">
+    <form [formGroup]="collabForm" (ngSubmit)="validationCollaborateur()" class="col-md-12">
       <div class="card p-2">
-        <div class="col-md-12 form-group">
+        <div class="form-group">
           <div class="card-header" id="titre">
             <h3>Nouveau Collaborateur</h3>
           </div>
-
           <!-- champ trigrame-->
-            <mat-form-field class="col-md-5">
-              <input matInput #trigr placeholder="Trigrame*" formControlName="trigrame" [errorStateMatcher]="matcher">
-              <button mat-button type="button" *ngIf="collabForm.get('trigrame').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({trigrame: ''})">
-                  <mat-icon>close</mat-icon>
-              </button>
-              <mat-error *ngIf="collabForm.get('trigrame').hasError('required')">
-                Le champ Trigrame est <strong>requis</strong>
-              </mat-error>
-              <mat-error *ngIf="collabForm.get('trigrame').hasError('minlength')">
-                Le champ est <strong>trop court</strong>
-              </mat-error>
-              <mat-error *ngIf="collabForm.get('trigrame').hasError('maxlength')">
-                Le champ est <strong>trop long</strong>
-              </mat-error>
-              <mat-hint align="end"> {{trigr.value.length}} / 9</mat-hint>
-            </mat-form-field>
-     
-
+          <mat-form-field class="col-md-5">
+            <input matInput #trigr placeholder="Trigrame*" formControlName="trigrame" [errorStateMatcher]="matcher">
+            <button mat-button type="button" *ngIf="collabForm.get('trigrame').value" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({trigrame: ''})">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="collabForm.get('trigrame').hasError('required')">
+              Le champ Trigrame est <strong>requis</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('trigrame').hasError('minlength')">
+              Le champ est <strong>trop court</strong>
+            </mat-error>
+            <mat-error *ngIf="collabForm.get('trigrame').hasError('maxlength')">
+              Le champ est <strong>trop long</strong>
+            </mat-error>
+            <mat-hint align="end"> {{trigr.value.length}} / 9</mat-hint>
+          </mat-form-field>
           <!-- champ role-->
           <mat-form-field class="col-md-5 offset-1" >
             <input matInput #role placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
@@ -44,7 +41,6 @@
             </mat-error>
             <mat-hint align="end"> {{role.value.length}} / 9</mat-hint>
           </mat-form-field>
-
           <!-- champ nom-->
           <mat-form-field class="col-md-5">
             <input matInput #nom placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
@@ -65,7 +61,6 @@
             </mat-error>
             <mat-hint align="end"> {{nom.value.length}} / 9</mat-hint>
           </mat-form-field>
-
           <!-- champ prenom-->
           <mat-form-field class="col-md-5 offset-1">
             <input matInput #prenom placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
@@ -86,9 +81,6 @@
             </mat-error>
             <mat-hint align="end"> {{prenom.value.length}} / 9</mat-hint>
           </mat-form-field>
-
-     
-
           <!-- champ password-->
           <mat-form-field class="col-md-5">
             <input #password type="password" matInput placeholder="Password" formControlName="password">      
@@ -106,7 +98,6 @@
             </mat-error>
             <mat-hint align="end"> {{password.value.length}} / 9</mat-hint>
           </mat-form-field>
-
           <!-- champ vérification password-->
           <mat-form-field class="col-md-5 offset-1">
             <input #passwordverif type ="password" matInput placeholder="Confirmer password" formControlName="passwordVerif">      
@@ -124,10 +115,7 @@
             </mat-error>
             <mat-hint align="end"> {{passwordverif.value.length}} / 9</mat-hint>
           </mat-form-field>
-
-
           <!-- champ localisation-->
-       
           <mat-form-field class="col-md-4">
             <mat-select placeholder="Localisation" formControlName="localisation" [errorStateMatcher]="matcher">
               <mat-option value="{{local.id}}" *ngFor="let local of localisations">{{local.pays}}</mat-option>
@@ -136,14 +124,11 @@
               Le champ Localisation <strong>est requis</strong>
             </mat-error>
           </mat-form-field>
-            <button mat-mini-fab type="button" color="basic" (click)="openDialogLocalisation()">
-              <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-            </button>
-
+          <button mat-mini-fab type="button" color="basic" (click)="openDialogLocalisation()">
+            <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+          </button>
           <mat-divider class="mt-2"></mat-divider>
-
           <h3 class="p-2">Cuids</h3>
-
           <div class="col-md-12">
             <mat-chip-list class="mat-chip-list-stacked" #chipList>
               <mat-chip color="primary" *ngFor="let chip of chipsCuid" class="col-md-1"
@@ -151,17 +136,15 @@
                 [removable]="removable"
                 (removed)="removeChip(chip)">
                 {{chip}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
             </mat-chip-list>
           </div>
-
           <div class="col-md-3 offset-9">
             <mat-form-field>
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
             </mat-form-field>
           </div>
-
           <div class="mat-elevation-z8 col-md-12">
             <table mat-table [dataSource]="dataSource" matSort>
               <!-- Cuid Column -->
@@ -169,49 +152,41 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>cuid</th>
                 <td mat-cell *matCellDef="let row" class="pr-5"> <a routerLink="/ficheCuid/{{row.cuid}}">{{row.cuid}} </a></td>
               </ng-container>
-
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="contrat">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>contrat</th>
                 <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.contrat}} </td>
               </ng-container>
-
               <!-- Nom Prénom Column -->
               <ng-container matColumnDef="nomprenom">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Prénom</th>
                 <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.nomprenom}} </td>
               </ng-container>
-
               <!-- Contrat Column -->
               <ng-container matColumnDef="manager">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nomPrenomGir</th>
                 <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.manager}} </td>
               </ng-container>
-
               <!-- Manager Column -->
               <ng-container matColumnDef="nbcollab">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbcollab</th>
                 <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.nbcollab}} </td>
               </ng-container>
-
               <!-- Nbr Applis Column -->
               <ng-container matColumnDef="nbapplis">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>nbapplis</th>
                 <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"> {{row.nbapplis}} </td>
               </ng-container>
-
               <!-- Ajouter Column -->
               <ng-container matColumnDef="ajouter">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>attribuer</th>
                 <td mat-cell *matCellDef="let row" [ngClass] = "colorCollab(row.nbcollab)"><button mat-stroked-button type="button" (click)="ajouterCuid(row.cuid)">Attribuer</button> </td>
               </ng-container>
-
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
           </div>
-
           <div class="offset-10">
             <button mat-raised-button color="accent" class="m-2">Valider</button>
           </div>

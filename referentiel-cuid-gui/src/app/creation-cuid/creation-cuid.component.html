@@ -1,9 +1,9 @@
 <!-- Page de recherche de CUID -->
 <div class="container" style="text-align:center;">
 	<div class="row" >
-    <form [formGroup]="cuidForm" (ngSubmit)="validationCuid()">
+    <form [formGroup]="cuidForm" (ngSubmit)="validationCuid()" class="col-md-12">
       <div class="card p-2">
-        <div class="col-md-12">
+        <div class="form-group">
           <!-- title-->
           <div class="card-header" id="titre">
             <h3>Nouveau CUID</h3>

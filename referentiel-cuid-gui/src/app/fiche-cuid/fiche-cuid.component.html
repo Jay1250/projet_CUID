@@ -1,14 +1,12 @@
 <!-- Page de recherche de CUID -->
 <div class="container" style="text-align:center;">
 	<div class="row">
-    <form [formGroup]="cuidForm" (ngSubmit)="hello()">
+    <form [formGroup]="cuidForm" (ngSubmit)="hello()" class="col-md-12">
       <div class="card p-2">
-        <div class="col-md-12 form-group">
-
+        <div class="form-group">
           <div class="card-header" id="titre">
             <h3>CUID <strong>{{cuid.cuid}}</strong></h3>
           </div>
-
           <div class="row">
             <div class="col-md-4 offset-8">
                 <h4 class="m-3">Contrat : {{cuid.contrat.nom}}</h4>
@@ -188,7 +186,9 @@
                 <button mat-raised-button color="accent" class="m-2" (click)="modifierCuid(false)" [hidden] = "disable">Annuler</button>
                 <button mat-raised-button color="accent" class="m-2" (click)="hello()" [hidden] = "disable">Valider</button>
             </div>
-            <button mat-raised-button color="accent" class="m-2" (click)="modifierCuid(true)" [hidden] = "!disable">Modifier</button>
+            <div class="row">
+              <button mat-raised-button color="accent" class="m-2" (click)="modifierCuid(true)" [hidden] = "!disable">Modifier</button>
+            </div>
           </div>
         </div>
       </div>

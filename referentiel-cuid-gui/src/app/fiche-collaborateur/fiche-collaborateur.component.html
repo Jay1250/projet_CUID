@@ -1,7 +1,7 @@
 <!-- Page de création d'un nouveau collaborateur -->
 <div class="container" style="text-align:center;">
 	<div class="row">
-    <form [formGroup]="collabForm" (ngSubmit)="saveCollab()">
+    <form [formGroup]="collabForm" (ngSubmit)="saveCollab()" class="col-md-12">
       <div class="card p-2">
         <div class="col-md-12 form-group">
           <div class="card-header" id="titre">
@@ -55,19 +55,6 @@
           </ng-container>
 
     
-          <!-- champ role-->
-          <mat-form-field class="col-md-5 offset-1" >
-            <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
-            <button mat-button type="button" *ngIf="collabForm.get('role').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-error *ngIf="collabForm.get('role').hasError('required')">
-              Le champ Rôle <strong>est requis</strong>
-            </mat-error>
-          </mat-form-field>
-
-    
-
           <!-- champ role-->
           <mat-form-field class="col-md-5 offset-1" >
             <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">

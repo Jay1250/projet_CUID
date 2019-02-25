@@ -106,6 +106,8 @@ export class FicheCollaborateurComponent implements OnInit {
         this.dataSource = new MatTableDataSource<AffectationTab>(this.affectations);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }, (err) => {
+      console.log("pouet");
     });
     this.localisationService.getLocalisations()
     .subscribe((data: any) => {
@@ -120,27 +122,21 @@ export class FicheCollaborateurComponent implements OnInit {
       this.collabForm.get('prenom').enable();
       this.collabForm.get('localisation').enable();
       this.collabForm.get('role').enable();
-      this.collabForm.get('nomGir').enable();
-      this.collabForm.get('prenomGir').enable();
-      this.collabForm.get('commentaires').enable();
       this.disable = false;
     }
     else{
       this.removable = false;
-      this.collabForm.get('ccuid').disable();
-      this.collabForm.get('ccontrat').disable();
       this.collabForm.get('nom').disable();
       this.collabForm.get('prenom').disable();
-      this.collabForm.get('nomGir').disable();
-      this.collabForm.get('prenomGir').disable();
-      this.collabForm.get('commentaires').disable();
-      this.disable = true;;
+      this.collabForm.get('localisation').disable();
+      this.collabForm.get('role').disable();
+      this.disable = true;
     }
-      }
+  }
 
-      estDateExpiree(date: Date){
-        return new Date(date).getTime() <  this.dateNow.getTime();
-      }
+  estDateExpiree(date: Date){
+    return new Date(date).getTime() <  this.dateNow.getTime();
+  }
 
   saveCollab(){  
   }
