@@ -1,14 +1,14 @@
-<!-- Page de création d'un nouveau collaborateur -->
+<!-- Collaborateur visualisation page -->
 <div class="container" style="text-align:center;">
 	<div class="row">
     <form [formGroup]="collabForm" (ngSubmit)="saveCollab()" class="col-md-12">
       <div class="card p-2">
-        <div class="col-md-12 form-group">
+        <div class="form-group">
+          <!-- title-->
           <div class="card-header" id="titre">
             <h3>Collaborateur {{nomCollab}}</h3>
           </div>
-
-          <!-- champ nom-->
+          <!-- nom field-->
           <mat-form-field class="col-md-5">
             <input matInput placeholder="Nom*" formControlName="nom" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="collabForm.get('nom').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({nom: ''})">
@@ -24,8 +24,7 @@
               Le champ contient des <strong>caractères incorrects</strong>
             </mat-error>
           </mat-form-field>
-
-          <!-- champ prenom-->
+          <!-- prenom field-->
           <mat-form-field class="col-md-5 offset-1">
             <input matInput placeholder="Prenom*"formControlName="prenom" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="collabForm.get('prenom').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({prenom: ''})">
@@ -41,8 +40,7 @@
               Le champ contient des <strong>caractères incorrects</strong>
             </mat-error>
           </mat-form-field>
-
-          <!-- champ localisation-->
+          <!-- localisation field -->
           <ng-container>
             <mat-form-field class="col-md-5" >
               <mat-select placeholder="Localisation" [(value)] = "localisation" formControlName="localisation" [errorStateMatcher]="matcher">
@@ -53,9 +51,7 @@
               </mat-error>
             </mat-form-field>
           </ng-container>
-
-    
-          <!-- champ role-->
+          <!-- role field-->
           <mat-form-field class="col-md-5 offset-1" >
             <input matInput placeholder="Role*"  formControlName="role" [errorStateMatcher]="matcher">
             <button mat-button type="button" *ngIf="collabForm.get('role').value && !disable" matSuffix mat-icon-button aria-label="Clear" (click)="collabForm.patchValue({role: ''})">
@@ -65,9 +61,7 @@
               Le champ Rôle <strong>est requis</strong>
             </mat-error>
           </mat-form-field>
-
-          <mat-divider class="mt-2"></mat-divider>
-
+          <mat-divider></mat-divider>
           <h3 class="p-2">Cuids</h3>
 
           <div class="col-md-12">

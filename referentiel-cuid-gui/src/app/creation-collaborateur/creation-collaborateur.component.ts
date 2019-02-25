@@ -115,13 +115,24 @@ export class CreationCollaborateurComponent implements OnInit {
     .subscribe((data: any) => {
         this.localisations = data;
     });
-    this.cuidService.getTabCuidByContrat(this.cookieService.get('Contrat'))
-    .subscribe((data: any) => {
-      this.tabCuids = data;
-      this.dataSource = new MatTableDataSource<CuidTab>(this.tabCuids);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    if(this.cookieService.get('Contrat') == "tous"){
+      this.cuidService.getTabCuid()
+      .subscribe((data: any) => {
+        this.tabCuids = data;
+        this.dataSource = new MatTableDataSource<CuidTab>(this.tabCuids);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    }
+    else{
+      this.cuidService.getTabCuidByContrat(this.cookieService.get('Contrat'))
+      .subscribe((data: any) => {
+        this.tabCuids = data;
+        this.dataSource = new MatTableDataSource<CuidTab>(this.tabCuids);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    }
   }
 
   // ***** modal windows

@@ -1,5 +1,5 @@
 //angular
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -23,6 +23,7 @@ import {Collaborateur} from '../interfaces/collaborateur';
 import {Outil} from '../interfaces/outil';
 import {Application} from '../interfaces/application';
 import {AffectationTab} from '../interfaces/affectation-tab';
+import {CollaborateurTab} from '../interfaces/collaborateur-tab';
 
 //others
 import Swal from 'sweetalert2';
@@ -36,13 +37,15 @@ import { CuidCollaborateur } from '../interfaces/cuid-collaborateur';
 export class FicheCuidComponent implements OnInit {
 
   // tab collaborateurs
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator = new QueryList<MatPaginator>();
+  @ViewChild(MatSort) sort = new QueryList<MatSort>();
   selectable = true;
   removable = false;
-  displayedColumns: string[] = ['trigrame', 'nomprenom', 'pays', 'dateaffectation', 'dateliberation','action'];
-  dataSource;
-
+  affectationColumns: string[] = ['trigrame', 'nomprenom', 'pays', 'dateaffectation', 'dateliberation','action'];
+  collaborateurColumns: string[] = ['trigrame','role', 'nomprenom', 'pays', 'nbr_cuid', 'ajouter'];
+  dataSource1: MatTableDataSource<AffectationTab>;
+  dataSource2: MatTableDataSource< CollaborateurTab>;
+ 
   // data
   outils: Outil[] = [];
   applications: Application[] = [];
@@ -51,6 +54,9 @@ export class FicheCuidComponent implements OnInit {
   nomgir: '', prenomgir: '', contrat: {id: null, nom: ''}, outil: null, applications: null, cuidCollaborateur: null};
   chipsCollaborateur: string[] = [];
   affectations: AffectationTab;
+  tabCollaborateurs: CollaborateurTab[] = [];
+
+  collaborateursCuid: CuidCollaborateur[] = [];
 
   selection = new SelectionModel<Collaborateur>(true, []);
   dateNow  = new Date();
@@ -111,20 +117,20 @@ export class FicheCuidComponent implements OnInit {
     this.getCuid = this.route.snapshot.params['cuid'];
     this.cuidService.getCuid(this.getCuid)
     .subscribe((data: any) => {
-      this.cuid = {cuid: data.cuid, 
-                  nom: data.nom, 
-                  prenom: data.prenom, 
-                  mdp: null, 
-                  status: data.status, 
-                  commentaires: data.commentaires, 
-                  nomgir: data.nomgir, 
-                  prenomgir: data.prenomgir, 
-                  contrat: data.contrat, 
-                  outil: data.outil, 
-                  applications: data.applications,
-                  cuidCollaborateur: null
-                };
-
+      this.cuid = {
+        cuid: data.cuid, 
+        nom: data.nom, 
+        prenom: data.prenom, 
+        mdp: null, 
+        status: data.status, 
+        commentaires: data.commentaires, 
+        nomgir: data.nomgir, 
+        prenomgir: data.prenomgir, 
+        contrat: data.contrat, 
+        outil: data.outil, 
+        applications: data.applications,
+        cuidCollaborateur: null
+      };
       this.cuidForm.get("ccuid").setValue(data.cuid);
       this.cuidForm.get("ccontrat").setValue(data.contrat.nom);
       this.cuidForm.get("nom").setValue(data.nom);
@@ -148,12 +154,21 @@ export class FicheCuidComponent implements OnInit {
     .subscribe((data: any) => {
       this.affectations = data;
       if(data != null && data != undefined){
-        this.dataSource = new MatTableDataSource<AffectationTab>(data);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+        this.dataSource1 = new MatTableDataSource<AffectationTab>(data);
+          this.dataSource1.paginator = this.paginator.toArray()[0];
+          this.dataSource1.sort = this.sort.toArray()[0];
         }
     });
-    
+
+    //recup tab collaborateurs
+    this.collaborateurService.getTabCollaborateur()
+    .subscribe((data: any) => {
+      this.tabCollaborateurs = data;
+      // tab constructor 
+      this.dataSource2 = new MatTableDataSource<CollaborateurTab>(this.tabCollaborateurs);
+      this.dataSource2.paginator = this.paginator.toArray()[1];
+      this.dataSource2.sort = this.sort.toArray()[1];
+    });
   }
 
   openDialogOutil(): void {
@@ -173,9 +188,9 @@ export class FicheCuidComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    this.dataSource1.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource1.paginator) {
+      this.dataSource1.paginator.firstPage();
     }
   }
 
@@ -186,47 +201,6 @@ export class FicheCuidComponent implements OnInit {
 
       
     }
-  }
-
-  hello(vaz){
-/*
-    if(this.isValidForm()){
-
-      this.cuid.cuid = this.cuidForm.get("ccuid").value;
-      this.cuid.nom = this.cuidForm.get("nom").value;
-      this.cuid.prenom = this.cuidForm.get("prenom").value;
-      this.cuid.commentaires = this.cuidForm.get("commentaires").value;
-      this.cuid.nomgir = this.cuidForm.get("nomGir").value;
-      this.cuid.prenomgir = this.cuidForm.get("prenomGir").value;
-      this.cuid.contrat = this.cuidForm.get("contrat").value;
-
-      this.cuidService.addCuid(this.cuid)
-        .subscribe((data: any) => {
-
-          swal('Succès', 'Le cuid a bien été crée', 'success');
-
-        }, (err) => {
-
-          switch(err.status){
-
-            case 409:
-              swal('Erreur', 'Ce cuid existe déjà', 'error');
-              break;
-            case 500:
-              swal('Erreur', 'Une erreur serveur s\'est produite' , 'error');
-              break;
-            case 400:
-              swal('Erreur', 'Les données du cuid sont incorrects', 'error');
-              break;
-            case 0:
-              swal('Erreur', 'Impossible de se connecter au serveur', 'error');
-              break;
-            default:
-              swal('Erreur', 'Une erreur inconnue s\est produite lors de la création du Cuid', 'error');
-          }
-        console.error(err);
-      }); 
-    }*/
   }
 
   ajouterCollab(trigrame){
@@ -284,7 +258,99 @@ export class FicheCuidComponent implements OnInit {
       this.cuidForm.get("commentaires").setValue(this.cuid.commentaires);
     }
   }
+  
+  colorRow(nbr_cuid: number){
+    if(nbr_cuid >= 1) return 'text-danger';
+    return '';
+  }
+  
+  // ***** form
+  /*
+  validationCuid(){
+    if(this.isValidForm()){
+      // creation cuid
+      this.cuid = {
+        cuid: this.cuidForm.get("ccuid").value, 
+        nom:  this.cuidForm.get("nom").value, 
+        prenom: this.cuidForm.get("prenom").value, 
+        mdp: this.cuidForm.get("password").value, 
+        status: (this.affectations.length > 0)? 1 : 0, 
+        commentaires:  this.cuidForm.get("commentaires").value,           
+        nomgir: this.cuidForm.get("nomGir").value, 
+        prenomgir: this.cuidForm.get("prenomGir").value, 
+        contrat: {id: this.cuidForm.get("contrat").value,
+                  nom: null},
+        outil: this.outils.filter(element => element.utiliser == true),
+        applications: this.applications.filter(element => element.utiliser == true),
+        cuidCollaborateur: null
+      };
 
+      // post cuid
+      this.cuidService.addCuid(this.cuid)
+      .subscribe((data: any) => {
+        let affectationOk = true;
+        this.collaborateursCuid.forEach(element => {
+          console.log("bonjour");
+          this.affectationService.addAffectation(element)
+          .subscribe((data: any) => {}, (err) => {
+            affectationOk = false;
+          });
+        });
+        if(affectationOk)
+          Swal.fire(
+            'Succès',
+            'Le cuid a bien été crée',
+            'success'
+          )
+        else
+          Swal.fire(
+            'Attention',
+            'Le cuid a bien été crée mais un problème est survenu lors de l\'affectation des collaborateurs',
+            'warning'
+          )
+        this.router.navigateByUrl('/tabCuid');
+      }, (err) => {
+        switch(err.status){
+          case 409:
+            Swal.fire(
+              'Erreur',
+              'Ce cuid existe déjà',
+              'error'
+            )
+            break;
+          case 500:
+            Swal.fire(
+              'Erreur',
+              'Une erreur serveur s\'est produite',
+              'error'
+            )
+            break;
+          case 400:
+            Swal.fire(
+              'Erreur',
+              'Les données du cuid sont incorrects',
+              'error'
+            )
+            break;
+          case 0:
+            Swal.fire(
+              'Erreur',
+              'Impossible de se connecter au serveur',
+              'error'
+            )
+            break;
+          default:
+            Swal.fire(
+              'Erreur',
+              'Une erreur inconnue s\est produite lors de la création du Cuid',
+              'error'
+            )
+         }
+      }); 
+    }
+  }
+
+*/
   estDateExpiree(date: Date){
     return new Date(date).getTime() <  this.dateNow.getTime();
   }
