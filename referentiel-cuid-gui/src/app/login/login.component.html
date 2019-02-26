@@ -1,7 +1,6 @@
-<!-- Montrer le resultat du recherche-->
+<!-- Login Page-->
 <div class="container" style="text-align:center;">
   <div class="row">
-      
     <mat-card class="example-card col-md-4 offset-4">
       <mat-card-header>
         <mat-card-title>Login</mat-card-title>
@@ -17,10 +16,13 @@
               </td>
             </tr>
             <tr>
-            <td><mat-form-field class="example-full-width">
-              <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
-            </mat-form-field></td>
-          </tr></table>
+              <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
         </form>
       </mat-card-content>
       <mat-card-actions>

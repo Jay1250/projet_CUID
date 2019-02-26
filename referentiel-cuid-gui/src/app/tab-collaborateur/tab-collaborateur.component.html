@@ -1,9 +1,9 @@
-<!-- Page de recherche de Collaborateur -->
+<!-- Collaborateur research page -->
 <div class="container" style="text-align:center;">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card p-2">
-
+				<!-- title-->
 				<div class="card-header" id="titre">
 					<h3>Collaborateur
 						<a mat-mini-fab color="basic" routerLink="/creationCollaborateur">
@@ -11,13 +11,13 @@
 						</a>
 					</h3>
 				</div>
-
+				<!-- filter-->
 				<div class="col-md-3 offset-9">
 					<mat-form-field>
 						<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtre">
 					</mat-form-field>
 				</div>
-
+				<!-- collaborateur tab-->
 				<div class="mat-elevation-z8 col-md-12">
 					<table mat-table [dataSource]="dataSource" matSort>
 						<!-- Cuid Column -->
